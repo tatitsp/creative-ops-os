@@ -1,0 +1,603 @@
+// Creative Operations OS — Data Schema
+// Supports: artists, teams, campaigns, content, assets, approvals, analytics
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── AUTH ───────────────────────────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  name          String?
+  displayName   String?
+  image         String?
+  bio           String?
+  role          UserRole  @default(CREATIVE_ASSISTANT)
+  status        UserStatus @default(ACTIVE)
+  timezone      String    @default("America/New_York")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  accounts          Account[]
+  sessions          Session[]
+  ownedWorkspaces   Workspace[]        @relation("WorkspaceOwner")
+  workspaceMemberships WorkspaceMember[]
+  assignedTasks     Task[]             @relation("TaskAssignee")
+  createdTasks      Task[]             @relation("TaskCreator")
+  uploadedAssets    Asset[]            @relation("AssetUploader")
+  approvals         Approval[]         @relation("ApprovalReviewer")
+  approvalRequests  Approval[]         @relation("ApprovalRequester")
+  comments          Comment[]
+  notifications     Notification[]
+  activityLogs      ActivityLog[]
+  onboardingSteps   OnboardingProgress[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ─── WORKSPACE ───────────────────────────────────────────────────────────────
+
+model Workspace {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  logo        String?
+  coverImage  String?
+  plan        WorkspacePlan @default(STARTER)
+  ownerId     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner    User               @relation("WorkspaceOwner", fields: [ownerId], references: [id])
+  members  WorkspaceMember[]
+  projects Project[]
+  campaigns Campaign[]
+  assets   Asset[]
+  channels Channel[]
+  tags     Tag[]
+  settings WorkspaceSettings?
+
+  @@map("workspaces")
+}
+
+model WorkspaceMember {
+  id          String            @id @default(cuid())
+  workspaceId String
+  userId      String
+  role        UserRole
+  permissions Json              @default("{}")
+  invitedAt   DateTime          @default(now())
+  joinedAt    DateTime?
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, userId])
+  @@map("workspace_members")
+}
+
+model WorkspaceSettings {
+  id                String   @id @default(cuid())
+  workspaceId       String   @unique
+  brandColor        String   @default("#7C3AED")
+  defaultTimezone   String   @default("America/New_York")
+  approvalRequired  Boolean  @default(true)
+  autoArchiveDays   Int      @default(90)
+  notificationPrefs Json     @default("{}")
+  wellnessFeatures  Boolean  @default(true)
+  updatedAt         DateTime @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@map("workspace_settings")
+}
+
+// ─── PROJECTS & CAMPAIGNS ────────────────────────────────────────────────────
+
+model Project {
+  id          String        @id @default(cuid())
+  workspaceId String
+  name        String
+  description String?
+  coverImage  String?
+  status      ProjectStatus @default(ACTIVE)
+  priority    Priority      @default(MEDIUM)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  workspace Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  campaigns Campaign[]
+  tasks     Task[]
+  assets    Asset[]
+
+  @@map("projects")
+}
+
+model Campaign {
+  id           String         @id @default(cuid())
+  workspaceId  String
+  projectId    String?
+  name         String
+  description  String?
+  objective    String?
+  status       CampaignStatus @default(PLANNING)
+  phase        ContentPhase   @default(IDEA)
+  startDate    DateTime?
+  endDate      DateTime?
+  budget       Float?
+  platforms    String[]       @default([])
+  tags         String[]       @default([])
+  coverImage   String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  workspace  Workspace      @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  project    Project?       @relation(fields: [projectId], references: [id])
+  tasks      Task[]
+  assets     Asset[]
+  content    ContentItem[]
+  analytics  CampaignAnalytics?
+
+  @@map("campaigns")
+}
+
+// ─── TASKS & DELIVERABLES ────────────────────────────────────────────────────
+
+model Task {
+  id          String      @id @default(cuid())
+  projectId   String?
+  campaignId  String?
+  assigneeId  String?
+  creatorId   String
+  title       String
+  description String?
+  status      TaskStatus  @default(TODO)
+  priority    Priority    @default(MEDIUM)
+  type        TaskType    @default(DELIVERABLE)
+  dueDate     DateTime?
+  completedAt DateTime?
+  estimatedHours Float?
+  actualHours    Float?
+  order       Int         @default(0)
+  tags        String[]    @default([])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  project  Project?  @relation(fields: [projectId], references: [id])
+  campaign Campaign? @relation(fields: [campaignId], references: [id])
+  assignee User?     @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  creator  User      @relation("TaskCreator", fields: [creatorId], references: [id])
+  subtasks Task[]    @relation("SubTasks")
+  parent   Task?     @relation("SubTasks", fields: [parentId], references: [id])
+  parentId String?
+  comments Comment[]
+  approval Approval?
+
+  @@map("tasks")
+}
+
+// ─── CONTENT PIPELINE ────────────────────────────────────────────────────────
+
+model ContentItem {
+  id          String       @id @default(cuid())
+  campaignId  String?
+  title       String
+  caption     String?
+  phase       ContentPhase @default(IDEA)
+  type        ContentType
+  platforms   String[]     @default([])
+  scheduledAt DateTime?
+  postedAt    DateTime?
+  isOrganic   Boolean      @default(false)
+  notes       String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  campaign  Campaign?   @relation(fields: [campaignId], references: [id])
+  assets    Asset[]
+  approval  Approval?
+  analytics ContentAnalytics?
+
+  @@map("content_items")
+}
+
+// ─── ASSET MANAGEMENT ────────────────────────────────────────────────────────
+
+model Asset {
+  id           String      @id @default(cuid())
+  workspaceId  String
+  projectId    String?
+  campaignId   String?
+  contentId    String?
+  uploaderId   String
+  name         String
+  originalName String
+  description  String?
+  fileType     String
+  mimeType     String
+  size         Int
+  url          String
+  thumbnailUrl String?
+  folderId     String?
+  version      Int         @default(1)
+  parentId     String?
+  tags         String[]    @default([])
+  metadata     Json        @default("{}")
+  isArchived   Boolean     @default(false)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  workspace Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  project   Project?     @relation(fields: [projectId], references: [id])
+  campaign  Campaign?    @relation(fields: [campaignId], references: [id])
+  content   ContentItem? @relation(fields: [contentId], references: [id])
+  uploader  User         @relation("AssetUploader", fields: [uploaderId], references: [id])
+  folder    AssetFolder? @relation(fields: [folderId], references: [id])
+  versions  Asset[]      @relation("AssetVersions")
+  parent    Asset?       @relation("AssetVersions", fields: [parentId], references: [id])
+
+  @@map("assets")
+}
+
+model AssetFolder {
+  id          String   @id @default(cuid())
+  name        String
+  parentId    String?
+  workspaceId String
+  createdAt   DateTime @default(now())
+
+  parent   AssetFolder?  @relation("FolderTree", fields: [parentId], references: [id])
+  children AssetFolder[] @relation("FolderTree")
+  assets   Asset[]
+
+  @@map("asset_folders")
+}
+
+// ─── APPROVALS ───────────────────────────────────────────────────────────────
+
+model Approval {
+  id          String         @id @default(cuid())
+  taskId      String?        @unique
+  contentId   String?        @unique
+  requesterId String
+  reviewerId  String?
+  status      ApprovalStatus @default(PENDING)
+  notes       String?
+  feedback    String?
+  requestedAt DateTime       @default(now())
+  reviewedAt  DateTime?
+
+  task      Task?        @relation(fields: [taskId], references: [id])
+  content   ContentItem? @relation(fields: [contentId], references: [id])
+  requester User         @relation("ApprovalRequester", fields: [requesterId], references: [id])
+  reviewer  User?        @relation("ApprovalReviewer", fields: [reviewerId], references: [id])
+
+  @@map("approvals")
+}
+
+// ─── COMMUNICATION ───────────────────────────────────────────────────────────
+
+model Channel {
+  id          String      @id @default(cuid())
+  workspaceId String
+  name        String
+  description String?
+  type        ChannelType @default(TEXT)
+  isPrivate   Boolean     @default(false)
+  isPinned    Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  messages  Message[]
+
+  @@map("channels")
+}
+
+model Message {
+  id          String   @id @default(cuid())
+  channelId   String
+  authorId    String
+  content     String   @db.Text
+  attachments Json     @default("[]")
+  isPinned    Boolean  @default(false)
+  editedAt    DateTime?
+  createdAt   DateTime @default(now())
+
+  channel  Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  comments Comment[]
+
+  @@map("messages")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  taskId    String?
+  messageId String?
+  authorId  String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  task    Task?    @relation(fields: [taskId], references: [id])
+  message Message? @relation(fields: [messageId], references: [id])
+  author  User     @relation(fields: [authorId], references: [id])
+
+  @@map("comments")
+}
+
+// ─── ANALYTICS ───────────────────────────────────────────────────────────────
+
+model CampaignAnalytics {
+  id             String   @id @default(cuid())
+  campaignId     String   @unique
+  impressions    Int      @default(0)
+  reach          Int      @default(0)
+  engagements    Int      @default(0)
+  likes          Int      @default(0)
+  comments       Int      @default(0)
+  shares         Int      @default(0)
+  saves          Int      @default(0)
+  clicks         Int      @default(0)
+  conversions    Int      @default(0)
+  watchTime      Float    @default(0)
+  followerGrowth Int      @default(0)
+  updatedAt      DateTime @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@map("campaign_analytics")
+}
+
+model ContentAnalytics {
+  id          String   @id @default(cuid())
+  contentId   String   @unique
+  platform    String
+  impressions Int      @default(0)
+  reach       Int      @default(0)
+  likes       Int      @default(0)
+  comments    Int      @default(0)
+  shares      Int      @default(0)
+  saves       Int      @default(0)
+  clicks      Int      @default(0)
+  watchTime   Float    @default(0)
+  postedAt    DateTime?
+  updatedAt   DateTime @updatedAt
+
+  content ContentItem @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@map("content_analytics")
+}
+
+// ─── ONBOARDING ──────────────────────────────────────────────────────────────
+
+model OnboardingProgress {
+  id          String   @id @default(cuid())
+  userId      String
+  step        String
+  completed   Boolean  @default(false)
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, step])
+  @@map("onboarding_progress")
+}
+
+// ─── SYSTEM ──────────────────────────────────────────────────────────────────
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String
+  body      String?
+  link      String?
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model ActivityLog {
+  id         String   @id @default(cuid())
+  userId     String
+  action     String
+  entityType String
+  entityId   String
+  metadata   Json     @default("{}")
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([entityType, entityId])
+  @@map("activity_logs")
+}
+
+model Tag {
+  id          String    @id @default(cuid())
+  workspaceId String
+  name        String
+  color       String    @default("#7C3AED")
+  createdAt   DateTime  @default(now())
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, name])
+  @@map("tags")
+}
+
+// ─── ENUMS ───────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  ARTIST_CEO
+  MANAGEMENT
+  CREATIVE_OPS_DIRECTOR
+  CREATIVE_ASSISTANT
+  PHOTOGRAPHER_VIDEOGRAPHER
+  EDITOR
+  SOCIAL_MEDIA
+  GRAPHIC_DESIGNER
+  CONTRACTOR
+}
+
+enum UserStatus {
+  ACTIVE
+  AWAY
+  BUSY
+  OFFLINE
+}
+
+enum WorkspacePlan {
+  STARTER
+  PRO
+  AGENCY
+  ENTERPRISE
+}
+
+enum ProjectStatus {
+  ACTIVE
+  ON_HOLD
+  COMPLETED
+  ARCHIVED
+}
+
+enum CampaignStatus {
+  PLANNING
+  ACTIVE
+  PAUSED
+  COMPLETED
+  ARCHIVED
+}
+
+enum ContentPhase {
+  IDEA
+  PLANNING
+  PRODUCTION
+  EDITING
+  REVIEW
+  APPROVED
+  SCHEDULED
+  POSTED
+  ANALYTICS
+  ARCHIVED
+}
+
+enum ContentType {
+  PHOTO
+  VIDEO
+  REEL
+  STORY
+  CAROUSEL
+  SHORT
+  PODCAST
+  BLOG
+  PRESS_RELEASE
+  TWEET
+  OTHER
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  IN_REVIEW
+  BLOCKED
+  DONE
+  ARCHIVED
+}
+
+enum TaskType {
+  DELIVERABLE
+  MILESTONE
+  REVIEW
+  APPROVAL
+  MEETING
+  RESEARCH
+  OTHER
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  REVISION_REQUESTED
+}
+
+enum ChannelType {
+  TEXT
+  ANNOUNCEMENT
+  VOICE
+  VIDEO
+  PROJECT
+}
+
+enum NotificationType {
+  TASK_ASSIGNED
+  TASK_DUE
+  APPROVAL_REQUESTED
+  APPROVAL_RESOLVED
+  MENTION
+  COMMENT
+  CAMPAIGN_UPDATE
+  SYSTEM
+}

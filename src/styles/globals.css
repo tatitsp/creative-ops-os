@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.625rem;
+    --font-inter: "Inter", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-canvas text-ink;
+    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border-strong rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-ink-tertiary;
+  }
+
+  /* Focus rings */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-violet-500 ring-offset-2 ring-offset-canvas;
+  }
+}
+
+@layer components {
+  /* Typography scale */
+  .text-display {
+    @apply text-2xl font-semibold tracking-tight text-ink;
+  }
+
+  .text-heading {
+    @apply text-lg font-semibold text-ink;
+  }
+
+  .text-subheading {
+    @apply text-sm font-medium text-ink;
+  }
+
+  .text-body {
+    @apply text-sm text-ink;
+  }
+
+  .text-caption {
+    @apply text-xs text-ink-secondary;
+  }
+
+  .text-label {
+    @apply text-xs font-medium uppercase tracking-wide text-ink-tertiary;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-white rounded-xl border border-border shadow-card;
+  }
+
+  .card-hover {
+    @apply card transition-shadow duration-200 hover:shadow-card-hover cursor-pointer;
+  }
+
+  /* Sidebar item */
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-ink-secondary
+           transition-colors duration-150 cursor-pointer select-none;
+  }
+
+  .nav-item:hover {
+    @apply bg-canvas-100 text-ink;
+  }
+
+  .nav-item.active {
+    @apply bg-violet-50 text-violet-700;
+  }
+
+  /* Status dot */
+  .status-dot {
+    @apply w-2 h-2 rounded-full inline-block;
+  }
+
+  /* Divider */
+  .divider {
+    @apply border-t border-border;
+  }
+
+  /* Input */
+  .input-base {
+    @apply w-full px-3 py-2 text-sm bg-white border border-border rounded-lg
+           placeholder:text-ink-tertiary text-ink
+           focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent
+           transition-colors duration-150;
+  }
+}
+
+@layer utilities {
+  .animate-in {
+    @apply animate-fade-in;
+  }
+}
