@@ -82,9 +82,9 @@ export function ReleaseRoom({ release }: ReleaseRoomProps) {
   const completedMilestones = release.milestones.filter((m) => m.status === "COMPLETED").length;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-canvas">
       {/* Hero header — dark premium */}
-      <div className="bg-ink text-white">
+      <div className="bg-canvas-50 text-white">
         {/* Back nav */}
         <div className="px-6 pt-5 pb-0">
           <Link
@@ -201,7 +201,7 @@ export function ReleaseRoom({ release }: ReleaseRoomProps) {
       </div>
 
       {/* Tab content */}
-      <div className="p-6 max-w-5xl animate-in">
+      <div className="bg-canvas p-6 max-w-5xl animate-in">
         {activeTab === "timeline" && (
           <RolloutTimeline
             milestones={release.milestones}

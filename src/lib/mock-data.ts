@@ -343,7 +343,7 @@ export const MOCK_ACTIVITY: ActivityItem[] = [
   },
 ];
 
-// ─── Analytics — real Spotify scale (1.27M monthly listeners, 342K followers) ──
+// ─── Analytics — real Spotify scale (1.27M monthly listeners, 342K followers) — Lil Tony Official ──
 
 export const MOCK_ANALYTICS: AnalyticsSnapshot[] = [
   {
@@ -378,10 +378,10 @@ export const MOCK_ANALYTICS: AnalyticsSnapshot[] = [
   },
   {
     platform: "spotify",
-    // 342,354 followers, 1,273,747 monthly listeners
+    // 342,354 followers, 1,270,000 monthly listeners
     followers: 342354,
     followersGrowth: 4.6,
-    impressions: 1273747,
+    impressions: 1_270_000,
     engagement: 342354,
     engagementRate: 26.9, // saves/follows as % of listeners
     shares: 28000,

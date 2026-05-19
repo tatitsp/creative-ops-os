@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+import { useSession, signIn } from "next-auth/react";
 import { Search, Plus } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
@@ -11,6 +13,15 @@ interface TopBarProps {
 }
 
 export function TopBar({ title, subtitle, actions }: TopBarProps) {
+  const { data: session, status } = useSession();
+
+  // Redirect to Google sign-in if unauthenticated
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      signIn("google");
+    }
+  }, [status]);
+
   return (
     <header className="h-14 border-b border-border bg-canvas-50/80 backdrop-blur-sm sticky top-0 z-20 px-6 flex items-center gap-4">
       {/* Title */}
@@ -33,6 +44,24 @@ export function TopBar({ title, subtitle, actions }: TopBarProps) {
 
       {/* Notifications */}
       <NotificationBell />
+
+      {/* Session user avatar */}
+      {session?.user && (
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {session.user.image ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={session.user.image}
+              alt={session.user.name ?? "User"}
+              className="w-7 h-7 rounded-full object-cover ring-1 ring-border"
+            />
+          ) : (
+            <div className="w-7 h-7 rounded-full bg-canvas-200 flex items-center justify-center text-2xs font-semibold text-ink-secondary ring-1 ring-border">
+              {session.user.name?.[0] ?? "?"}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Custom actions or default new button */}
       {actions ?? (
