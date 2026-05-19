@@ -13,6 +13,10 @@ export const COVERS = {
 
 export const ARTIST_PHOTO = "https://i.scdn.co/image/ab6761610000e5ebac24eee9ce79217efc023fba";
 
+// Current session user — swap index to simulate different roles (0 = Artist, 1 = CD)
+// Replace with real auth session in production
+export const CURRENT_USER_INDEX = 1; // Maya Chen, Creative Ops Director
+
 export const MOCK_USERS: User[] = [
   {
     id: "u1",
@@ -69,6 +73,8 @@ export const MOCK_USERS: User[] = [
     timezone: "America/Chicago",
   },
 ];
+
+export const CURRENT_USER = MOCK_USERS[CURRENT_USER_INDEX];
 
 export const MOCK_CAMPAIGNS: Campaign[] = [
   {

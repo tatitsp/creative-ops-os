@@ -12,10 +12,10 @@ import {
   Calendar,
   TrendingUp,
   Clock,
-  ChevronRight,
+  LayoutDashboard,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { MOCK_USERS, COVERS, ARTIST_PHOTO } from "@/lib/mock-data";
+import { MOCK_USERS, COVERS, ARTIST_PHOTO, CURRENT_USER } from "@/lib/mock-data";
 import { MOCK_RELEASES } from "@/lib/mock-releases";
 import { ROLE_LABELS } from "@/lib/constants";
 import { Avatar } from "@/components/ui/Avatar";
@@ -222,6 +222,19 @@ export function ArtistPortalView() {
               "linear-gradient(to top, rgba(8,8,8,0.98) 0%, rgba(8,8,8,0.7) 20%, rgba(8,8,8,0.2) 42%, transparent 60%)",
           }}
         />
+
+        {/* Top-right: CD-only switch back to dashboard */}
+        {CURRENT_USER.role === "CREATIVE_OPS_DIRECTOR" && (
+          <div className="absolute top-5 right-6 z-10">
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-2xs font-semibold text-white/50 hover:text-white/80 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all backdrop-blur-sm"
+            >
+              <LayoutDashboard className="w-3 h-3" />
+              Switch to CD View
+            </Link>
+          </div>
+        )}
 
         {/* Top-left content */}
         <div className="absolute top-10 left-10 max-w-[60%]">

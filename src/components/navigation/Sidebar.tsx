@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { MOCK_USERS } from "@/lib/mock-data";
+import { CURRENT_USER } from "@/lib/mock-data";
 import { ROLE_LABELS } from "@/lib/constants";
 import { Avatar } from "@/components/ui/Avatar";
 import {
@@ -60,8 +60,7 @@ const NAV_SECTIONS = [
   },
 ];
 
-// Current user — replace with auth session in production
-const ME = MOCK_USERS[0];
+const ME = CURRENT_USER;
 
 export function Sidebar() {
   const pathname = usePathname();

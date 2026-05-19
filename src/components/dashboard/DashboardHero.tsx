@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 import { useState, useEffect } from "react";
 import type { ReactNode } from "react";
+import { CURRENT_USER } from "@/lib/mock-data";
 
 // ─── Greeting pools ──────────────────────────────────────────────────────────
 
@@ -75,6 +76,19 @@ export function DashboardHero({ cards }: DashboardHeroProps) {
             "linear-gradient(to top, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.72) 18%, rgba(8,8,8,0.3) 38%, transparent 58%)",
         }}
       />
+
+      {/* Top-right: CD-only Artist Portal preview link */}
+      {CURRENT_USER.role === "CREATIVE_OPS_DIRECTOR" && (
+        <div className="absolute top-5 right-6 z-10">
+          <Link
+            href="/artist-portal"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-2xs font-semibold text-white/50 hover:text-white/80 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all backdrop-blur-sm"
+          >
+            <Star className="w-3 h-3" />
+            Preview Artist Portal
+          </Link>
+        </div>
+      )}
 
       {/* Top-left: artist label + greeting */}
       <div className="absolute top-10 left-10 max-w-[55%]">
