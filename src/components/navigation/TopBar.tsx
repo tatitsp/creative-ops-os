@@ -1,16 +1,14 @@
 "use client";
 
-import { Bell, Search, Plus, CheckCircle2 } from "lucide-react";
+import { Search, Plus } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { MOCK_APPROVALS } from "@/lib/mock-data";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
 
 interface TopBarProps {
   title: string;
   subtitle?: string;
   actions?: React.ReactNode;
 }
-
-const pendingApprovals = MOCK_APPROVALS.filter((a) => a.status === "PENDING").length;
 
 export function TopBar({ title, subtitle, actions }: TopBarProps) {
   return (
@@ -34,24 +32,7 @@ export function TopBar({ title, subtitle, actions }: TopBarProps) {
       </div>
 
       {/* Notifications */}
-      <button className="relative p-2 rounded-lg hover:bg-canvas-100 transition-colors">
-        <Bell className="w-4 h-4 text-ink-secondary" />
-        {pendingApprovals > 0 && (
-          <span className="absolute top-1 right-1 w-4 h-4 bg-gold text-white text-2xs font-bold rounded-full flex items-center justify-center">
-            {pendingApprovals}
-          </span>
-        )}
-      </button>
-
-      {/* Approvals quick-link */}
-      {pendingApprovals > 0 && (
-        <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 bg-amber-50 border border-amber-100 rounded-lg">
-          <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" />
-          <span className="text-xs font-semibold text-amber-400">
-            {pendingApprovals} pending approval{pendingApprovals > 1 ? "s" : ""}
-          </span>
-        </div>
-      )}
+      <NotificationBell />
 
       {/* Custom actions or default new button */}
       {actions ?? (

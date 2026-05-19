@@ -22,7 +22,8 @@ function pickGreeting(): string {
     h >= 12 && h < 17 ? POOLS.afternoon :
     h >= 17 && h < 21 ? POOLS.evening   :
                         POOLS.night;
-  return pool[Math.floor(Math.random() * pool.length)] + ", Key.";
+  const base = pool[Math.floor(Math.random() * pool.length)];
+  return /[?.!]$/.test(base) ? base + " Key." : base + ", Key.";
 }
 
 // ─── Types ───────────────────────────────────────────────────────────────────

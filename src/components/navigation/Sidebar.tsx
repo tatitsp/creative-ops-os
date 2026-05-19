@@ -21,15 +21,18 @@ import {
   ChevronRight,
   Rocket,
   CheckSquare,
+  Star,
 } from "lucide-react";
 import { PENDING_APPROVALS_COUNT } from "@/lib/mock-approvals";
+import { UNREAD_NAV_SECTIONS } from "@/lib/mock-notifications";
 
 const NAV_SECTIONS = [
   {
     label: "Workspace",
     items: [
-      { label: "Dashboard",  href: "/dashboard",  icon: LayoutDashboard },
-      { label: "Releases",   href: "/releases",   icon: Rocket,       badge: 1 },
+      { label: "Dashboard",      href: "/dashboard",      icon: LayoutDashboard },
+      { label: "Artist Portal",  href: "/artist-portal",  icon: Star },
+      { label: "Releases",       href: "/releases",       icon: Rocket,       badge: 1 },
       { label: "Projects",   href: "/projects",   icon: FolderKanban, badge: 4 },
       { label: "Content",    href: "/content",    icon: Film,         badge: 6 },
       { label: "Approvals",  href: "/approvals",  icon: CheckSquare,  badge: PENDING_APPROVALS_COUNT },
@@ -98,6 +101,10 @@ export function Sidebar() {
                     >
                       <Icon className="w-4 h-4 flex-shrink-0" strokeWidth={isActive ? 2 : 1.75} />
                       <span className="flex-1">{item.label}</span>
+                      {/* Unread notification dot */}
+                      {!isActive && UNREAD_NAV_SECTIONS.has(item.href) && !("badge" in item && item.badge) && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-gold flex-shrink-0" />
+                      )}
                       {"badge" in item && item.badge && (
                         <span
                           className={cn(

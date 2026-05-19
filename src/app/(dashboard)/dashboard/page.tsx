@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { DashboardHero, type DockCard } from "@/components/dashboard/DashboardHero";
-import { ApprovalQueue } from "@/components/dashboard/ApprovalQueue";
 import {
   MOCK_CAMPAIGNS,
   MOCK_CONTENT,
@@ -79,7 +78,7 @@ const DOCK_CARDS: DockCard[] = [
     icon: <Users className="w-5 h-5 text-rose-500" />,
   },
   {
-    href: "#approvals",
+    href: "/approvals",
     label: "Approvals",
     status:
       pendingApprovals.length > 0
@@ -95,21 +94,6 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen">
       <DashboardHero cards={DOCK_CARDS} />
-
-      {/* Approvals queue below hero */}
-      <div className="p-6 animate-in" id="approvals">
-        <div className="flex items-center gap-2 mb-3">
-          <h2 className="text-subheading">Approvals</h2>
-          {pendingApprovals.length > 0 && (
-            <span className="w-5 h-5 bg-gold text-white text-2xs font-bold rounded-full flex items-center justify-center flex-shrink-0">
-              {pendingApprovals.length}
-            </span>
-          )}
-        </div>
-        <div className="card p-4 max-w-2xl">
-          <ApprovalQueue approvals={pendingApprovals} />
-        </div>
-      </div>
     </div>
   );
 }
