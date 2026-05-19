@@ -10,53 +10,66 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand palette — "high-performance peace"
+        // Dark studio palette — premium creative OS
         canvas: {
-          DEFAULT: "#FAFAF9",
-          50: "#FAFAF9",
-          100: "#F5F5F3",
-          200: "#EBEBEA",
+          DEFAULT: "#080808",   // body background
+          50:  "#111111",       // card / primary surface
+          100: "#1A1A1A",       // elevated surface / hover states
+          200: "#242424",       // chips, subtle bg, strong dividers
+          300: "#2E2E2E",       // borders on elevated surfaces
         },
         ink: {
-          DEFAULT: "#111110",
-          secondary: "#6B6B6A",
-          tertiary: "#A0A09E",
-          inverse: "#FAFAF9",
+          DEFAULT: "#F5F5F5",   // primary text
+          secondary: "#888888", // secondary text
+          tertiary: "#444444",  // muted / placeholder text
+          inverse: "#080808",   // dark text (for use on light surfaces)
         },
         border: {
-          DEFAULT: "#E8E8E6",
-          strong: "#D1D1CE",
+          DEFAULT: "#242424",
+          strong: "#333333",
         },
-        violet: {
-          50: "#F5F3FF",
-          100: "#EDE9FE",
-          200: "#DDD6FE",
-          300: "#C4B5FD",
-          400: "#A78BFA",
-          500: "#8B5CF6",
-          600: "#7C3AED",
-          700: "#6D28D9",
-          800: "#5B21B6",
-          900: "#4C1D95",
+        // Gold — CTAs, artist name, key labels only
+        gold: {
+          DEFAULT: "#C8923A",
+          50:  "#1A1200",
+          100: "#2A1E00",
+          200: "#4D3800",
+          300: "#8A5E1A",
+          400: "#B07830",
+          500: "#C8923A",
+          600: "#A07228",
         },
+        // Status / semantic — calibrated for dark backgrounds
         emerald: {
-          50: "#ECFDF5",
-          500: "#10B981",
-          600: "#059669",
+          50:  "#0A1F13",
+          100: "#102B1C",
+          200: "#173D27",
+          500: "#4CAF7D",
+          600: "#3EA870",
+          700: "#2E9362",
         },
         amber: {
-          50: "#FFFBEB",
-          400: "#FBBF24",
-          500: "#F59E0B",
+          50:  "#1A1200",
+          100: "#2A1E00",
+          200: "#3D2D00",
+          400: "#E8A838",
+          500: "#D4952E",
+          600: "#B87820",
         },
         rose: {
-          50: "#FFF1F2",
-          500: "#F43F5E",
-          600: "#E11D48",
+          50:  "#1A0A0A",
+          100: "#2A1010",
+          200: "#3D1616",
+          500: "#D95F5F",
+          600: "#C24F4F",
+          700: "#A83F3F",
         },
         sky: {
-          50: "#F0F9FF",
-          500: "#0EA5E9",
+          50:  "#080F1A",
+          100: "#0D1A2A",
+          200: "#142438",
+          500: "#4BA8D4",
+          600: "#3390BC",
         },
       },
       fontFamily: {
@@ -73,10 +86,11 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       boxShadow: {
-        card: "0 1px 3px 0 rgba(0,0,0,0.06), 0 1px 2px -1px rgba(0,0,0,0.04)",
-        "card-hover": "0 4px 12px 0 rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04)",
-        dropdown: "0 8px 24px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06)",
-        glow: "0 0 20px rgba(124,58,237,0.15)",
+        card: "0 1px 3px 0 rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.03)",
+        "card-hover": "0 4px 16px 0 rgba(0,0,0,0.6), 0 2px 4px -1px rgba(0,0,0,0.4)",
+        dropdown: "0 8px 32px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.6)",
+        glow: "0 0 24px rgba(200,146,58,0.25)",
+        "glow-white": "0 0 24px rgba(255,255,255,0.06)",
       },
       keyframes: {
         "fade-in": {

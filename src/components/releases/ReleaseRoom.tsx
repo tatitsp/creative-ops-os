@@ -132,7 +132,7 @@ export function ReleaseRoom({ release }: ReleaseRoomProps) {
                 </div>
                 <div>
                   <p className="text-2xs text-white/40 uppercase tracking-wider">Release Day</p>
-                  <p className="text-lg font-bold text-violet-300">
+                  <p className="text-lg font-bold text-gold">
                     {new Date(release.releaseDate).toLocaleDateString("en-US", {
                       month: "long",
                       day: "numeric",
@@ -142,7 +142,7 @@ export function ReleaseRoom({ release }: ReleaseRoomProps) {
                 </div>
                 {daysToRelease > 0 && (
                   <div className="px-3 py-2 bg-white/10 rounded-xl text-center">
-                    <p className="text-2xl font-bold text-violet-300">{daysToRelease}</p>
+                    <p className="text-2xl font-bold text-gold">{daysToRelease}</p>
                     <p className="text-2xs text-white/50">days out</p>
                   </div>
                 )}
@@ -177,7 +177,7 @@ export function ReleaseRoom({ release }: ReleaseRoomProps) {
               className={cn(
                 "flex items-center gap-2 px-4 py-3.5 text-xs font-semibold border-b-2 transition-all flex-shrink-0",
                 activeTab === tab.id
-                  ? "text-white border-violet-400"
+                  ? "text-white border-gold"
                   : "text-white/50 border-transparent hover:text-white/80 hover:border-white/20",
               )}
             >

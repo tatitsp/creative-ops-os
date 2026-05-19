@@ -14,11 +14,11 @@ const ACTION_ICON: Record<string, React.ReactNode> = {
 
 const ACTION_COLOR: Record<string, string> = {
   uploaded: "bg-sky-50 text-sky-500",
-  "submitted for approval": "bg-amber-50 text-amber-500",
-  scheduled: "bg-violet-50 text-violet-500",
-  completed: "bg-emerald-50 text-emerald-600",
-  "created campaign": "bg-violet-50 text-violet-500",
-  approved: "bg-emerald-50 text-emerald-600",
+  "submitted for approval": "bg-amber-50 text-amber-400",
+  scheduled: "bg-gold-50 text-gold",
+  completed: "bg-emerald-50 text-emerald-500",
+  "created campaign": "bg-gold-50 text-gold",
+  approved: "bg-emerald-50 text-emerald-500",
 };
 
 interface ActivityFeedProps {
@@ -37,7 +37,7 @@ export function ActivityFeed({ items }: ActivityFeedProps) {
             <Avatar user={item.user} size="sm" />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="text-xs font-medium text-ink">{item.user.name}</span>
+                <span className="text-xs font-semibold text-ink">{item.user.name}</span>
                 <span
                   className={`inline-flex items-center gap-1 text-2xs px-1.5 py-0.5 rounded-full ${color}`}
                 >

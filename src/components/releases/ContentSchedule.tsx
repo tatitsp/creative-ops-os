@@ -89,8 +89,8 @@ export function ContentSchedule({ drops }: ContentScheduleProps) {
                         isPosted
                           ? "bg-canvas-50 border-border opacity-75"
                           : isReleaseWeek
-                            ? "bg-white border-ink/10 hover:border-violet-300 hover:shadow-card-hover"
-                            : "bg-white border-border hover:border-violet-200 hover:shadow-card",
+                            ? "bg-canvas-100 border-border hover:border-gold/30 hover:shadow-card-hover"
+                            : "bg-canvas-100 border-border hover:border-border-strong hover:shadow-card",
                       )}
                     >
                       {/* Date */}

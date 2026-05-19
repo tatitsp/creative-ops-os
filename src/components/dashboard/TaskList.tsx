@@ -23,12 +23,12 @@ export function TaskList({ tasks, compact = false }: TaskListProps) {
           <div
             key={task.id}
             className={cn(
-              "flex items-center gap-3 p-2.5 rounded-lg hover:bg-canvas-50 transition-colors cursor-pointer group",
-              isDone && "opacity-60",
+              "flex items-center gap-3 p-2.5 rounded-lg hover:bg-canvas-100 transition-colors cursor-pointer group",
+              isDone && "opacity-50",
             )}
           >
             {/* Checkbox */}
-            <button className="flex-shrink-0 text-ink-tertiary hover:text-violet-600 transition-colors">
+            <button className="flex-shrink-0 text-ink-tertiary hover:text-white transition-colors">
               {isDone ? (
                 <CheckCircle2 className="w-4 h-4 text-emerald-500" />
               ) : (
@@ -41,13 +41,13 @@ export function TaskList({ tasks, compact = false }: TaskListProps) {
               <div className="flex items-center gap-2">
                 <span
                   className={cn(
-                    "text-xs font-medium truncate",
+                    "text-xs font-semibold truncate",
                     isDone ? "line-through text-ink-tertiary" : "text-ink",
                   )}
                 >
                   {task.title}
                 </span>
-                <span className={cn("text-2xs font-medium flex-shrink-0", priorityCfg.color)}>
+                <span className={cn("text-2xs font-bold flex-shrink-0", priorityCfg.color)}>
                   {priorityCfg.icon}
                 </span>
               </div>
@@ -63,7 +63,7 @@ export function TaskList({ tasks, compact = false }: TaskListProps) {
                   className={cn(
                     "text-2xs",
                     new Date(task.dueDate) < new Date()
-                      ? "text-rose-500 font-medium"
+                      ? "text-rose-500 font-semibold"
                       : "text-ink-tertiary",
                   )}
                 >
@@ -76,7 +76,7 @@ export function TaskList({ tasks, compact = false }: TaskListProps) {
 
               <span
                 className={cn(
-                  "hidden sm:inline-flex items-center gap-1 text-2xs font-medium px-1.5 py-0.5 rounded-full",
+                  "hidden sm:inline-flex items-center gap-1 text-2xs font-semibold px-1.5 py-0.5 rounded-full",
                   statusCfg.color,
                 )}
               >

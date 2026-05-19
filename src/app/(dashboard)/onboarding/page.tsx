@@ -87,7 +87,7 @@ export default function OnboardingPage() {
 
       <div className="p-6 max-w-3xl space-y-8 animate-in">
         {/* Header card */}
-        <div className="card p-6 bg-gradient-to-br from-violet-50 to-sky-50 border-violet-100">
+        <div className="card p-6 bg-gradient-to-br from-gold-50 to-canvas-100 border-gold-200">
           <div className="flex items-start justify-between gap-6">
             <div>
               <p className="text-label mb-1">Active track</p>
@@ -98,14 +98,14 @@ export default function OnboardingPage() {
               </p>
             </div>
             <div className="text-right flex-shrink-0">
-              <p className="text-3xl font-semibold text-violet-700">{pct}%</p>
+              <p className="text-3xl font-black text-gold">{pct}%</p>
               <p className="text-xs text-ink-tertiary mt-0.5">
                 {completed} / {track.steps.length} complete
               </p>
             </div>
           </div>
           <div className="mt-4">
-            <Progress value={pct} color="violet" size="md" />
+            <Progress value={pct} color="gold" size="md" />
           </div>
         </div>
 
@@ -121,7 +121,7 @@ export default function OnboardingPage() {
                 className={cn(
                   "card p-4 flex items-start gap-4 transition-all duration-150",
                   step.done && "opacity-70",
-                  isNext && "border-violet-200 shadow-glow",
+                  isNext && "border-gold-200 shadow-glow",
                 )}
               >
                 {/* Icon / check */}
@@ -131,7 +131,7 @@ export default function OnboardingPage() {
                     step.done
                       ? "bg-emerald-50"
                       : isNext
-                        ? "bg-violet-100"
+                        ? "bg-gold-100"
                         : "bg-canvas-100",
                   )}
                 >
@@ -141,7 +141,7 @@ export default function OnboardingPage() {
                     <Icon
                       className={cn(
                         "w-5 h-5",
-                        isNext ? "text-violet-600" : "text-ink-tertiary",
+                        isNext ? "text-gold" : "text-ink-tertiary",
                       )}
                     />
                   )}
@@ -159,7 +159,7 @@ export default function OnboardingPage() {
                       {step.title}
                     </p>
                     {isNext && (
-                      <span className="text-2xs font-semibold px-1.5 py-0.5 rounded-full bg-violet-100 text-violet-700">
+                      <span className="text-2xs font-semibold px-1.5 py-0.5 rounded-full bg-gold-100 text-gold">
                         Up next
                       </span>
                     )}
@@ -190,7 +190,7 @@ export default function OnboardingPage() {
             {(Object.entries(ROLE_LABELS) as [keyof typeof ROLE_LABELS, string][]).map(([role, label]) => (
               <button
                 key={role}
-                className="card p-3 text-left hover:border-violet-200 transition-colors"
+                className="card p-3 text-left hover:border-gold-200 transition-colors"
               >
                 <p className="text-xs font-medium text-ink">{label}</p>
                 <p className="text-2xs text-ink-tertiary mt-0.5">6-step track</p>

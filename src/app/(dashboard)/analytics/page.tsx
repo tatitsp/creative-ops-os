@@ -36,7 +36,7 @@ export default function AnalyticsPage() {
             change={3.2}
             changeLabel="this month"
             trend="up"
-            accent="violet"
+            accent="gold"
             icon={<Users className="w-4 h-4" />}
           />
           <MetricCard

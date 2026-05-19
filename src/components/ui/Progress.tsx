@@ -4,24 +4,25 @@ interface ProgressProps {
   value: number;
   max?: number;
   size?: "sm" | "md";
-  color?: "violet" | "emerald" | "amber" | "rose";
+  color?: "gold" | "emerald" | "amber" | "rose" | "white";
   showLabel?: boolean;
   className?: string;
 }
 
 const TRACK_HEIGHT = { sm: "h-1", md: "h-2" };
 const BAR_COLOR = {
-  violet: "bg-violet-500",
+  gold: "bg-gold",
   emerald: "bg-emerald-500",
   amber: "bg-amber-400",
   rose: "bg-rose-500",
+  white: "bg-white/60",
 };
 
 export function Progress({
   value,
   max = 100,
   size = "sm",
-  color = "violet",
+  color = "gold",
   showLabel = false,
   className,
 }: ProgressProps) {
@@ -36,7 +37,7 @@ export function Progress({
         />
       </div>
       {showLabel && (
-        <span className="text-2xs font-medium text-ink-secondary w-8 text-right">
+        <span className="text-2xs font-semibold text-ink-secondary w-8 text-right">
           {Math.round(pct)}%
         </span>
       )}

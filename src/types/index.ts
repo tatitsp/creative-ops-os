@@ -33,6 +33,51 @@ export type CampaignStatus = "PLANNING" | "ACTIVE" | "PAUSED" | "COMPLETED" | "A
 
 export type ApprovalStatus = "PENDING" | "APPROVED" | "REJECTED" | "REVISION_REQUESTED";
 
+export type ApprovalStage =
+  | "DRAFT"
+  | "INTERNAL_REVIEW"
+  | "ARTIST_REVIEW"
+  | "MANAGEMENT_APPROVAL"
+  | "SCHEDULED"
+  | "POSTED";
+
+export type ApprovalAction =
+  | "SUBMITTED"
+  | "APPROVED"
+  | "REVISION_REQUESTED"
+  | "REJECTED"
+  | "RESUBMITTED"
+  | "ADVANCED";
+
+export type ApprovalItemType = "content" | "task" | "asset";
+
+export interface ApprovalHistoryEntry {
+  id: string;
+  stage: ApprovalStage;
+  action: ApprovalAction;
+  actor: User;
+  timestamp: string;
+  note?: string;
+}
+
+export interface RichApproval {
+  id: string;
+  title: string;
+  description: string;
+  type: ApprovalItemType;
+  stage: ApprovalStage;
+  status: ApprovalStatus;
+  campaign: string;
+  campaignId: string;
+  thumbnail?: string;
+  submitter: User;
+  submittedAt: string;
+  nextApprover?: User;
+  priority: Priority;
+  dueDate: string;
+  history: ApprovalHistoryEntry[];
+}
+
 export type ContentType =
   | "PHOTO"
   | "VIDEO"

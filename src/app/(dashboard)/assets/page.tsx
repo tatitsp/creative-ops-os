@@ -156,7 +156,7 @@ const MOCK_ASSETS = [
 
 const FILE_ICON: Record<string, React.ReactNode> = {
   image: <ImageIcon className="w-5 h-5 text-rose-400" />,
-  video: <Film className="w-5 h-5 text-violet-400" />,
+  video: <Film className="w-5 h-5 text-gold" />,
   audio: <Music className="w-5 h-5 text-emerald-400" />,
   document: <FileText className="w-5 h-5 text-sky-400" />,
   archive: <FolderOpen className="w-5 h-5 text-amber-400" />,
@@ -180,7 +180,7 @@ export default function AssetsPage() {
 
       <div className="flex h-[calc(100vh-3.5rem)]">
         {/* Folder sidebar */}
-        <aside className="w-48 border-r border-border bg-white p-3 flex-shrink-0">
+        <aside className="w-48 border-r border-border bg-canvas-50 p-3 flex-shrink-0">
           <p className="text-label mb-2">Folders</p>
           <ul className="space-y-0.5">
             {FOLDERS.map((folder, i) => (
@@ -188,7 +188,7 @@ export default function AssetsPage() {
                 <button
                   className={`w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                     i === 0
-                      ? "bg-violet-50 text-violet-700"
+                      ? "bg-gold-50 text-gold"
                       : "text-ink-secondary hover:bg-canvas-100 hover:text-ink"
                   }`}
                 >
@@ -204,7 +204,7 @@ export default function AssetsPage() {
         <div className="flex-1 overflow-auto p-6 space-y-4">
           {/* Search + filter */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-white border border-border rounded-lg px-3 py-2 flex-1 max-w-sm focus-within:ring-2 focus-within:ring-violet-500 transition-all">
+            <div className="flex items-center gap-2 bg-canvas-100 border border-border rounded-lg px-3 py-2 flex-1 max-w-sm focus-within:ring-1 focus-within:ring-white/20 focus-within:border-border-strong transition-all">
               <Search className="w-4 h-4 text-ink-tertiary" />
               <input
                 placeholder="Search assets..."

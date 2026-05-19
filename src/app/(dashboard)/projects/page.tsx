@@ -61,7 +61,7 @@ export default function ProjectsPage() {
                 className={cn(
                   "px-3 py-1.5 text-xs font-medium rounded-md transition-colors",
                   tab.value === "ALL"
-                    ? "bg-white text-ink shadow-card"
+                    ? "bg-canvas-200 text-ink shadow-card"
                     : "text-ink-secondary hover:text-ink",
                 )}
               >
@@ -70,7 +70,7 @@ export default function ProjectsPage() {
             ))}
           </div>
           <div className="flex items-center gap-1">
-            <button className="p-2 rounded-lg bg-white border border-border text-ink shadow-card">
+            <button className="p-2 rounded-lg bg-canvas-200 border border-border text-ink shadow-card">
               <LayoutGrid className="w-4 h-4" />
             </button>
             <button className="p-2 rounded-lg hover:bg-canvas-100 text-ink-tertiary transition-colors">

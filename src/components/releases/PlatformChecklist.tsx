@@ -41,7 +41,7 @@ export function PlatformChecklist({ checklists }: PlatformChecklistProps) {
         </div>
         <Progress
           value={totalPct}
-          color={totalPct >= 80 ? "emerald" : totalPct >= 50 ? "violet" : "amber"}
+          color={totalPct >= 80 ? "emerald" : totalPct >= 50 ? "gold" : "amber"}
           size="md"
         />
         <div className="flex items-center gap-4 mt-3 flex-wrap">
@@ -90,7 +90,7 @@ export function PlatformChecklist({ checklists }: PlatformChecklistProps) {
               {/* Header */}
               <button
                 onClick={() => setExpanded(isOpen ? "" : cl.platform)}
-                className="w-full flex items-center gap-4 px-4 py-3.5 bg-white hover:bg-canvas-50 transition-colors"
+                className="w-full flex items-center gap-4 px-4 py-3.5 bg-canvas-50 hover:bg-canvas-100 transition-colors"
               >
                 {/* Platform dot */}
                 <span
@@ -117,7 +117,7 @@ export function PlatformChecklist({ checklists }: PlatformChecklistProps) {
                     <div
                       className={cn(
                         "h-full rounded-full transition-all duration-500",
-                        pct === 100 ? "bg-emerald-500" : pct >= 50 ? "bg-violet-500" : "bg-amber-400",
+                        pct === 100 ? "bg-emerald-500" : pct >= 50 ? "bg-gold" : "bg-amber-400",
                       )}
                       style={{ width: `${pct}%` }}
                     />

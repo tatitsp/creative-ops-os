@@ -20,16 +20,19 @@ import {
   Zap,
   ChevronRight,
   Rocket,
+  CheckSquare,
 } from "lucide-react";
+import { PENDING_APPROVALS_COUNT } from "@/lib/mock-approvals";
 
 const NAV_SECTIONS = [
   {
     label: "Workspace",
     items: [
-      { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-      { label: "Releases", href: "/releases", icon: Rocket, badge: 1 },
-      { label: "Projects", href: "/projects", icon: FolderKanban, badge: 4 },
-      { label: "Content", href: "/content", icon: Film, badge: 6 },
+      { label: "Dashboard",  href: "/dashboard",  icon: LayoutDashboard },
+      { label: "Releases",   href: "/releases",   icon: Rocket,       badge: 1 },
+      { label: "Projects",   href: "/projects",   icon: FolderKanban, badge: 4 },
+      { label: "Content",    href: "/content",    icon: Film,         badge: 6 },
+      { label: "Approvals",  href: "/approvals",  icon: CheckSquare,  badge: PENDING_APPROVALS_COUNT },
     ],
   },
   {
@@ -61,16 +64,16 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-60 bg-white border-r border-border flex flex-col z-30">
+    <aside className="fixed left-0 top-0 h-full w-60 bg-[#050505] border-r border-[#1A1A1A] flex flex-col z-30">
       {/* Logo / Workspace */}
-      <div className="px-4 pt-5 pb-4 border-b border-border">
+      <div className="px-4 pt-5 pb-4 border-b border-[#1A1A1A]">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-violet-600 flex items-center justify-center shadow-glow">
+          <div className="w-8 h-8 rounded-lg bg-gold flex items-center justify-center shadow-glow">
             <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
           </div>
           <div>
-            <p className="text-sm font-semibold text-ink leading-none">Creative Ops</p>
-            <p className="text-2xs text-ink-tertiary mt-0.5">Studio OS</p>
+            <p className="text-sm font-bold text-white leading-none">Creative Ops</p>
+            <p className="text-2xs text-[#444444] mt-0.5">Studio OS</p>
           </div>
         </div>
       </div>
@@ -98,10 +101,10 @@ export function Sidebar() {
                       {"badge" in item && item.badge && (
                         <span
                           className={cn(
-                            "text-2xs font-semibold px-1.5 py-0.5 rounded-full",
+                            "text-2xs font-bold px-1.5 py-0.5 rounded-full",
                             isActive
-                              ? "bg-violet-100 text-violet-700"
-                              : "bg-canvas-200 text-ink-tertiary",
+                              ? "bg-gold-100 text-gold"
+                              : "bg-[#1A1A1A] text-[#444444]",
                           )}
                         >
                           {item.badge}
@@ -117,14 +120,14 @@ export function Sidebar() {
       </nav>
 
       {/* User */}
-      <div className="p-3 border-t border-border">
-        <button className="w-full flex items-center gap-2.5 px-2 py-2 rounded-lg hover:bg-canvas-100 transition-colors group">
+      <div className="p-3 border-t border-[#1A1A1A]">
+        <button className="w-full flex items-center gap-2.5 px-2 py-2 rounded-lg hover:bg-[#1A1A1A] transition-colors group">
           <Avatar user={ME} size="sm" showStatus />
           <div className="flex-1 text-left min-w-0">
-            <p className="text-xs font-medium text-ink truncate">{ME.name}</p>
-            <p className="text-2xs text-ink-tertiary truncate">{ROLE_LABELS[ME.role]}</p>
+            <p className="text-xs font-semibold text-white truncate">{ME.name}</p>
+            <p className="text-2xs text-[#444444] truncate">{ROLE_LABELS[ME.role]}</p>
           </div>
-          <ChevronRight className="w-3.5 h-3.5 text-ink-tertiary group-hover:text-ink transition-colors" />
+          <ChevronRight className="w-3.5 h-3.5 text-[#444444] group-hover:text-[#888888] transition-colors" />
         </button>
       </div>
     </aside>

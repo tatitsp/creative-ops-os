@@ -103,7 +103,7 @@ export default function TeamPage() {
                   </div>
                   <Progress
                     value={workloadPct}
-                    color={workloadPct >= 90 ? "amber" : workloadPct >= 70 ? "violet" : "emerald"}
+                    color={workloadPct >= 90 ? "amber" : workloadPct >= 70 ? "gold" : "emerald"}
                     showLabel
                   />
                 </div>

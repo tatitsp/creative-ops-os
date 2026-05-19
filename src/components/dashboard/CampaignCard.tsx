@@ -3,7 +3,6 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/Progress";
 import { AvatarGroup } from "@/components/ui/Avatar";
-import { Badge } from "@/components/ui/Badge";
 import { CAMPAIGN_STATUS_CONFIG, CONTENT_PHASES, PLATFORM_CONFIG } from "@/lib/constants";
 import type { Campaign } from "@/types";
 
@@ -31,12 +30,12 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
               />
             </div>
           ) : (
-            <div className="w-10 h-10 rounded-lg bg-violet-50 flex-shrink-0 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-lg bg-canvas-200 flex-shrink-0 flex items-center justify-center">
               <span className="text-lg">🎬</span>
             </div>
           )}
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-ink truncate">{campaign.name}</p>
+            <p className="text-sm font-bold text-ink truncate">{campaign.name}</p>
             {campaign.description && (
               <p className="text-xs text-ink-secondary truncate mt-0.5">{campaign.description}</p>
             )}
@@ -47,7 +46,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
         <div className="flex items-center gap-2 flex-wrap">
           <span
             className={cn(
-              "inline-flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full",
+              "inline-flex items-center gap-1.5 text-xs font-semibold px-2 py-1 rounded-full",
               statusCfg.color,
             )}
           >
@@ -55,7 +54,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
             {statusCfg.label}
           </span>
           {phaseCfg && (
-            <span className={cn("text-2xs font-medium px-2 py-0.5 rounded-full", phaseCfg.color)}>
+            <span className={cn("text-2xs font-semibold px-2 py-0.5 rounded-full", phaseCfg.color)}>
               {phaseCfg.label}
             </span>
           )}
@@ -68,7 +67,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
             return (
               <span
                 key={p}
-                className={cn("text-2xs font-medium px-2 py-0.5 rounded-full", cfg?.bg ?? "bg-canvas-200")}
+                className={cn("text-2xs font-semibold px-2 py-0.5 rounded-full", cfg?.bg ?? "bg-canvas-200")}
                 style={{ color: cfg?.color }}
               >
                 {cfg?.label ?? p}
@@ -86,11 +85,11 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
             <span className="text-2xs text-ink-secondary">
               {campaign.completedTasks} / {campaign.taskCount} tasks
             </span>
-            <span className="text-2xs font-medium text-ink">{campaign.progress}%</span>
+            <span className="text-2xs font-bold text-ink">{campaign.progress}%</span>
           </div>
           <Progress
             value={campaign.progress}
-            color={campaign.progress >= 75 ? "emerald" : campaign.progress >= 40 ? "violet" : "amber"}
+            color={campaign.progress >= 75 ? "emerald" : campaign.progress >= 40 ? "gold" : "amber"}
           />
         </div>
 

@@ -21,7 +21,7 @@ export function RolloutTimeline({ milestones, releaseDate }: RolloutTimelineProp
       <div className="flex items-center justify-between p-4 rounded-xl bg-ink text-white">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-            <Flag className="w-5 h-5 text-violet-300" />
+            <Flag className="w-5 h-5 text-gold" />
           </div>
           <div>
             <p className="text-xs text-white/60 uppercase tracking-wider font-medium">Release Day Countdown</p>
@@ -36,7 +36,7 @@ export function RolloutTimeline({ milestones, releaseDate }: RolloutTimelineProp
         </div>
         <div className="text-right">
           <p className="text-xs text-white/50">Target date</p>
-          <p className="text-sm font-semibold text-violet-300">
+          <p className="text-sm font-semibold text-gold">
             {new Date(releaseDate).toLocaleDateString("en-US", {
               month: "long",
               day: "numeric",
@@ -54,7 +54,7 @@ export function RolloutTimeline({ milestones, releaseDate }: RolloutTimelineProp
 
           {/* Progress fill up to current milestone */}
           <div
-            className="absolute top-[2.15rem] left-8 h-px bg-violet-500 transition-all duration-700"
+            className="absolute top-[2.15rem] left-8 h-px bg-gold transition-all duration-700"
             style={{
               width: `${
                 ((milestones.filter((m) => m.status === "COMPLETED").length /
@@ -86,7 +86,7 @@ export function RolloutTimeline({ milestones, releaseDate }: RolloutTimelineProp
                       className={cn(
                         "text-xs font-semibold leading-tight",
                         isCompleted ? "text-ink-tertiary" : isCurrent ? "text-ink" : "text-ink-secondary",
-                        isKeyDate && !isCompleted && "text-violet-700",
+                        isKeyDate && !isCompleted && "text-gold",
                       )}
                     >
                       {milestone.label}
@@ -99,17 +99,17 @@ export function RolloutTimeline({ milestones, releaseDate }: RolloutTimelineProp
                   {/* Dot */}
                   <div className="relative flex items-center justify-center z-10">
                     {isCompleted ? (
-                      <div className="w-4 h-4 rounded-full bg-violet-600 flex items-center justify-center ring-4 ring-canvas">
+                      <div className="w-4 h-4 rounded-full bg-gold flex items-center justify-center ring-4 ring-canvas">
                         <CheckCircle2 className="w-3 h-3 text-white" strokeWidth={3} />
                       </div>
                     ) : isCurrent ? (
-                      <div className="w-5 h-5 rounded-full bg-violet-600 ring-4 ring-violet-200 flex items-center justify-center">
+                      <div className="w-5 h-5 rounded-full bg-gold ring-4 ring-gold-200 flex items-center justify-center">
                         <Zap className="w-3 h-3 text-white" strokeWidth={2.5} />
                       </div>
                     ) : isKeyDate ? (
-                      <div className="w-4 h-4 rounded-full bg-white border-2 border-violet-400 ring-4 ring-canvas" />
+                      <div className="w-4 h-4 rounded-full bg-canvas-200 border-2 border-gold ring-4 ring-canvas" />
                     ) : (
-                      <div className="w-3 h-3 rounded-full bg-white border-2 border-border-strong ring-4 ring-canvas" />
+                      <div className="w-3 h-3 rounded-full bg-canvas-200 border-2 border-border-strong ring-4 ring-canvas" />
                     )}
                   </div>
 
@@ -119,7 +119,7 @@ export function RolloutTimeline({ milestones, releaseDate }: RolloutTimelineProp
                       className={cn(
                         "text-xs font-semibold leading-tight",
                         isCompleted ? "text-ink-tertiary" : isCurrent ? "text-ink" : "text-ink-secondary",
-                        isKeyDate && !isCompleted && "text-violet-700",
+                        isKeyDate && !isCompleted && "text-gold",
                       )}
                     >
                       {milestone.label}
@@ -147,16 +147,16 @@ export function RolloutTimeline({ milestones, releaseDate }: RolloutTimelineProp
               key={milestone.id}
               className={cn(
                 "flex items-start gap-3 p-3 rounded-xl border transition-all",
-                isCompleted && "bg-canvas-50 border-border opacity-70",
-                isCurrent && "bg-violet-50 border-violet-200",
-                milestone.status === "UPCOMING" && "bg-white border-border",
+                isCompleted && "bg-canvas-100 border-border opacity-60",
+                isCurrent && "bg-gold-50 border-gold-200",
+                milestone.status === "UPCOMING" && "bg-canvas-100 border-border",
               )}
             >
               <div className="flex-shrink-0 mt-0.5">
                 {isCompleted ? (
-                  <CheckCircle2 className="w-4 h-4 text-violet-500" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                 ) : isCurrent ? (
-                  <Zap className="w-4 h-4 text-violet-600" />
+                  <Zap className="w-4 h-4 text-gold" />
                 ) : (
                   <Circle className="w-4 h-4 text-ink-tertiary" />
                 )}
@@ -189,7 +189,7 @@ export function RolloutTimeline({ milestones, releaseDate }: RolloutTimelineProp
                   })}
                 </p>
                 {isCurrent && (
-                  <span className="text-2xs font-semibold text-violet-600">Now</span>
+                  <span className="text-2xs font-bold text-gold">Now</span>
                 )}
               </div>
             </div>

@@ -38,7 +38,7 @@ export default function SettingsPage() {
 
       <div className="flex">
         {/* Settings nav */}
-        <aside className="w-52 border-r border-border bg-white p-3 min-h-[calc(100vh-3.5rem)]">
+        <aside className="w-52 border-r border-border bg-canvas-50 p-3 min-h-[calc(100vh-3.5rem)]">
           <ul className="space-y-0.5">
             {SETTINGS_NAV.map((item) => {
               const Icon = item.icon;
@@ -48,7 +48,7 @@ export default function SettingsPage() {
                     className={cn(
                       "w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                       item.active
-                        ? "bg-violet-50 text-violet-700"
+                        ? "bg-gold-50 text-gold"
                         : "text-ink-secondary hover:bg-canvas-100 hover:text-ink",
                     )}
                   >
@@ -125,7 +125,7 @@ export default function SettingsPage() {
 
             <div className="card p-6 space-y-5">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-violet-600 flex items-center justify-center shadow-glow">
+                <div className="w-12 h-12 rounded-xl bg-gold flex items-center justify-center shadow-glow">
                   <Zap className="w-6 h-6 text-white" />
                 </div>
                 <div>

@@ -30,8 +30,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || isLoading}
         className={cn(
-          "inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all duration-150 select-none",
-          "disabled:opacity-50 disabled:cursor-not-allowed",
+          "inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-all duration-150 select-none",
+          "disabled:opacity-40 disabled:cursor-not-allowed",
           // Size
           size === "sm" && "px-3 py-1.5 text-xs",
           size === "md" && "px-4 py-2 text-sm",
@@ -39,13 +39,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           size === "icon" && "p-2",
           // Variant
           variant === "primary" &&
-            "bg-violet-600 text-white hover:bg-violet-700 active:bg-violet-800 shadow-sm",
+            "bg-gold text-white hover:bg-gold-400 active:bg-gold-600 shadow-sm",
           variant === "secondary" &&
-            "bg-white text-ink border border-border hover:bg-canvas-100 active:bg-canvas-200 shadow-card",
+            "bg-canvas-100 text-ink border border-border hover:bg-canvas-200 hover:border-border-strong active:bg-canvas-200 shadow-card",
           variant === "ghost" &&
             "text-ink-secondary hover:bg-canvas-100 hover:text-ink active:bg-canvas-200",
           variant === "outline" &&
-            "border border-border text-ink hover:bg-canvas-100 active:bg-canvas-200",
+            "border border-border text-ink hover:bg-canvas-100 hover:border-border-strong active:bg-canvas-200",
           variant === "danger" &&
             "bg-rose-500 text-white hover:bg-rose-600 active:bg-rose-700 shadow-sm",
           className,

@@ -60,7 +60,7 @@ export default function ChannelsPage() {
 
       <div className="flex h-[calc(100vh-3.5rem)]">
         {/* Channel list */}
-        <aside className="w-52 border-r border-border bg-white flex flex-col flex-shrink-0">
+        <aside className="w-52 border-r border-border bg-canvas-50 flex flex-col flex-shrink-0">
           <div className="p-3 border-b border-border flex items-center justify-between">
             <span className="text-label">Channels</span>
             <button className="p-1 rounded hover:bg-canvas-100 transition-colors">
@@ -77,9 +77,9 @@ export default function ChannelsPage() {
               return (
                 <button
                   key={ch.id}
-                  className={`w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  className={`w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                     isActive
-                      ? "bg-violet-50 text-violet-700"
+                      ? "bg-gold-50 text-gold"
                       : "text-ink-secondary hover:bg-canvas-100 hover:text-ink"
                   }`}
                 >
@@ -90,7 +90,7 @@ export default function ChannelsPage() {
                   )}
                   <span className="flex-1 text-left truncate">{ch.name}</span>
                   {ch.unread > 0 && (
-                    <span className="w-4 h-4 bg-violet-600 text-white text-2xs font-bold rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="w-4 h-4 bg-white text-[#080808] text-2xs font-bold rounded-full flex items-center justify-center flex-shrink-0">
                       {ch.unread}
                     </span>
                   )}
@@ -117,7 +117,7 @@ export default function ChannelsPage() {
         {/* Chat area */}
         <div className="flex-1 flex flex-col">
           {/* Channel header */}
-          <div className="h-12 border-b border-border bg-white px-4 flex items-center justify-between flex-shrink-0">
+          <div className="h-12 border-b border-border bg-canvas-50 px-4 flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-2">
               <Hash className="w-4 h-4 text-ink-secondary" />
               <span className="text-sm font-semibold text-ink">{activeChannel.name}</span>
@@ -156,7 +156,7 @@ export default function ChannelsPage() {
 
           {/* Message input */}
           <div className="p-4 border-t border-border flex-shrink-0">
-            <div className="flex items-center gap-3 bg-white border border-border rounded-xl px-4 py-3 focus-within:ring-2 focus-within:ring-violet-500 focus-within:border-transparent transition-all">
+            <div className="flex items-center gap-3 bg-canvas-100 border border-border rounded-xl px-4 py-3 focus-within:ring-1 focus-within:ring-white/20 focus-within:border-border-strong transition-all">
               <button className="text-ink-tertiary hover:text-ink transition-colors flex-shrink-0">
                 <Paperclip className="w-4 h-4" />
               </button>
@@ -168,7 +168,7 @@ export default function ChannelsPage() {
                 <button className="text-ink-tertiary hover:text-ink transition-colors">
                   <Smile className="w-4 h-4" />
                 </button>
-                <button className="w-7 h-7 bg-violet-600 rounded-lg flex items-center justify-center hover:bg-violet-700 transition-colors">
+                <button className="w-7 h-7 bg-gold rounded-lg flex items-center justify-center hover:bg-gold-400 transition-colors">
                   <Send className="w-3.5 h-3.5 text-white" />
                 </button>
               </div>

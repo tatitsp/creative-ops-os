@@ -46,7 +46,7 @@ export function AnalyticsSnapshot({
             label="Pre-saves"
             value={formatNumber(analytics.preSaves)}
             sub="across all DSPs"
-            accent="violet"
+            accent="gold"
           />
           <SnapshotCard
             icon={<Music className="w-4 h-4" />}
@@ -73,14 +73,14 @@ export function AnalyticsSnapshot({
 
         {analytics.peakChartPosition && (
           <div className="card p-4 flex items-center gap-4">
-            <div className="w-10 h-10 rounded-xl bg-violet-600 flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-gold flex items-center justify-center flex-shrink-0">
               <TrendingUp className="w-5 h-5 text-white" />
             </div>
             <div>
               <p className="text-sm font-semibold text-ink">Chart Position</p>
               <p className="text-xs text-ink-secondary mt-0.5">{analytics.peakChartPosition}</p>
             </div>
-            <span className="ml-auto text-2xs font-semibold px-2 py-1 bg-violet-50 text-violet-700 rounded-full">
+            <span className="ml-auto text-2xs font-semibold px-2 py-1 bg-gold-100 text-gold rounded-full">
               Live
             </span>
           </div>
@@ -95,7 +95,7 @@ export function AnalyticsSnapshot({
             {analytics.editorialPlaylists.map((pl) => {
               const isPitched = pl.includes("Pitched");
               return (
-                <div key={pl} className="flex items-center justify-between p-2.5 rounded-lg bg-canvas-50">
+                <div key={pl} className="flex items-center justify-between p-2.5 rounded-lg bg-canvas-100">
                   <span className="text-xs font-medium text-ink">{pl.replace(" (Pitched)", "")}</span>
                   <span
                     className={cn(
@@ -142,7 +142,7 @@ export function AnalyticsSnapshot({
           label="TikTok Sounds"
           value={formatNumber(analytics.weekOneTikTokSounds)}
           sub="uses"
-          accent="violet"
+          accent="gold"
         />
         <SnapshotCard
           icon={<TrendingUp className="w-4 h-4" />}
@@ -174,14 +174,14 @@ function SnapshotCard({
   label: string;
   value: string;
   sub: string;
-  accent: "violet" | "emerald" | "amber" | "rose" | "sky";
+  accent: "gold" | "emerald" | "amber" | "rose" | "sky";
 }) {
   const ACCENT_ICON = {
-    violet: "bg-violet-50 text-violet-600",
-    emerald: "bg-emerald-50 text-emerald-600",
-    amber: "bg-amber-50 text-amber-600",
-    rose: "bg-rose-50 text-rose-500",
-    sky: "bg-sky-50 text-sky-600",
+    gold:    "bg-gold-100 text-gold",
+    emerald: "bg-emerald-50 text-emerald-500",
+    amber:   "bg-amber-50 text-amber-400",
+    rose:    "bg-rose-50 text-rose-500",
+    sky:     "bg-sky-50 text-sky-500",
   };
 
   return (

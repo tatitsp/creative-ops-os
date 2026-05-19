@@ -75,7 +75,7 @@ export default function CalendarPage() {
                   key={v}
                   className={cn(
                     "px-3 py-1 text-xs font-medium rounded-md transition-colors",
-                    i === 0 ? "bg-white text-ink shadow-card" : "text-ink-secondary hover:text-ink",
+                    i === 0 ? "bg-canvas-200 text-ink shadow-card" : "text-ink-secondary hover:text-ink",
                   )}
                 >
                   {v}
@@ -115,7 +115,7 @@ export default function CalendarPage() {
                     "min-h-28 p-2 border-b border-r border-border last:border-r-0 relative",
                     !day && "bg-canvas-50",
                     isPast && "bg-canvas-50/50",
-                    isToday && "bg-violet-50/40",
+                    isToday && "bg-gold-50/20",
                     (i + 1) % 7 === 0 && "border-r-0",
                   )}
                 >
@@ -127,7 +127,7 @@ export default function CalendarPage() {
                           className={cn(
                             "w-6 h-6 flex items-center justify-center rounded-full text-xs font-medium",
                             isToday
-                              ? "bg-violet-600 text-white"
+                              ? "bg-gold text-white"
                               : isPast
                                 ? "text-ink-tertiary"
                                 : "text-ink",
@@ -146,7 +146,7 @@ export default function CalendarPage() {
                               key={item.id}
                               className={cn(
                                 "text-2xs font-medium px-1.5 py-0.5 rounded truncate",
-                                phaseCfg?.color ?? "bg-violet-50 text-violet-700",
+                                phaseCfg?.color ?? "bg-gold-50 text-gold",
                               )}
                               title={item.title}
                             >
@@ -187,8 +187,8 @@ export default function CalendarPage() {
                 const phaseCfg = CONTENT_PHASES.find((p) => p.phase === item.phase);
                 return (
                   <div key={item.id} className="card p-3 flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-violet-50 flex items-center justify-center flex-shrink-0">
-                      <CalendarDays className="w-4 h-4 text-violet-500" />
+                    <div className="w-10 h-10 rounded-lg bg-gold-50 flex items-center justify-center flex-shrink-0">
+                      <CalendarDays className="w-4 h-4 text-gold" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-ink truncate">{item.title}</p>

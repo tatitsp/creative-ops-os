@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/Avatar";
 import { CONTENT_PHASES, PLATFORM_CONFIG } from "@/lib/constants";
 import type { ContentItem, ContentPhase } from "@/types";
-import { Film, Camera, Layers, Image as ImageIcon, Mic, FileText, ChevronRight } from "lucide-react";
+import { Film, Camera, Layers, Image as ImageIcon, Mic, FileText } from "lucide-react";
 import Link from "next/link";
 
 const CONTENT_TYPE_ICONS: Record<string, React.ReactNode> = {
@@ -45,11 +45,11 @@ export function ContentPipeline({ items }: ContentPipelineProps) {
               {/* Column header */}
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-1.5">
-                  <span className={cn("text-2xs font-semibold px-2 py-0.5 rounded-full", phaseCfg.color)}>
+                  <span className={cn("text-2xs font-bold px-2 py-0.5 rounded-full", phaseCfg.color)}>
                     {phaseCfg.label}
                   </span>
                 </div>
-                <span className="text-2xs text-ink-tertiary font-medium">{phaseItems.length}</span>
+                <span className="text-2xs text-ink-tertiary font-semibold">{phaseItems.length}</span>
               </div>
 
               {/* Cards */}
@@ -76,11 +76,11 @@ function ContentCard({ item }: { item: ContentItem }) {
 
   return (
     <Link href={`/content/${item.id}`}>
-      <div className="bg-white border border-border rounded-lg p-3 hover:border-violet-200 hover:shadow-card transition-all duration-150 cursor-pointer group">
+      <div className="bg-canvas-100 border border-border rounded-lg p-3 hover:border-border-strong hover:shadow-card transition-all duration-150 cursor-pointer">
         {/* Title */}
         <div className="flex items-start gap-2">
           <span className="text-ink-tertiary mt-0.5 flex-shrink-0">{typeIcon}</span>
-          <p className="text-xs font-medium text-ink leading-snug line-clamp-2 flex-1">
+          <p className="text-xs font-semibold text-ink leading-snug line-clamp-2 flex-1">
             {item.title}
           </p>
         </div>
@@ -92,7 +92,7 @@ function ContentCard({ item }: { item: ContentItem }) {
             return (
               <span
                 key={p}
-                className="text-2xs px-1.5 py-0.5 rounded-full bg-canvas-100 text-ink-tertiary"
+                className="text-2xs px-1.5 py-0.5 rounded-full bg-canvas-200 text-ink-tertiary"
               >
                 {cfg?.label ?? p}
               </span>

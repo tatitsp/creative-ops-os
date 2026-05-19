@@ -24,7 +24,7 @@
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
   }
 
-  /* Scrollbar */
+  /* Scrollbar — dark */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -35,31 +35,32 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-border-strong rounded-full;
+    background: #2E2E2E;
+    border-radius: 9999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-ink-tertiary;
+    background: #444444;
   }
 
   /* Focus rings */
   *:focus-visible {
-    @apply outline-none ring-2 ring-violet-500 ring-offset-2 ring-offset-canvas;
+    @apply outline-none ring-1 ring-white/30 ring-offset-2 ring-offset-canvas;
   }
 }
 
 @layer components {
-  /* Typography scale */
+  /* Typography scale — heavy, editorial */
   .text-display {
-    @apply text-2xl font-semibold tracking-tight text-ink;
+    @apply text-2xl font-black tracking-tight text-ink;
   }
 
   .text-heading {
-    @apply text-lg font-semibold text-ink;
+    @apply text-lg font-bold text-ink;
   }
 
   .text-subheading {
-    @apply text-sm font-medium text-ink;
+    @apply text-sm font-semibold text-ink;
   }
 
   .text-body {
@@ -71,19 +72,19 @@
   }
 
   .text-label {
-    @apply text-xs font-medium uppercase tracking-wide text-ink-tertiary;
+    @apply text-xs font-bold uppercase tracking-widest text-ink-tertiary;
   }
 
-  /* Card styles */
+  /* Card styles — dark surface */
   .card {
-    @apply bg-white rounded-xl border border-border shadow-card;
+    @apply bg-canvas-50 rounded-xl border border-border shadow-card;
   }
 
   .card-hover {
-    @apply card transition-shadow duration-200 hover:shadow-card-hover cursor-pointer;
+    @apply card transition-all duration-200 hover:shadow-card-hover hover:border-border-strong cursor-pointer;
   }
 
-  /* Sidebar item */
+  /* Sidebar nav item */
   .nav-item {
     @apply flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-ink-secondary
            transition-colors duration-150 cursor-pointer select-none;
@@ -94,7 +95,7 @@
   }
 
   .nav-item.active {
-    @apply bg-violet-50 text-violet-700;
+    @apply bg-gold-50 text-gold;
   }
 
   /* Status dot */
@@ -109,9 +110,9 @@
 
   /* Input */
   .input-base {
-    @apply w-full px-3 py-2 text-sm bg-white border border-border rounded-lg
+    @apply w-full px-3 py-2 text-sm bg-canvas-100 border border-border rounded-lg
            placeholder:text-ink-tertiary text-ink
-           focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent
+           focus:outline-none focus:ring-1 focus:ring-white/20 focus:border-border-strong
            transition-colors duration-150;
   }
 }

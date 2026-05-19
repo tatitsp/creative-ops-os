@@ -119,7 +119,7 @@ export function ApprovalChain({ approvals }: ApprovalChainProps) {
                   className={cn(
                     "flex items-start gap-4 p-4 rounded-xl border transition-all",
                     needsAction
-                      ? "bg-white border-violet-200"
+                      ? "bg-canvas-100 border-gold-200"
                       : "bg-canvas-50 border-border",
                   )}
                 >
@@ -198,7 +198,7 @@ function ApprovalCard({ item, isPosted }: { item: ApprovalItem; isPosted: boolea
         "p-2.5 rounded-xl border cursor-pointer hover:shadow-card transition-all",
         isPosted
           ? "bg-canvas-50 border-border opacity-60"
-          : "bg-white border-border hover:border-violet-200",
+          : "bg-canvas-100 border-border hover:border-border-strong",
       )}
     >
       <p className={cn("text-xs font-medium leading-snug", isPosted && "line-through text-ink-tertiary")}>

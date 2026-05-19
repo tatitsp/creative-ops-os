@@ -58,8 +58,8 @@ export default function ContentPage() {
               <button
                 key={phase}
                 className={cn(
-                  "flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium flex-shrink-0 transition-colors hover:border-violet-300",
-                  count > 0 ? "border-border bg-white" : "border-dashed border-border bg-canvas-50 opacity-60",
+                  "flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium flex-shrink-0 transition-colors hover:border-border-strong",
+                  count > 0 ? "border-border bg-canvas-50" : "border-dashed border-border bg-canvas-50 opacity-60",
                 )}
               >
                 <span className={cn("px-1.5 py-0.5 rounded-full text-2xs", cfg.color)}>

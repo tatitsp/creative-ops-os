@@ -178,10 +178,10 @@ const PRIORITY_CONFIG = {
   },
   IMPORTANT: {
     label: "Important",
-    color: "text-violet-600",
-    bg: "bg-violet-50 border-violet-100",
-    dot: "bg-violet-400",
-    icon: "🟣",
+    color: "text-gold",
+    bg: "bg-gold-50 border-gold-200",
+    dot: "bg-gold",
+    icon: "🟡",
   },
   OPTIONAL: {
     label: "Optional",
@@ -227,13 +227,13 @@ export function VideoCalculator({ defaultTracks = 12 }: { defaultTracks?: number
       <div className="rounded-xl bg-ink text-white p-5 flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
-            <Film className="w-5 h-5 text-violet-300" />
+            <Film className="w-5 h-5 text-gold" />
           </div>
           <div>
             <p className="text-xs text-white/50 uppercase tracking-wider font-medium">Video Quota Calculator</p>
             <p className="text-lg font-semibold mt-0.5">
               Minimum{" "}
-              <span className="text-violet-300">{result.total} pieces</span> of video content
+              <span className="text-gold">{result.total} pieces</span> of video content
             </p>
             <p className="text-sm text-white/60 mt-0.5">
               ~{result.productionDays} production days ·{" "}
@@ -242,7 +242,7 @@ export function VideoCalculator({ defaultTracks = 12 }: { defaultTracks?: number
           </div>
         </div>
         <div className="text-right">
-          <p className="text-3xl font-bold text-violet-300">{result.total}</p>
+          <p className="text-3xl font-bold text-gold">{result.total}</p>
           <p className="text-xs text-white/50 mt-0.5">total videos</p>
         </div>
       </div>
@@ -263,7 +263,7 @@ export function VideoCalculator({ defaultTracks = 12 }: { defaultTracks?: number
                   "px-4 py-2 rounded-lg text-sm font-semibold border transition-all",
                   format === f
                     ? "bg-ink text-white border-ink"
-                    : "bg-white text-ink-secondary border-border hover:border-ink-secondary",
+                    : "bg-canvas-100 text-ink-secondary border-border hover:border-border-strong",
                 )}
               >
                 {f === "ALBUM" ? "Album" : f === "EP" ? "EP" : "Single"}
@@ -289,7 +289,7 @@ export function VideoCalculator({ defaultTracks = 12 }: { defaultTracks?: number
                 setLeadSingles((prev) => Math.min(prev, v));
                 setAlbumSingles((prev) => Math.min(prev, v));
               }}
-              className="w-full accent-violet-600 cursor-pointer"
+              className="w-full accent-gold cursor-pointer"
             />
             <div className="flex justify-between text-2xs text-ink-tertiary mt-1">
               <span>1</span>
@@ -309,7 +309,7 @@ export function VideoCalculator({ defaultTracks = 12 }: { defaultTracks?: number
             max={maxLeadSingles}
             value={leadSingles}
             onChange={(e) => setLeadSingles(Number(e.target.value))}
-            className="w-full accent-violet-600 cursor-pointer"
+            className="w-full accent-gold cursor-pointer"
           />
           <div className="flex justify-between text-2xs text-ink-tertiary mt-1">
             <span>0</span>
@@ -330,7 +330,7 @@ export function VideoCalculator({ defaultTracks = 12 }: { defaultTracks?: number
               max={maxAlbumSingles}
               value={Math.min(albumSingles, maxAlbumSingles)}
               onChange={(e) => setAlbumSingles(Number(e.target.value))}
-              className="w-full accent-violet-600 cursor-pointer"
+              className="w-full accent-gold cursor-pointer"
             />
           </div>
         )}
@@ -354,7 +354,7 @@ export function VideoCalculator({ defaultTracks = 12 }: { defaultTracks?: number
                   onClick={() => togglePlatform(p.id)}
                   className={cn(
                     "px-3 py-1.5 rounded-full text-xs font-semibold border transition-all",
-                    on ? "text-white border-transparent" : "bg-white text-ink-secondary border-border",
+                    on ? "text-white border-transparent" : "bg-canvas-100 text-ink-secondary border-border",
                   )}
                   style={on ? { backgroundColor: p.color, borderColor: p.color } : {}}
                 >
@@ -407,7 +407,7 @@ export function VideoCalculator({ defaultTracks = 12 }: { defaultTracks?: number
                           ? "bg-rose-100 text-rose-600"
                           : priority === "HIGH"
                             ? "bg-amber-100 text-amber-600"
-                            : "bg-violet-100 text-violet-600",
+                            : "bg-gold-100 text-gold",
                       )}
                     >
                       {row.count}

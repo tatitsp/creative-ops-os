@@ -564,7 +564,7 @@ export function getReleaseById(id: string) {
 
 export const RELEASE_TYPE_CONFIG: Record<ReleaseType, { label: string; color: string; emoji: string }> = {
   SINGLE: { label: "Single", color: "bg-sky-100 text-sky-700", emoji: "🎵" },
-  EP: { label: "EP", color: "bg-violet-100 text-violet-700", emoji: "💿" },
+  EP: { label: "EP", color: "bg-gold-100 text-gold", emoji: "💿" },
   ALBUM: { label: "Album", color: "bg-ink text-white", emoji: "🎧" },
   MERCH_DROP: { label: "Merch Drop", color: "bg-amber-100 text-amber-700", emoji: "👕" },
   TOUR: { label: "Tour", color: "bg-emerald-100 text-emerald-700", emoji: "🎤" },
@@ -573,7 +573,7 @@ export const RELEASE_TYPE_CONFIG: Record<ReleaseType, { label: string; color: st
 export const RELEASE_STATUS_CONFIG: Record<ReleaseStatus, { label: string; color: string; dot: string }> = {
   CONCEPT: { label: "Concept", color: "bg-canvas-200 text-ink-secondary", dot: "bg-ink-tertiary" },
   PRE_RELEASE: { label: "Pre-Release", color: "bg-amber-50 text-amber-700", dot: "bg-amber-400" },
-  RELEASE_WEEK: { label: "Release Week", color: "bg-violet-100 text-violet-700", dot: "bg-violet-500 animate-pulse" },
+  RELEASE_WEEK: { label: "Release Week", color: "bg-gold-100 text-gold", dot: "bg-gold animate-pulse" },
   RELEASED: { label: "Released", color: "bg-emerald-50 text-emerald-700", dot: "bg-emerald-500" },
   ARCHIVED: { label: "Archived", color: "bg-canvas-200 text-ink-tertiary", dot: "bg-ink-tertiary" },
 };
@@ -584,7 +584,7 @@ export const APPROVAL_STAGE_CONFIG: Record<
 > = {
   DRAFT: { label: "Draft", short: "Draft", color: "text-ink-tertiary", bg: "bg-canvas-100", index: 0 },
   INTERNAL_REVIEW: { label: "Internal Review", short: "Internal", color: "text-sky-600", bg: "bg-sky-50", index: 1 },
-  ARTIST_REVIEW: { label: "Artist Review", short: "Artist", color: "text-violet-600", bg: "bg-violet-50", index: 2 },
+  ARTIST_REVIEW: { label: "Artist Review", short: "Artist", color: "text-gold", bg: "bg-gold-50", index: 2 },
   MANAGEMENT_APPROVAL: { label: "Management", short: "Mgmt", color: "text-amber-600", bg: "bg-amber-50", index: 3 },
   SCHEDULED: { label: "Scheduled", short: "Sched.", color: "text-emerald-600", bg: "bg-emerald-50", index: 4 },
   POSTED: { label: "Posted", short: "Posted", color: "text-emerald-700", bg: "bg-emerald-100", index: 5 },
@@ -593,7 +593,7 @@ export const APPROVAL_STAGE_CONFIG: Record<
 export const ASSET_STAGE_CONFIG: Record<AssetStage, { label: string; color: string }> = {
   PRE_PRODUCTION: { label: "Pre-Production", color: "bg-canvas-200 text-ink-secondary" },
   PRODUCTION: { label: "Production", color: "bg-amber-50 text-amber-700" },
-  PRE_RELEASE: { label: "Pre-Release", color: "bg-violet-50 text-violet-700" },
+  PRE_RELEASE: { label: "Pre-Release", color: "bg-gold-50 text-gold" },
   LAUNCH: { label: "Launch", color: "bg-rose-50 text-rose-600" },
   POST_RELEASE: { label: "Post-Release", color: "bg-emerald-50 text-emerald-700" },
 };
@@ -606,7 +606,7 @@ export const ASSET_STATUS_CONFIG: Record<AssetStatus, { label: string; color: st
 };
 
 export const DROP_TYPE_CONFIG: Record<ContentDropType, { label: string; color: string }> = {
-  MUSIC_VIDEO: { label: "Music Video", color: "bg-violet-100 text-violet-700" },
+  MUSIC_VIDEO: { label: "Music Video", color: "bg-gold-100 text-gold" },
   REEL: { label: "Reel", color: "bg-rose-50 text-rose-500" },
   TEASER: { label: "Teaser", color: "bg-amber-50 text-amber-600" },
   ANNOUNCEMENT: { label: "Announcement", color: "bg-sky-50 text-sky-600" },
@@ -614,5 +614,5 @@ export const DROP_TYPE_CONFIG: Record<ContentDropType, { label: string; color: s
   STATIC: { label: "Static Post", color: "bg-canvas-200 text-ink-secondary" },
   PRESS: { label: "Press", color: "bg-canvas-200 text-ink-secondary" },
   RELEASE_DAY: { label: "Release Day", color: "bg-ink text-white" },
-  SNIPPET: { label: "Snippet", color: "bg-violet-50 text-violet-600" },
+  SNIPPET: { label: "Snippet", color: "bg-gold-50 text-gold" },
 };

@@ -21,7 +21,7 @@ import {
 const FILE_TYPE_ICON: Record<string, React.ReactNode> = {
   doc: <FileText className="w-4 h-4 text-sky-400" />,
   pdf: <FileText className="w-4 h-4 text-rose-400" />,
-  image: <ImageIcon className="w-4 h-4 text-violet-400" />,
+  image: <ImageIcon className="w-4 h-4 text-gold" />,
   video: <Film className="w-4 h-4 text-amber-400" />,
   audio: <Music className="w-4 h-4 text-emerald-400" />,
   sheet: <FileSpreadsheet className="w-4 h-4 text-emerald-400" />,
@@ -75,7 +75,7 @@ export function AssetTracker({ assets }: AssetTrackerProps) {
                   <div
                     className={cn(
                       "h-full rounded-full transition-all duration-500",
-                      pct === 100 ? "bg-emerald-500" : pct >= 50 ? "bg-violet-500" : "bg-amber-400",
+                      pct === 100 ? "bg-emerald-500" : pct >= 50 ? "bg-gold" : "bg-amber-400",
                     )}
                     style={{ width: `${pct}%` }}
                   />

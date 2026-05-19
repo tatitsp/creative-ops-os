@@ -30,7 +30,7 @@ export default function ReleasesPage() {
               { label: "Active Releases", value: MOCK_RELEASES.filter((r) => r.status === "PRE_RELEASE" || r.status === "RELEASE_WEEK").length, color: "text-amber-500" },
               { label: "In Concept", value: MOCK_RELEASES.filter((r) => r.status === "CONCEPT").length, color: "text-ink-secondary" },
               { label: "Released", value: MOCK_RELEASES.filter((r) => r.status === "RELEASED").length, color: "text-emerald-600" },
-              { label: "Total Releases", value: MOCK_RELEASES.length, color: "text-violet-600" },
+              { label: "Total Releases", value: MOCK_RELEASES.length, color: "text-gold" },
             ] as const
           ).map((s) => (
             <div key={s.label} className="card p-4">
@@ -115,7 +115,7 @@ export default function ReleasesPage() {
                               {completedMilestones}/{release.milestones.length}
                             </span>
                           </div>
-                          <Progress value={milestonePct} size="sm" color="violet" />
+                          <Progress value={milestonePct} size="sm" color="gold" />
                         </div>
                         <div>
                           <div className="flex items-center justify-between mb-1">
@@ -166,7 +166,7 @@ export default function ReleasesPage() {
                             })}
                           </span>
                         </div>
-                        <div className="flex items-center gap-1 text-xs text-violet-600 font-medium">
+                        <div className="flex items-center gap-1 text-xs text-gold font-semibold">
                           Open release room
                           <ChevronRight className="w-3.5 h-3.5" />
                         </div>
