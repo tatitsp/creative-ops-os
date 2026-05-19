@@ -11,6 +11,8 @@ import { ApprovalChain } from "./ApprovalChain";
 import { PlatformChecklist } from "./PlatformChecklist";
 import { AnalyticsSnapshot } from "./AnalyticsSnapshot";
 import { VideoCalculator } from "./VideoCalculator";
+import { ReleaseBudget } from "./ReleaseBudget";
+import { CURRENT_USER } from "@/lib/mock-data";
 import {
   Flag,
   Film,
@@ -21,8 +23,11 @@ import {
   Calculator,
   CalendarDays,
   ChevronLeft,
+  DollarSign,
 } from "lucide-react";
 import Link from "next/link";
+
+const BUDGET_ROLES = ["ARTIST_CEO", "CREATIVE_OPS_DIRECTOR"];
 
 type Tab =
   | "timeline"
@@ -31,17 +36,24 @@ type Tab =
   | "approvals"
   | "publishing"
   | "analytics"
-  | "calculator";
+  | "calculator"
+  | "budget";
 
-const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
-  { id: "timeline", label: "Timeline", icon: <Flag className="w-3.5 h-3.5" /> },
-  { id: "content", label: "Content", icon: <CalendarDays className="w-3.5 h-3.5" /> },
-  { id: "assets", label: "Assets", icon: <FolderOpen className="w-3.5 h-3.5" /> },
-  { id: "approvals", label: "Approvals", icon: <CheckCircle2 className="w-3.5 h-3.5" /> },
-  { id: "publishing", label: "Publishing", icon: <Globe className="w-3.5 h-3.5" /> },
-  { id: "analytics", label: "Analytics", icon: <BarChart3 className="w-3.5 h-3.5" /> },
-  { id: "calculator", label: "Video Calc", icon: <Calculator className="w-3.5 h-3.5" /> },
+const BASE_TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
+  { id: "timeline",   label: "Timeline",   icon: <Flag        className="w-3.5 h-3.5" /> },
+  { id: "content",    label: "Content",    icon: <CalendarDays className="w-3.5 h-3.5" /> },
+  { id: "assets",     label: "Assets",     icon: <FolderOpen  className="w-3.5 h-3.5" /> },
+  { id: "approvals",  label: "Approvals",  icon: <CheckCircle2 className="w-3.5 h-3.5" /> },
+  { id: "publishing", label: "Publishing", icon: <Globe       className="w-3.5 h-3.5" /> },
+  { id: "analytics",  label: "Analytics",  icon: <BarChart3   className="w-3.5 h-3.5" /> },
+  { id: "calculator", label: "Video Calc", icon: <Calculator  className="w-3.5 h-3.5" /> },
+  { id: "budget",     label: "Budget",     icon: <DollarSign  className="w-3.5 h-3.5" /> },
 ];
+
+// Budget tab only visible to permitted roles
+const TABS = BASE_TABS.filter(
+  (t) => t.id !== "budget" || BUDGET_ROLES.includes(CURRENT_USER.role),
+);
 
 interface ReleaseRoomProps {
   release: Release;
@@ -212,6 +224,9 @@ export function ReleaseRoom({ release }: ReleaseRoomProps) {
         )}
         {activeTab === "calculator" && (
           <VideoCalculator defaultTracks={release.trackCount} />
+        )}
+        {activeTab === "budget" && (
+          <ReleaseBudget releaseId={release.id} />
         )}
       </div>
     </div>

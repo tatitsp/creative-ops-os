@@ -15,7 +15,7 @@ export const ARTIST_PHOTO = "https://i.scdn.co/image/ab6761610000e5ebac24eee9ce7
 
 // Current session user — swap index to simulate different roles (0 = Artist, 1 = CD)
 // Replace with real auth session in production
-export const CURRENT_USER_INDEX = 1; // Maya Chen, Creative Ops Director
+export const CURRENT_USER_INDEX = 1; // Tatiyana, Creative Ops Director
 
 export const MOCK_USERS: User[] = [
   {
@@ -30,8 +30,8 @@ export const MOCK_USERS: User[] = [
   },
   {
     id: "u2",
-    name: "Maya Chen",
-    email: "maya@liltonystudio.io",
+    name: "Tatiyana",
+    email: "whoistati@thesighteproject.com",
     image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=96&h=96&fit=crop",
     role: "CREATIVE_OPS_DIRECTOR",
     status: "ACTIVE",

@@ -286,7 +286,7 @@ export const MOCK_RELEASES: Release[] = [
         platforms: ["twitter"],
         date: "2026-07-04",
         stage: "DRAFT",
-        assignee: "Maya Chen",
+        assignee: "Tatiyana",
       },
       {
         id: "cd10",
@@ -313,7 +313,7 @@ export const MOCK_RELEASES: Release[] = [
         platforms: ["instagram", "tiktok", "youtube", "twitter", "spotify", "apple_music"],
         date: "2026-07-18",
         stage: "DRAFT",
-        assignee: "Maya Chen",
+        assignee: "Tatiyana",
         notes: "Coordinated multi-platform drop. All content goes live at 12AM EST.",
       },
     ],
@@ -337,7 +337,7 @@ export const MOCK_RELEASES: Release[] = [
       // Pre-Release
       { id: "a13", name: "Distribution files submitted", stage: "PRE_RELEASE", status: "DONE" },
       { id: "a14", name: "DSP pitch assets", stage: "PRE_RELEASE", status: "DONE" },
-      { id: "a15", name: "Press kit (full)", stage: "PRE_RELEASE", status: "DONE", assignee: "Maya Chen" },
+      { id: "a15", name: "Press kit (full)", stage: "PRE_RELEASE", status: "DONE", assignee: "Tatiyana" },
       { id: "a16", name: "Social content calendar", stage: "PRE_RELEASE", status: "IN_PROGRESS", assignee: "Sofia Reyes", dueDate: "2026-06-01" },
       { id: "a17", name: "Single artwork — Tracks 2–12", stage: "PRE_RELEASE", status: "PENDING", assignee: "Amara Osei", dueDate: "2026-07-01" },
       { id: "a18", name: "EPK video (3 min)", stage: "PRE_RELEASE", status: "PENDING", assignee: "Darius King", dueDate: "2026-07-05" },
@@ -381,7 +381,7 @@ export const MOCK_RELEASES: Release[] = [
         stage: "MANAGEMENT_APPROVAL",
         submittedBy: "Darius King",
         submittedAt: "2026-05-30T11:00:00Z",
-        reviewer: "Maya Chen",
+        reviewer: "Tatiyana",
         priority: "URGENT",
       },
       {
@@ -391,7 +391,7 @@ export const MOCK_RELEASES: Release[] = [
         stage: "MANAGEMENT_APPROVAL",
         submittedBy: "Darius King",
         submittedAt: "2026-05-31T10:00:00Z",
-        reviewer: "Maya Chen",
+        reviewer: "Tatiyana",
         priority: "HIGH",
       },
       {
@@ -443,7 +443,7 @@ export const MOCK_RELEASES: Release[] = [
         title: "Press release — Album announcement",
         type: "Copy",
         stage: "DRAFT",
-        submittedBy: "Maya Chen",
+        submittedBy: "Tatiyana",
         priority: "HIGH",
       },
     ],

@@ -22,7 +22,10 @@ import {
   Rocket,
   CheckSquare,
   Star,
+  DollarSign,
 } from "lucide-react";
+
+const BUDGET_ROLES = ["ARTIST_CEO", "CREATIVE_OPS_DIRECTOR"];
 import { PENDING_APPROVALS_COUNT } from "@/lib/mock-approvals";
 import { UNREAD_NAV_SECTIONS } from "@/lib/mock-notifications";
 
@@ -33,9 +36,12 @@ const NAV_SECTIONS = [
       { label: "Dashboard",      href: "/dashboard",      icon: LayoutDashboard },
       { label: "Artist Portal",  href: "/artist-portal",  icon: Star },
       { label: "Releases",       href: "/releases",       icon: Rocket,       badge: 1 },
-      { label: "Projects",   href: "/projects",   icon: FolderKanban, badge: 4 },
-      { label: "Content",    href: "/content",    icon: Film,         badge: 6 },
-      { label: "Approvals",  href: "/approvals",  icon: CheckSquare,  badge: PENDING_APPROVALS_COUNT },
+      { label: "Projects",       href: "/projects",       icon: FolderKanban, badge: 4 },
+      { label: "Content",        href: "/content",        icon: Film,         badge: 6 },
+      { label: "Approvals",      href: "/approvals",      icon: CheckSquare,  badge: PENDING_APPROVALS_COUNT },
+      ...(BUDGET_ROLES.includes(CURRENT_USER.role)
+        ? [{ label: "Budget", href: "/budget", icon: DollarSign }]
+        : []),
     ],
   },
   {

@@ -55,7 +55,7 @@ export const MOCK_RICH_APPROVALS: RichApproval[] = [
     thumbnail: COVERS.mrsKey,
     submitter: MOCK_USERS[5], // Amara
     submittedAt: "2026-05-18T10:30:00Z",
-    nextApprover: MOCK_USERS[1], // Maya
+    nextApprover: MOCK_USERS[1], // Tatiyana
     priority: "HIGH",
     dueDate: "2026-05-22",
     history: [
@@ -122,9 +122,9 @@ export const MOCK_RICH_APPROVALS: RichApproval[] = [
     campaign: "Press Push — HipHopDX / AllHipHop",
     campaignId: "c3",
     thumbnail: undefined,
-    submitter: MOCK_USERS[1], // Maya
+    submitter: MOCK_USERS[1], // Tatiyana
     submittedAt: "2026-05-17T16:00:00Z",
-    nextApprover: MOCK_USERS[1], // Back to Maya to revise
+    nextApprover: MOCK_USERS[1], // Back to Tatiyana to revise
     priority: "MEDIUM",
     dueDate: "2026-05-20",
     history: [
@@ -159,7 +159,7 @@ export const MOCK_RICH_APPROVALS: RichApproval[] = [
     thumbnail: COVERS.mrsKey,
     submitter: MOCK_USERS[2], // Darius
     submittedAt: "2026-05-18T11:00:00Z",
-    nextApprover: MOCK_USERS[1], // Maya
+    nextApprover: MOCK_USERS[1], // Tatiyana
     priority: "HIGH",
     dueDate: "2026-05-23",
     history: [
@@ -241,9 +241,10 @@ export const MOCK_RICH_APPROVALS: RichApproval[] = [
     campaign: "Press Push — HipHopDX / AllHipHop",
     campaignId: "c3",
     thumbnail: undefined,
-    submitter: MOCK_USERS[1], // Maya
+    submitter: MOCK_USERS[1], // Tatiyana
     submittedAt: "2026-05-17T12:00:00Z",
-    nextApprover: MOCK_USERS[1], // Maya (internal first)
+    nextApprover: MOCK_USERS[1], // Tatiyana (internal first)
+
     priority: "URGENT",
     dueDate: "2026-05-19",
     history: [
