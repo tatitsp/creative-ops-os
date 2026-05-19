@@ -1,15 +1,17 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+const config = {
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
-  secret: process.env.AUTH_SECRET,
-  // Required when running on a non-standard port (e.g. 3003).
-  // Tells NextAuth to trust the Host header instead of requiring AUTH_URL.
+  // Fall back to NEXTAUTH_SECRET so either env var name works
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  // Required when running on a non-standard port (e.g. 3003)
   trustHost: true,
-});
+};
+
+export const { handlers, auth, signIn, signOut } = NextAuth(config);
