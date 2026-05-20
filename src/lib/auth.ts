@@ -13,7 +13,18 @@ const config = {
   // Required when running on a non-standard port (e.g. 3003)
   trustHost: true,
   pages: {
-    signIn: "/api/auth/signin",
+    signIn: "/sign-in",
+  },
+  callbacks: {
+    redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
+      // Default post-login destination is workspace selector
+      if (url === baseUrl || url === `${baseUrl}/`) {
+        return `${baseUrl}/select-workspace`;
+      }
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      if (url.startsWith(baseUrl)) return url;
+      return `${baseUrl}/select-workspace`;
+    },
   },
 };
 
