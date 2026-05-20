@@ -31,7 +31,7 @@ export default function SignInPage() {
       <div className="relative z-10 flex flex-col items-center text-center px-6">
         {/* Wordmark */}
         <h1
-          className="font-black text-white mb-3"
+          className="font-black text-white mb-10"
           style={{
             fontSize: "clamp(2.2rem, 7vw, 4rem)",
             letterSpacing: "-0.03em",
@@ -42,14 +42,6 @@ export default function SignInPage() {
           ROYAL PRIESTHOOD
         </h1>
 
-        {/* Subtitle */}
-        <p
-          className="text-xs tracking-[0.2em] uppercase mb-10"
-          style={{ color: "rgba(255,255,255,0.45)" }}
-        >
-          SCOPE&nbsp;&nbsp;·&nbsp;&nbsp;Creative Operations OS&nbsp;&nbsp;·&nbsp;&nbsp;by The Sighte Project
-        </p>
-
         {/* Sign in */}
         <SignInButton />
       </div>
@@ -59,7 +51,7 @@ export default function SignInPage() {
         className="absolute bottom-8 z-10 text-[0.6rem] tracking-[0.2em] uppercase"
         style={{ color: "rgba(255,255,255,0.18)" }}
       >
-        Royal Priesthood · The Sighte Project
+        SCOPE · Built by The Sighte Project
       </p>
     </div>
   );
