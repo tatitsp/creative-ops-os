@@ -136,11 +136,11 @@ export default function SettingsPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="text-label block mb-1.5">Workspace name</label>
-                  <input className="input-base" defaultValue="Creative Ops Studio" />
+                  <input className="input-base" defaultValue="SCOPE" />
                 </div>
                 <div>
                   <label className="text-label block mb-1.5">Workspace slug</label>
-                  <input className="input-base" defaultValue="creative-ops-studio" />
+                  <input className="input-base" defaultValue="scope" />
                 </div>
               </div>
 

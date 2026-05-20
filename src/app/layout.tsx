@@ -11,12 +11,12 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Creative Ops OS",
-    template: "%s — Creative Ops OS",
+    default: "SCOPE",
+    template: "%s — SCOPE",
   },
   description:
-    "The centralized creative operations and media infrastructure platform for artists, teams, and content ecosystems.",
-  keywords: ["creative operations", "content management", "artist management", "media platform"],
+    "SCOPE — Creative Operations OS by The Sighte Project. The centralized creative infrastructure platform for artists, teams, and content ecosystems.",
+  keywords: ["SCOPE", "creative operations", "content management", "artist management", "The Sighte Project"],
 };
 
 export const viewport: Viewport = {

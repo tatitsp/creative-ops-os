@@ -6,26 +6,7 @@ import { ArrowRight, Star } from "lucide-react";
 import { useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import { CURRENT_USER } from "@/lib/mock-data";
-
-// ─── Greeting pools ──────────────────────────────────────────────────────────
-
-const POOLS = {
-  morning:   ["Good morning", "Rise and grind", "New day. Let's move.", "Early bird.", "Morning, let's get it."],
-  afternoon: ["Good afternoon", "Keep pushing.", "Still building.", "Midday check in.", "Don't stop now."],
-  evening:   ["Good evening", "End strong.", "How'd today go?", "Almost there.", "Finish what you started."],
-  night:     ["Still up?", "Burning the midnight oil.", "Late night mode.", "The night shift.", "Rest is productive too."],
-};
-
-function pickGreeting(): string {
-  const h = new Date().getHours();
-  const pool =
-    h >= 5 && h < 12  ? POOLS.morning   :
-    h >= 12 && h < 17 ? POOLS.afternoon :
-    h >= 17 && h < 21 ? POOLS.evening   :
-                        POOLS.night;
-  const base = pool[Math.floor(Math.random() * pool.length)];
-  return /[?.!]$/.test(base) ? base + " Key." : base + ", Key.";
-}
+import { getDisplayName, pickGreeting as buildGreeting } from "@/lib/greeting";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -43,11 +24,12 @@ interface DashboardHeroProps {
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export function DashboardHero({ cards }: DashboardHeroProps) {
-  const [greeting, setGreeting] = useState("Welcome back, Key.");
+  const displayName = getDisplayName(CURRENT_USER);
+  const [greeting, setGreeting] = useState(`Welcome back, ${displayName}`);
 
   useEffect(() => {
-    setGreeting(pickGreeting());
-  }, []);
+    setGreeting(buildGreeting(displayName));
+  }, [displayName]);
 
   return (
     <div className="relative overflow-hidden" style={{ height: "75vh" }}>

@@ -149,7 +149,7 @@ export function CopilotPanel() {
             </div>
             <div>
               <p className="text-sm font-bold text-white leading-tight">Copilot</p>
-              <p className="text-[0.65rem] text-white/35 leading-tight">Creative Ops AI</p>
+              <p className="text-[0.65rem] text-white/35 leading-tight">SCOPE AI</p>
             </div>
           </div>
           <button

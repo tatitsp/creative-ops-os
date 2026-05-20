@@ -31,6 +31,7 @@ export const MOCK_USERS: User[] = [
   {
     id: "u2",
     name: "Tatiyana",
+    displayName: "Tati",
     email: "whoistati@thesighteproject.com",
     image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=96&h=96&fit=crop",
     role: "CREATIVE_OPS_DIRECTOR",
@@ -40,6 +41,7 @@ export const MOCK_USERS: User[] = [
   {
     id: "u3",
     name: "Darius King",
+    displayName: "Darius",
     email: "darius@liltonystudio.io",
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=96&h=96&fit=crop",
     role: "EDITOR",
@@ -49,6 +51,7 @@ export const MOCK_USERS: User[] = [
   {
     id: "u4",
     name: "Sofia Reyes",
+    displayName: "Sofia",
     email: "sofia@liltonystudio.io",
     image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=96&h=96&fit=crop",
     role: "SOCIAL_MEDIA",
@@ -58,6 +61,7 @@ export const MOCK_USERS: User[] = [
   {
     id: "u5",
     name: "Kaito Mori",
+    displayName: "Kaito",
     email: "kaito@liltonystudio.io",
     role: "PHOTOGRAPHER_VIDEOGRAPHER",
     status: "AWAY",
@@ -66,6 +70,7 @@ export const MOCK_USERS: User[] = [
   {
     id: "u6",
     name: "Amara Osei",
+    displayName: "Amara",
     email: "amara@liltonystudio.io",
     image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=96&h=96&fit=crop",
     role: "GRAPHIC_DESIGNER",

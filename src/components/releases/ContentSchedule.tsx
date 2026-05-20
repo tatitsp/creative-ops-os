@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import {
   DROP_TYPE_CONFIG,
@@ -5,7 +7,8 @@ import {
   type ContentDrop,
 } from "@/lib/mock-releases";
 import { PLATFORM_CONFIG } from "@/lib/constants";
-import { Calendar, ChevronRight } from "lucide-react";
+import { Calendar, ChevronRight, Layers, CheckCircle2 } from "lucide-react";
+import type { GeneratedSlot } from "./VideoCalculator";
 
 // Group drops by phase bracket
 const PHASE_BRACKETS = [
@@ -27,11 +30,19 @@ function bracketForDate(date: string) {
   return "Post-Release";
 }
 
+const SLOT_PRIORITY_STYLE = {
+  CRITICAL: { dot: "bg-rose-500", label: "text-rose-400", badge: "bg-rose-500/10 text-rose-400 border-rose-500/20" },
+  HIGH:     { dot: "bg-amber-400", label: "text-amber-400", badge: "bg-amber-400/10 text-amber-400 border-amber-400/20" },
+  IMPORTANT:{ dot: "bg-gold",     label: "text-gold",      badge: "bg-gold/10 text-gold border-gold/20" },
+  OPTIONAL: { dot: "bg-ink-tertiary", label: "text-ink-tertiary", badge: "bg-canvas-200 text-ink-tertiary border-border" },
+};
+
 interface ContentScheduleProps {
   drops: ContentDrop[];
+  generatedSlots?: GeneratedSlot[];
 }
 
-export function ContentSchedule({ drops }: ContentScheduleProps) {
+export function ContentSchedule({ drops, generatedSlots = [] }: ContentScheduleProps) {
   // Group by bracket
   const grouped: Record<string, ContentDrop[]> = {};
   for (const drop of drops) {
@@ -51,6 +62,81 @@ export function ContentSchedule({ drops }: ContentScheduleProps) {
 
   return (
     <div className="space-y-6">
+      {/* Generated production slots panel */}
+      {generatedSlots.length > 0 && (
+        <div className="rounded-xl border border-gold/30 bg-gold/5 overflow-hidden">
+          {/* Panel header */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gold/20">
+            <div className="flex items-center gap-2">
+              <Layers className="w-4 h-4 text-gold" />
+              <p className="text-sm font-semibold text-gold">Production Slots — Draft</p>
+              <span className="text-2xs font-bold px-2 py-0.5 rounded-full bg-gold/20 text-gold">
+                {generatedSlots.length} types · {generatedSlots.reduce((s, sl) => s + sl.count, 0)} pieces
+              </span>
+            </div>
+            <span className="text-2xs text-ink-tertiary">Generated from Video Quota Calculator · Unscheduled</span>
+          </div>
+
+          {/* Slot rows */}
+          <div className="divide-y divide-border">
+            {generatedSlots.map((slot) => {
+              const typeCfg = DROP_TYPE_CONFIG[slot.type];
+              const priorityCfg = SLOT_PRIORITY_STYLE[slot.priority];
+              return (
+                <div
+                  key={slot.id}
+                  className="flex items-center gap-4 px-4 py-3 hover:bg-white/[0.02] transition-colors"
+                >
+                  {/* Priority dot */}
+                  <span className={cn("w-2 h-2 rounded-full flex-shrink-0", priorityCfg.dot)} />
+
+                  {/* Count badge */}
+                  <div className="w-8 h-8 rounded-lg bg-canvas-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-bold text-ink">{slot.count}</span>
+                  </div>
+
+                  {/* Title + meta */}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-ink truncate">{slot.title}</p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="text-2xs text-ink-tertiary">{slot.platformsLabel}</span>
+                    </div>
+                  </div>
+
+                  {/* Type badge */}
+                  <span className={cn("text-2xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0", typeCfg.color)}>
+                    {typeCfg.label}
+                  </span>
+
+                  {/* Priority badge */}
+                  <span className={cn("text-2xs font-semibold px-2 py-0.5 rounded-full border flex-shrink-0", priorityCfg.badge)}>
+                    {slot.priority}
+                  </span>
+
+                  {/* Tag */}
+                  <span className="text-2xs text-ink-tertiary bg-canvas-100 px-2 py-0.5 rounded-full flex-shrink-0 hidden lg:inline">
+                    {slot.tag}
+                  </span>
+
+                  {/* Draft stage pill */}
+                  <span className="text-2xs font-semibold px-2 py-1 rounded-full bg-canvas-200 text-ink-tertiary flex-shrink-0">
+                    Draft
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Footer */}
+          <div className="px-4 py-2.5 border-t border-gold/20 flex items-center gap-2">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+            <p className="text-2xs text-ink-secondary">
+              {generatedSlots.reduce((s, sl) => s + sl.count, 0)} production pieces pushed to pipeline · Assign dates and owners to schedule
+            </p>
+          </div>
+        </div>
+      )}
+
       {BRACKET_ORDER.map((bracket) => {
         const items = grouped[bracket];
         if (!items?.length) return null;

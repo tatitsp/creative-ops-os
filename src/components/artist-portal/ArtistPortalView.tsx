@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Disc3,
   ArrowRight,
@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { MOCK_USERS, COVERS, ARTIST_PHOTO, CURRENT_USER } from "@/lib/mock-data";
+import { getDisplayName, pickGreeting } from "@/lib/greeting";
 import { MOCK_RELEASES } from "@/lib/mock-releases";
 import { ROLE_LABELS } from "@/lib/constants";
 import { Avatar } from "@/components/ui/Avatar";
@@ -176,6 +177,10 @@ const ROLLOUT_PROGRESS = Math.round((COMPLETED_MILESTONES / ELIJAH.milestones.le
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function ArtistPortalView() {
+  const displayName = getDisplayName(CURRENT_USER);
+  const [greeting, setGreeting] = useState(`Welcome back, ${displayName}`);
+  useEffect(() => { setGreeting(pickGreeting(displayName)); }, [displayName]);
+
   const [approvals, setApprovals] = useState(
     ARTIST_APPROVALS.map((a) => ({ ...a, actioned: false, result: null as null | "approved" | "changes" })),
   );
@@ -242,7 +247,7 @@ export function ArtistPortalView() {
             Lil Tony Official
           </p>
           <h1 className="text-[3rem] font-black text-white mt-3 tracking-tight leading-[1.06]">
-            Welcome back, Key.
+            {greeting}
           </h1>
           <p className="text-sm text-white/60 mt-3 font-medium">
             Monday, May 18 &nbsp;·&nbsp;{" "}

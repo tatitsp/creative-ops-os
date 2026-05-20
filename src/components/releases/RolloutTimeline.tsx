@@ -18,7 +18,7 @@ export function RolloutTimeline({ milestones, releaseDate }: RolloutTimelineProp
   return (
     <div className="space-y-6">
       {/* Days-to-release banner */}
-      <div className="flex items-center justify-between p-4 rounded-xl bg-ink text-white">
+      <div className="flex items-center justify-between p-4 rounded-xl bg-canvas-100 text-white">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
             <Flag className="w-5 h-5 text-gold" />
@@ -172,7 +172,7 @@ export function RolloutTimeline({ milestones, releaseDate }: RolloutTimelineProp
                     {milestone.label}
                   </p>
                   {milestone.isKeyDate && (
-                    <span className="text-2xs font-semibold px-1.5 py-0.5 rounded-full bg-ink text-white">
+                    <span className="text-2xs font-semibold px-1.5 py-0.5 rounded-full bg-canvas-200 text-ink">
                       Key date
                     </span>
                   )}

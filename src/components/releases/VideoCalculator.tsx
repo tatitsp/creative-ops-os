@@ -1,8 +1,30 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { cn, formatNumber } from "@/lib/utils";
-import { Film, AlertTriangle, CheckCircle2, ChevronDown, Info, Zap } from "lucide-react";
+import { Film, AlertTriangle, CheckCircle2, ChevronDown, Info, Zap, Layers, RefreshCw } from "lucide-react";
+import type { ContentDropType } from "@/lib/mock-releases";
+import { expandRowsToContentItems, savePipelineSlots, loadPipelineSlots } from "@/lib/pipeline-store";
+
+export interface GeneratedSlot {
+  id: string;
+  title: string;
+  type: ContentDropType;
+  priority: "CRITICAL" | "HIGH" | "IMPORTANT" | "OPTIONAL";
+  count: number;
+  platformsLabel: string;
+  tag: string;
+}
+
+function rowToDropType(type: string): ContentDropType {
+  if (type.includes("Music Video")) return "MUSIC_VIDEO";
+  if (type.includes("Vertical") || type.includes("short-form") || type.includes("clip")) return "REEL";
+  if (type.includes("Teaser") || type.includes("Trailer")) return "TEASER";
+  if (type.includes("Visualizer") || type.includes("Lyric")) return "SNIPPET";
+  if (type.includes("Release Day")) return "RELEASE_DAY";
+  if (type.includes("BTS") || type.includes("Studio Reel")) return "BTS";
+  return "STATIC";
+}
 
 type ReleaseFormat = "SINGLE" | "EP" | "ALBUM";
 
@@ -192,7 +214,19 @@ const PRIORITY_CONFIG = {
   },
 };
 
-export function VideoCalculator({ defaultTracks = 12 }: { defaultTracks?: number }) {
+export function VideoCalculator({
+  defaultTracks = 12,
+  releaseName = "Release",
+  campaignId = "unknown",
+  campaignName,
+  onGenerate,
+}: {
+  defaultTracks?: number;
+  releaseName?: string;
+  campaignId?: string;
+  campaignName?: string;
+  onGenerate?: (slots: GeneratedSlot[]) => void;
+}) {
   const [tracks, setTracks] = useState(defaultTracks);
   const [leadSingles, setLeadSingles] = useState(2);
   const [albumSingles, setAlbumSingles] = useState(2);
@@ -214,17 +248,72 @@ export function VideoCalculator({ defaultTracks = 12 }: { defaultTracks?: number
     [tracks, leadSingles, albumSingles, maxAlbumSingles, format, platforms],
   );
 
+  const [generated, setGenerated] = useState(false);
+  const [synced, setSynced] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+
+  // Check if slots already exist in the store (persisted from a previous sync)
+  useEffect(() => {
+    const stored = loadPipelineSlots();
+    if (stored.some((item) => item.campaignName === (campaignName ?? releaseName))) {
+      setSynced(true);
+    }
+  }, [campaignName, releaseName]);
+
+  // Auto-dismiss toast after 4 s
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 4000);
+    return () => clearTimeout(t);
+  }, [toast]);
+
   const criticalCount = result.rows
     .filter((r) => r.priority === "CRITICAL")
     .reduce((s, r) => s + r.count, 0);
+
+  function handleGenerate() {
+    const slots: GeneratedSlot[] = result.rows.map((row, i) => ({
+      id: `gen-${Date.now()}-${i}`,
+      title: row.type,
+      type: rowToDropType(row.type),
+      priority: row.priority,
+      count: row.count,
+      platformsLabel: row.platforms,
+      tag: `${releaseName} Content`,
+    }));
+    onGenerate?.(slots);
+    setGenerated(true);
+  }
+
+  function handleSync() {
+    const label = campaignName ?? releaseName;
+    const items = expandRowsToContentItems(
+      result.rows,
+      releaseName,
+      campaignId,
+      label,
+    );
+    // Merge with any existing stored slots from other campaigns
+    const existing = loadPipelineSlots().filter((i) => i.campaignName !== label);
+    savePipelineSlots([...existing, ...items]);
+    setSynced(true);
+    setToast(`${items.length} Production Slots Generated for ${releaseName} Rollout`);
+  }
 
   const togglePlatform = (p: string) =>
     setPlatforms((prev) => (prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]));
 
   return (
     <div className="space-y-6">
+      {/* Toast */}
+      {toast && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 rounded-2xl bg-canvas-50 border border-gold/40 shadow-xl animate-in slide-in-from-bottom-4 duration-300">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+          <p className="text-sm font-semibold text-ink">{toast}</p>
+        </div>
+      )}
       {/* Header */}
-      <div className="rounded-xl bg-ink text-white p-5 flex items-start justify-between gap-4">
+      <div className="rounded-xl bg-canvas-100 text-white p-5 flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
             <Film className="w-5 h-5 text-gold" />
@@ -241,9 +330,48 @@ export function VideoCalculator({ defaultTracks = 12 }: { defaultTracks?: number
             </p>
           </div>
         </div>
-        <div className="text-right">
-          <p className="text-3xl font-bold text-gold">{result.total}</p>
-          <p className="text-xs text-white/50 mt-0.5">total videos</p>
+        <div className="text-right flex flex-col items-end gap-3">
+          <div>
+            <p className="text-3xl font-bold text-gold">{result.total}</p>
+            <p className="text-xs text-white/50 mt-0.5">total videos</p>
+          </div>
+          <div className="flex flex-col gap-2 items-end">
+            {onGenerate && (
+              <button
+                onClick={handleGenerate}
+                disabled={generated}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all",
+                  generated
+                    ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 cursor-default"
+                    : "bg-gold text-black hover:bg-gold/90 active:scale-95",
+                )}
+              >
+                {generated ? (
+                  <><CheckCircle2 className="w-3.5 h-3.5" /> Slots Generated</>
+                ) : (
+                  <><Layers className="w-3.5 h-3.5" /> Generate Production Slots</>
+                )}
+              </button>
+            )}
+            {/* Sync to Pipeline — writes to ContentPipeline Kanban */}
+            <button
+              onClick={handleSync}
+              disabled={synced}
+              className={cn(
+                "flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold tracking-wide border transition-all",
+                synced
+                  ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30 cursor-default"
+                  : "bg-white/10 text-white border-white/20 hover:bg-white/20 active:scale-95",
+              )}
+            >
+              {synced ? (
+                <><CheckCircle2 className="w-3.5 h-3.5" /> Synced to Pipeline</>
+              ) : (
+                <><RefreshCw className="w-3.5 h-3.5" /> Sync to Pipeline</>
+              )}
+            </button>
+          </div>
         </div>
       </div>
 

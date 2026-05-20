@@ -12,6 +12,9 @@ const config = {
   secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
   // Required when running on a non-standard port (e.g. 3003)
   trustHost: true,
+  pages: {
+    signIn: "/api/auth/signin",
+  },
 };
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config);

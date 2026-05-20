@@ -32,7 +32,7 @@ const ONBOARDING_TRACKS = [
       {
         id: "workflow",
         title: "Platform walkthrough",
-        desc: "Learn how Creative Ops OS is structured and how to navigate.",
+        desc: "Learn how SCOPE is structured and how to navigate.",
         icon: Monitor,
         done: true,
       },

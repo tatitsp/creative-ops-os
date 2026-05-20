@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { Search, Plus } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -13,14 +12,7 @@ interface TopBarProps {
 }
 
 export function TopBar({ title, subtitle, actions }: TopBarProps) {
-  const { data: session, status } = useSession();
-
-  // Redirect to Google sign-in if unauthenticated
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      signIn("google");
-    }
-  }, [status]);
+  const { data: session } = useSession();
 
   return (
     <header className="h-14 border-b border-border bg-canvas-50/80 backdrop-blur-sm sticky top-0 z-20 px-6 flex items-center gap-4">
@@ -45,8 +37,8 @@ export function TopBar({ title, subtitle, actions }: TopBarProps) {
       {/* Notifications */}
       <NotificationBell />
 
-      {/* Session user avatar */}
-      {session?.user && (
+      {/* Session: avatar if signed in, Sign In button if not */}
+      {session?.user ? (
         <div className="flex items-center gap-2 flex-shrink-0">
           {session.user.image ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -61,6 +53,13 @@ export function TopBar({ title, subtitle, actions }: TopBarProps) {
             </div>
           )}
         </div>
+      ) : (
+        <button
+          onClick={() => signIn("google")}
+          className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-white text-black text-xs font-bold tracking-wide uppercase hover:bg-white/90 active:scale-95 transition-all shadow-sm flex-shrink-0"
+        >
+          Sign In
+        </button>
       )}
 
       {/* Custom actions or default new button */}

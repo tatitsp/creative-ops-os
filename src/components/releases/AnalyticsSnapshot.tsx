@@ -30,7 +30,7 @@ export function AnalyticsSnapshot({
     return (
       <div className="space-y-6">
         {/* Pre-release: show forecasts and early indicators */}
-        <div className="rounded-xl bg-ink text-white p-6">
+        <div className="rounded-xl bg-canvas-100 text-white p-6">
           <p className="text-xs text-white/50 uppercase tracking-wider font-medium mb-1">
             Pre-Release Indicators
           </p>

@@ -11,6 +11,8 @@ import {
   type AppNotification,
   type NotificationType,
 } from "@/lib/mock-notifications";
+import { CURRENT_USER } from "@/lib/mock-data";
+import { getDisplayName } from "@/lib/greeting";
 
 // ─── Type icon map ─────────────────────────────────────────────────────────────
 
@@ -98,17 +100,22 @@ export function NotificationBell() {
           className="absolute top-full right-0 mt-2 w-[360px] bg-canvas-50 border border-border rounded-2xl shadow-xl overflow-hidden z-50"
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-            <p className="text-sm font-bold text-ink">Notifications</p>
-            {unreadCount > 0 && (
-              <button
-                onClick={markAllRead}
-                className="flex items-center gap-1 text-2xs font-semibold text-gold hover:text-gold/80 transition-colors"
-              >
-                <Check className="w-3 h-3" />
-                Mark all read
-              </button>
-            )}
+          <div className="px-4 pt-3 pb-2.5 border-b border-border">
+            <p className="text-2xs text-ink-tertiary font-medium">
+              Hey, {getDisplayName(CURRENT_USER)}
+            </p>
+            <div className="flex items-center justify-between mt-0.5">
+              <p className="text-sm font-bold text-ink">Notifications</p>
+              {unreadCount > 0 && (
+                <button
+                  onClick={markAllRead}
+                  className="flex items-center gap-1 text-2xs font-semibold text-gold hover:text-gold/80 transition-colors"
+                >
+                  <Check className="w-3 h-3" />
+                  Mark all read
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Notification list */}

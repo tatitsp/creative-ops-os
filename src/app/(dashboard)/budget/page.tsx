@@ -23,7 +23,7 @@ export default function BudgetPage() {
     <>
       <TopBar
         title="Budget"
-        subtitle="Private financial overview — Artist/CEO and Creative Ops Director only"
+        subtitle="Private financial overview — Artist/CEO and Creative Director only"
       />
       <BudgetOverview />
     </>

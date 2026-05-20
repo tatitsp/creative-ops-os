@@ -1,11 +1,13 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/Avatar";
 import { CONTENT_PHASES, PLATFORM_CONFIG } from "@/lib/constants";
 import type { ContentItem, ContentPhase } from "@/types";
 import { Film, Camera, Layers, Image as ImageIcon, Mic, FileText } from "lucide-react";
 import Link from "next/link";
+import { loadPipelineSlots } from "@/lib/pipeline-store";
 
 const CONTENT_TYPE_ICONS: Record<string, React.ReactNode> = {
   VIDEO: <Film className="w-3.5 h-3.5" />,
@@ -33,12 +35,24 @@ interface ContentPipelineProps {
 }
 
 export function ContentPipeline({ items }: ContentPipelineProps) {
+  const [storedSlots, setStoredSlots] = useState<ContentItem[]>([]);
+
+  useEffect(() => {
+    setStoredSlots(loadPipelineSlots());
+  }, []);
+
+  // Merge stored slots with prop items; stored slots go first in their column
+  const allItems = [
+    ...storedSlots.filter((s) => !items.some((i) => i.id === s.id)),
+    ...items,
+  ];
+
   return (
     <div className="overflow-x-auto">
       <div className="flex gap-3 pb-2 min-w-max">
         {PIPELINE_PHASES.map((phase) => {
           const phaseCfg = CONTENT_PHASES.find((p) => p.phase === phase)!;
-          const phaseItems = items.filter((i) => i.phase === phase);
+          const phaseItems = allItems.filter((i) => i.phase === phase);
 
           return (
             <div key={phase} className="w-48 flex-shrink-0">

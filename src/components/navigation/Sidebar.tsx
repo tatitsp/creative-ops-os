@@ -17,7 +17,6 @@ import {
   MessageSquare,
   Settings,
   UserCheck,
-  Zap,
   ChevronRight,
   Rocket,
   CheckSquare,
@@ -76,12 +75,12 @@ export function Sidebar() {
       {/* Logo / Workspace */}
       <div className="px-4 pt-5 pb-4 border-b border-[#1A1A1A]">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-gold flex items-center justify-center shadow-glow">
-            <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
+          <div className="w-8 h-8 rounded-lg bg-gold flex items-center justify-center shadow-glow flex-shrink-0">
+            <span className="text-xs font-black text-white tracking-tight">SC</span>
           </div>
           <div>
-            <p className="text-sm font-bold text-white leading-none">Creative Ops</p>
-            <p className="text-2xs text-[#444444] mt-0.5">Studio OS</p>
+            <p className="text-sm font-bold text-white leading-none">SCOPE</p>
+            <p className="text-2xs text-[#444444] mt-0.5">by The Sighte Project</p>
           </div>
         </div>
       </div>

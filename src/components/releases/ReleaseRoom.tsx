@@ -10,7 +10,7 @@ import { AssetTracker } from "./AssetTracker";
 import { ApprovalChain } from "./ApprovalChain";
 import { PlatformChecklist } from "./PlatformChecklist";
 import { AnalyticsSnapshot } from "./AnalyticsSnapshot";
-import { VideoCalculator } from "./VideoCalculator";
+import { VideoCalculator, type GeneratedSlot } from "./VideoCalculator";
 import { ReleaseBudget } from "./ReleaseBudget";
 import { CURRENT_USER } from "@/lib/mock-data";
 import {
@@ -61,6 +61,12 @@ interface ReleaseRoomProps {
 
 export function ReleaseRoom({ release }: ReleaseRoomProps) {
   const [activeTab, setActiveTab] = useState<Tab>("timeline");
+  const [generatedSlots, setGeneratedSlots] = useState<GeneratedSlot[]>([]);
+
+  function handleGenerate(slots: GeneratedSlot[]) {
+    setGeneratedSlots(slots);
+    setActiveTab("content");
+  }
 
   const typeCfg = RELEASE_TYPE_CONFIG[release.type];
   const statusCfg = RELEASE_STATUS_CONFIG[release.status];
@@ -208,7 +214,9 @@ export function ReleaseRoom({ release }: ReleaseRoomProps) {
             releaseDate={release.releaseDate}
           />
         )}
-        {activeTab === "content" && <ContentSchedule drops={release.contentDrops} />}
+        {activeTab === "content" && (
+          <ContentSchedule drops={release.contentDrops} generatedSlots={generatedSlots} />
+        )}
         {activeTab === "assets" && <AssetTracker assets={release.assets} />}
         {activeTab === "approvals" && <ApprovalChain approvals={release.approvals} />}
         {activeTab === "publishing" && (
@@ -223,7 +231,13 @@ export function ReleaseRoom({ release }: ReleaseRoomProps) {
           />
         )}
         {activeTab === "calculator" && (
-          <VideoCalculator defaultTracks={release.trackCount} />
+          <VideoCalculator
+            defaultTracks={release.trackCount}
+            releaseName={release.title}
+            campaignId={release.id}
+            campaignName={release.title}
+            onGenerate={handleGenerate}
+          />
         )}
         {activeTab === "budget" && (
           <ReleaseBudget releaseId={release.id} />
