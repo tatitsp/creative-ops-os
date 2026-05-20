@@ -31,6 +31,7 @@ export const CAAM1K_RELEASES = [
     type: "Single",
     status: "POSTED" as const,
     releaseDate: "2025-11-08",
+    coverImage: null,
     tracklist: ["God's Soldier"],
   },
 ];
@@ -80,6 +81,84 @@ export const CAAM1K_CAMPAIGNS = [
   },
 ];
 
+export const CAAM1K_TASKS = [
+  {
+    id: "ct1",
+    title: "Edit 'Psalms 7' visualizer (YouTube cut)",
+    status: "IN_PROGRESS" as const,
+    priority: "HIGH" as const,
+    assignee: "Darius",
+    dueDate: "2026-05-28",
+    campaignName: "Eastside Evangelist — Album Push",
+  },
+  {
+    id: "ct2",
+    title: "Design Eastside Evangelist merch mockups",
+    status: "IN_REVIEW" as const,
+    priority: "HIGH" as const,
+    assignee: "Amara",
+    dueDate: "2026-05-25",
+    campaignName: "Eastside Evangelist — Album Push",
+  },
+  {
+    id: "ct3",
+    title: "Submit 'Psalms 7' to 5 Spotify editorial playlists",
+    status: "DONE" as const,
+    priority: "URGENT" as const,
+    assignee: "Tati",
+    dueDate: "2026-05-20",
+    campaignName: "Psalms 7 — Playlist Pitching",
+  },
+  {
+    id: "ct4",
+    title: "40 Days — TikTok lyric reel (30s cut)",
+    status: "TODO" as const,
+    priority: "MEDIUM" as const,
+    assignee: "Darius",
+    dueDate: "2026-06-02",
+    campaignName: "Eastside Evangelist — Album Push",
+  },
+  {
+    id: "ct5",
+    title: "Write summer single treatment doc",
+    status: "TODO" as const,
+    priority: "MEDIUM" as const,
+    assignee: "Tati",
+    dueDate: "2026-06-10",
+    campaignName: "Summer Single — Pre-Production",
+  },
+];
+
+export const CAAM1K_APPROVALS = [
+  {
+    id: "ca1",
+    title: "Eastside Evangelist merch mockups — v1",
+    type: "content" as const,
+    status: "PENDING" as const,
+    requestedBy: "Amara",
+    requestedAt: "2026-05-22T10:00:00Z",
+    priority: "HIGH" as const,
+  },
+  {
+    id: "ca2",
+    title: "Psalms 7 visualizer — final cut",
+    type: "content" as const,
+    status: "PENDING" as const,
+    requestedBy: "Darius",
+    requestedAt: "2026-05-21T14:30:00Z",
+    priority: "HIGH" as const,
+  },
+  {
+    id: "ca3",
+    title: "Social copy — Psalms 7 week 4 push",
+    type: "task" as const,
+    status: "REVISION_REQUESTED" as const,
+    requestedBy: "Tati",
+    requestedAt: "2026-05-20T09:00:00Z",
+    priority: "MEDIUM" as const,
+  },
+];
+
 export const CAAM1K_ANALYTICS = [
   {
     platform: "instagram",
@@ -88,6 +167,8 @@ export const CAAM1K_ANALYTICS = [
     impressions: 98000,
     engagement: 5200,
     engagementRate: 6.1,
+    shares: 1800,
+    saves: 2400,
   },
   {
     platform: "tiktok",
@@ -96,6 +177,8 @@ export const CAAM1K_ANALYTICS = [
     impressions: 210000,
     engagement: 14000,
     engagementRate: 7.8,
+    shares: 4200,
+    saves: 6100,
   },
   {
     platform: "spotify",
@@ -104,7 +187,28 @@ export const CAAM1K_ANALYTICS = [
     impressions: 55787,
     engagement: 3200,
     engagementRate: 19.4,
+    shares: 900,
+    saves: 8200,
   },
+  {
+    platform: "youtube",
+    followers: 2100,
+    followersGrowth: 3.1,
+    impressions: 44000,
+    engagement: 2600,
+    engagementRate: 5.9,
+    shares: 480,
+    saves: 720,
+  },
+];
+
+export const CAAM1K_MONTHLY_ENGAGEMENT = [
+  { month: "Dec", instagram: 2800,  tiktok: 4200,  youtube: 800 },
+  { month: "Jan", instagram: 3200,  tiktok: 5800,  youtube: 1000 },
+  { month: "Feb", instagram: 3800,  tiktok: 7400,  youtube: 1400 },
+  { month: "Mar", instagram: 4200,  tiktok: 9800,  youtube: 1800 },
+  { month: "Apr", instagram: 4800,  tiktok: 12000, youtube: 2200 },
+  { month: "May", instagram: 5200,  tiktok: 14000, youtube: 2600 },
 ];
 
 export const CAAM1K_TEAM = [
@@ -134,6 +238,75 @@ export const CAAM1K_TEAM = [
     image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=96&h=96&fit=crop",
     role: "Graphic Designer",
     status: "ACTIVE" as const,
+  },
+];
+
+export const CAAM1K_ASSETS = [
+  {
+    id: "ca1",
+    name: "EastsideEvangelist_cover_final.jpg",
+    fileType: "image" as const,
+    size: 4100000,
+    thumbnailUrl: CAAM1K_COVER,
+    tags: ["cover art", "Eastside Evangelist", "album"],
+    uploader: "Amara",
+    createdAt: "2026-03-10T10:00:00Z",
+    folder: "Album Artwork",
+  },
+  {
+    id: "ca2",
+    name: "Caam1k_artist_photo_press.jpg",
+    fileType: "image" as const,
+    size: 5800000,
+    thumbnailUrl: CAAM1K_PHOTO,
+    tags: ["artist photo", "press kit", "promo"],
+    uploader: "Darius",
+    createdAt: "2026-03-05T14:00:00Z",
+    folder: "Photos",
+  },
+  {
+    id: "ca3",
+    name: "Psalms7_visualizer_v1.mp4",
+    fileType: "video" as const,
+    size: 148000000,
+    thumbnailUrl: null,
+    tags: ["visualizer", "Psalms 7", "video"],
+    uploader: "Darius",
+    createdAt: "2026-05-18T11:00:00Z",
+    folder: "Video Assets",
+  },
+  {
+    id: "ca4",
+    name: "EastsideEvangelist_master_final.wav",
+    fileType: "audio" as const,
+    size: 88000000,
+    thumbnailUrl: null,
+    tags: ["audio", "master", "album"],
+    uploader: "Caam1k",
+    createdAt: "2026-03-01T09:00:00Z",
+    folder: "Audio",
+  },
+  {
+    id: "ca5",
+    name: "caam1k_press_kit_bio.docx",
+    fileType: "document" as const,
+    size: 48000,
+    thumbnailUrl: null,
+    tags: ["press kit", "bio", "Fort Worth"],
+    uploader: "Tati",
+    createdAt: "2026-04-15T16:00:00Z",
+    folder: "Press",
+  },
+  {
+    id: "ca6",
+    name: "social_templates_caam1k_2026.psd",
+    fileType: "design" as const,
+    size: 18000000,
+    thumbnailUrl: null,
+    tags: ["template", "instagram", "design"],
+    uploader: "Amara",
+    createdAt: "2026-04-20T13:00:00Z",
+    folder: "Templates",
   },
 ];
 
@@ -177,5 +350,40 @@ export const CAAM1K_CONTENT = [
     phase: "PRODUCTION",
     platforms: ["youtube", "instagram"],
     scheduledAt: "2026-06-15T10:00:00Z",
+  },
+];
+
+export const CAAM1K_CHANNELS = [
+  { id: "ch1", name: "general",                  type: "text",         unread: 0, pinned: true },
+  { id: "ch2", name: "announcements",             type: "announcement", unread: 1, pinned: true },
+  { id: "ch3", name: "eastside-evangelist",       type: "text",         unread: 2, pinned: false },
+  { id: "ch4", name: "psalms7-push",              type: "text",         unread: 0, pinned: false },
+  { id: "ch5", name: "social-scheduling",         type: "text",         unread: 0, pinned: false },
+];
+
+export const CAAM1K_MESSAGES = [
+  {
+    id: "m1",
+    author: { name: "Tatiyana", image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=96&h=96&fit=crop", status: "ACTIVE" as const },
+    content: "Psalms 7 visualizer is looking really strong. Darius, can you get the final cut into the approval queue today?",
+    timestamp: "2026-05-21T10:28:00Z",
+  },
+  {
+    id: "m2",
+    author: { name: "Darius King", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=96&h=96&fit=crop", status: "BUSY" as const },
+    content: "Submitted! Also color graded the 30s TikTok cut — dropping it in assets now.",
+    timestamp: "2026-05-21T10:45:00Z",
+  },
+  {
+    id: "m3",
+    author: { name: "Tatiyana", image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=96&h=96&fit=crop", status: "ACTIVE" as const },
+    content: "Perfect. Amara — once the merch mockups are finalized, drop them in the queue too. Caam1k wants to review by Friday.",
+    timestamp: "2026-05-21T11:00:00Z",
+  },
+  {
+    id: "m4",
+    author: { name: "Amara Osei", image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=96&h=96&fit=crop", status: "ACTIVE" as const },
+    content: "On it. Two colorways ready — doing final adjustments and will submit before EOD.",
+    timestamp: "2026-05-21T11:20:00Z",
   },
 ];
