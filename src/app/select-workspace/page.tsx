@@ -10,30 +10,27 @@ export default function SelectWorkspacePage() {
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center px-6"
+      className="min-h-screen flex flex-col items-center justify-center px-6 py-16"
       style={{ background: "#000000" }}
     >
       {/* Header */}
-      <div className="text-center mb-12">
-        <div className="flex items-center justify-center gap-2 mb-6">
-          <div
-            className="w-6 h-6 rounded-md flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg, #C8923A 0%, #A07228 100%)" }}
-          >
-            <span className="text-[0.5rem] font-black text-white tracking-tight">SC</span>
-          </div>
-          <span className="text-xs font-semibold text-white/40 tracking-widest uppercase">SCOPE</span>
-        </div>
+      <div className="text-center mb-10">
+        <p
+          className="text-[0.65rem] font-semibold tracking-[0.3em] uppercase mb-4"
+          style={{ color: "rgba(200,146,58,0.7)" }}
+        >
+          Royal Priesthood · SCOPE
+        </p>
         <h1 className="text-2xl font-black text-white tracking-tight mb-2">
           Welcome back, {firstName}.
         </h1>
-        <p className="text-sm" style={{ color: "rgba(255,255,255,0.35)" }}>
-          Select an artist workspace to enter.
+        <p className="text-sm" style={{ color: "rgba(255,255,255,0.3)" }}>
+          Choose a workspace to continue.
         </p>
       </div>
 
-      {/* Workspace cards */}
-      <div className="flex flex-col sm:flex-row gap-4 w-full max-w-2xl">
+      {/* Cards — equal width, side by side */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full max-w-xl">
         {WORKSPACES.map((ws) => (
           <WorkspaceCard key={ws.slug} workspace={ws} />
         ))}
@@ -41,10 +38,10 @@ export default function SelectWorkspacePage() {
 
       {/* Footer */}
       <p
-        className="absolute bottom-8 text-[0.6rem] tracking-[0.2em] uppercase"
-        style={{ color: "rgba(255,255,255,0.12)" }}
+        className="mt-14 text-[0.6rem] tracking-[0.2em] uppercase"
+        style={{ color: "rgba(255,255,255,0.1)" }}
       >
-        Royal Priesthood · SCOPE
+        by The Sighte Project
       </p>
     </div>
   );

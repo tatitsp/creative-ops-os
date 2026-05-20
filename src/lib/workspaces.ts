@@ -8,7 +8,9 @@ export type Workspace = {
   artistName: string;
   artistHandle: string;
   photo: string;
+  location: string;
   activeRelease: string;
+  releaseType: string;
   releaseStatus: WorkspaceStatus;
   href: string;
   monthlyListeners: string;
@@ -21,7 +23,9 @@ export const WORKSPACES: Workspace[] = [
     artistName: "Lil Tony Official",
     artistHandle: "@liltonyny",
     photo: ARTIST_PHOTO,
-    activeRelease: "Elijah — Album Rollout",
+    location: "Atlanta, GA",
+    activeRelease: "Elijah",
+    releaseType: "Album",
     releaseStatus: "ACTIVE",
     href: "/dashboard",
     monthlyListeners: "1.27M",
@@ -32,7 +36,9 @@ export const WORKSPACES: Workspace[] = [
     artistName: "Caam1k",
     artistHandle: "@caam1k",
     photo: CAAM1K_PHOTO,
+    location: "Fort Worth, TX",
     activeRelease: "Eastside Evangelist",
+    releaseType: "Album",
     releaseStatus: "ACTIVE",
     href: "/artists/caam1k/dashboard",
     monthlyListeners: "55.7K",
