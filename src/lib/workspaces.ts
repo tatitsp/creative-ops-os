@@ -1,4 +1,5 @@
 import { ARTIST_PHOTO } from "./mock-data";
+import { CAAM1K_PHOTO } from "./mock-artist2";
 
 export type WorkspaceStatus = "ACTIVE" | "PLANNING" | "COMPLETE";
 
@@ -27,14 +28,14 @@ export const WORKSPACES: Workspace[] = [
     genre: "Hip-Hop / Gospel Rap",
   },
   {
-    slug: "miriam",
-    artistName: "Miriam",
-    artistHandle: "@miriammusic",
-    photo: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop&crop=face",
-    activeRelease: "Still Waters — EP",
-    releaseStatus: "PLANNING",
-    href: "/artists/miriam/dashboard",
-    monthlyListeners: "84K",
-    genre: "Gospel / R&B",
+    slug: "caam1k",
+    artistName: "Caam1k",
+    artistHandle: "@caam1k",
+    photo: CAAM1K_PHOTO,
+    activeRelease: "Eastside Evangelist",
+    releaseStatus: "ACTIVE",
+    href: "/artists/caam1k/dashboard",
+    monthlyListeners: "55.7K",
+    genre: "Trap Gospel / Christian Hip-Hop",
   },
 ];

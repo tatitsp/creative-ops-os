@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TopBar } from "@/components/navigation/TopBar";
 import { WORKSPACES } from "@/lib/workspaces";
-import { MIRIAM_CONTENT } from "@/lib/mock-artist2";
+import { CAAM1K_CONTENT } from "@/lib/mock-artist2";
 import { Film, CalendarDays } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -15,24 +15,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  return WORKSPACES.map((w) => ({ slug: w.slug }));
+  return WORKSPACES.filter((w) => w.slug !== "lil-tony").map((w) => ({ slug: w.slug }));
 }
 
 const PHASE_STYLES: Record<string, string> = {
-  PLANNING: "bg-canvas-100 text-ink-tertiary",
-  DRAFT: "bg-canvas-200 text-ink-secondary",
+  PLANNING:   "bg-canvas-100 text-ink-tertiary",
+  DRAFT:      "bg-canvas-200 text-ink-secondary",
   PRODUCTION: "bg-gold-50 text-gold",
-  REVIEW: "bg-amber-50 text-amber-600",
-  APPROVED: "bg-emerald-50 text-emerald-600",
-  POSTED: "bg-canvas-100 text-ink-tertiary",
+  EDITING:    "bg-amber-50 text-amber-600",
+  REVIEW:     "bg-amber-50 text-amber-600",
+  APPROVED:   "bg-emerald-50 text-emerald-600",
+  POSTED:     "bg-canvas-100 text-ink-secondary",
 };
 
 const TYPE_LABELS: Record<string, string> = {
-  REEL: "Reel",
-  STORY: "Story",
+  REEL:     "Reel",
+  STORY:    "Story",
   CAROUSEL: "Carousel",
-  PHOTO: "Photo",
-  VIDEO: "Video",
+  PHOTO:    "Photo",
+  VIDEO:    "Video",
 };
 
 export default async function ArtistContentPage({ params }: Props) {
@@ -47,11 +48,11 @@ export default async function ArtistContentPage({ params }: Props) {
       <div className="p-6 animate-in max-w-4xl">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-subheading">Content Pipeline</h2>
-          <span className="text-xs text-ink-tertiary">{MIRIAM_CONTENT.length} items</span>
+          <span className="text-xs text-ink-tertiary">{CAAM1K_CONTENT.length} items</span>
         </div>
 
         <div className="space-y-2">
-          {MIRIAM_CONTENT.map((item) => (
+          {CAAM1K_CONTENT.map((item) => (
             <div key={item.id} className="card p-4 flex items-center gap-4">
               <div className="w-9 h-9 rounded-lg bg-canvas-100 flex items-center justify-center flex-shrink-0">
                 <Film className="w-4 h-4 text-ink-tertiary" />
@@ -90,13 +91,6 @@ export default async function ArtistContentPage({ params }: Props) {
             </div>
           ))}
         </div>
-
-        {MIRIAM_CONTENT.length === 0 && (
-          <div className="text-center py-16 text-ink-tertiary">
-            <Film className="w-8 h-8 mx-auto mb-3 opacity-30" />
-            <p className="text-sm">No content items yet.</p>
-          </div>
-        )}
       </div>
     </>
   );

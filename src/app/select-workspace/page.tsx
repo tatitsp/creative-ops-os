@@ -11,7 +11,7 @@ export default function SelectWorkspacePage() {
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center px-6"
-      style={{ background: "#050505" }}
+      style={{ background: "#000000" }}
     >
       {/* Header */}
       <div className="text-center mb-12">

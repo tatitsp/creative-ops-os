@@ -1,138 +1,181 @@
-// Mock data for Miriam — second artist workspace (lighter dataset)
+// Mock data for Caam1k — second artist workspace
 
-export const MIRIAM_PHOTO =
-  "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop&crop=face";
+export const CAAM1K_PHOTO =
+  "https://i.scdn.co/image/ab6761610000e5ebe0b7e8617073ecad7baaee17";
 
-export const MIRIAM_RELEASES = [
+export const CAAM1K_COVER =
+  "https://i.scdn.co/image/ab67616d00004851e7afc98daff07952a21999a5";
+
+export const CAAM1K_RELEASES = [
   {
-    id: "m-r1",
-    title: "Still Waters",
-    type: "EP",
-    status: "PLANNING" as const,
-    releaseDate: "2026-08-01",
+    id: "c-r1",
+    title: "Eastside Evangelist",
+    type: "Album",
+    status: "ACTIVE" as const,
+    releaseDate: "2026-03-14",
+    coverImage: CAAM1K_COVER,
     tracklist: [
-      "Still Waters (Intro)",
-      "Overflow",
-      "He Restores",
-      "Valleys",
-      "Peace That Passes",
+      "Intro (Fort Worth)",
+      "Psalms 7",
+      "40 Days & 40 Nights",
+      "God's Soldier",
+      "Eastside Evangelist",
+      "No Weapon",
+      "Through the Fire",
+      "Still Standing",
     ],
-    coverColor: "#1E3A5F",
   },
   {
-    id: "m-r2",
-    title: "Overflow",
+    id: "c-r2",
+    title: "God's Soldier",
     type: "Single",
-    status: "PRODUCTION" as const,
-    releaseDate: "2026-06-15",
-    tracklist: ["Overflow"],
-    coverColor: "#2D4A3E",
+    status: "POSTED" as const,
+    releaseDate: "2025-11-08",
+    tracklist: ["God's Soldier"],
   },
 ];
 
-export const MIRIAM_CAMPAIGNS = [
+export const CAAM1K_TOP_TRACKS = [
+  { title: "Psalms 7", streams: "567K" },
+  { title: "40 Days & 40 Nights", streams: "477K" },
+  { title: "God's Soldier", streams: "443K" },
+];
+
+export const CAAM1K_CAMPAIGNS = [
   {
-    id: "mc1",
-    name: "Still Waters — EP Pre-Save Push",
-    status: "PLANNING" as const,
-    phase: "PLANNING" as const,
-    progress: 22,
-    taskCount: 12,
-    completedTasks: 3,
-    startDate: "2026-06-01",
-    endDate: "2026-08-15",
-    platforms: ["instagram", "spotify", "youtube"],
+    id: "cc1",
+    name: "Eastside Evangelist — Album Push",
+    status: "ACTIVE" as const,
+    phase: "ANALYTICS" as const,
+    progress: 68,
+    taskCount: 16,
+    completedTasks: 11,
+    startDate: "2026-03-14",
+    endDate: "2026-06-30",
+    platforms: ["instagram", "tiktok", "spotify", "youtube"],
   },
   {
-    id: "mc2",
-    name: "Overflow — Single Launch",
+    id: "cc2",
+    name: "Psalms 7 — Playlist Pitching",
     status: "ACTIVE" as const,
-    phase: "PRODUCTION" as const,
-    progress: 55,
+    phase: "POSTED" as const,
+    progress: 85,
     taskCount: 8,
-    completedTasks: 4,
-    startDate: "2026-05-15",
-    endDate: "2026-06-20",
+    completedTasks: 7,
+    startDate: "2026-04-01",
+    endDate: "2026-05-31",
+    platforms: ["spotify"],
+  },
+  {
+    id: "cc3",
+    name: "Summer Single — Pre-Production",
+    status: "PLANNING" as const,
+    phase: "PLANNING" as const,
+    progress: 12,
+    taskCount: 10,
+    completedTasks: 1,
+    startDate: "2026-06-01",
+    endDate: "2026-08-01",
     platforms: ["instagram", "tiktok", "spotify"],
   },
 ];
 
-export const MIRIAM_ANALYTICS = [
+export const CAAM1K_ANALYTICS = [
   {
     platform: "instagram",
-    followers: 18400,
-    followersGrowth: 5.2,
-    impressions: 142000,
-    engagement: 7100,
-    engagementRate: 5.8,
+    followers: 12400,
+    followersGrowth: 4.3,
+    impressions: 98000,
+    engagement: 5200,
+    engagementRate: 6.1,
   },
   {
     platform: "tiktok",
-    followers: 31200,
-    followersGrowth: 11.4,
-    impressions: 480000,
-    engagement: 27000,
-    engagementRate: 7.1,
+    followers: 8900,
+    followersGrowth: 9.7,
+    impressions: 210000,
+    engagement: 14000,
+    engagementRate: 7.8,
   },
   {
     platform: "spotify",
-    followers: 4800,
-    followersGrowth: 8.9,
-    impressions: 84000,
-    engagement: 4800,
-    engagementRate: 22.4,
+    followers: 3200,
+    followersGrowth: 6.2,
+    impressions: 55787,
+    engagement: 3200,
+    engagementRate: 19.4,
   },
 ];
 
-export const MIRIAM_TEAM = [
+export const CAAM1K_TEAM = [
   {
-    id: "mt1",
+    id: "ct1",
     name: "Tatiyana",
     displayName: "Tati",
     email: "whoistati@thesighteproject.com",
     image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=96&h=96&fit=crop",
     role: "Creative Director",
+    status: "ACTIVE" as const,
   },
   {
-    id: "mt2",
+    id: "ct2",
+    name: "Darius King",
+    displayName: "Darius",
+    email: "darius@liltonystudio.io",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=96&h=96&fit=crop",
+    role: "Editor",
+    status: "BUSY" as const,
+  },
+  {
+    id: "ct3",
     name: "Amara Osei",
     displayName: "Amara",
     email: "amara@liltonystudio.io",
     image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=96&h=96&fit=crop",
     role: "Graphic Designer",
-  },
-  {
-    id: "mt3",
-    name: "Kaito Mori",
-    displayName: "Kaito",
-    email: "kaito@liltonystudio.io",
-    role: "Photographer / Videographer",
+    status: "ACTIVE" as const,
   },
 ];
 
-export const MIRIAM_CONTENT = [
+export const CAAM1K_CONTENT = [
   {
-    id: "mc-ci1",
-    title: "Overflow — Lyric reel (hook section)",
+    id: "cc-ci1",
+    title: "Psalms 7 — Hook reel (Instagram/TikTok)",
     type: "REEL",
-    phase: "PLANNING",
+    phase: "POSTED",
     platforms: ["instagram", "tiktok"],
-    scheduledAt: "2026-06-10T14:00:00Z",
+    scheduledAt: "2026-05-10T14:00:00Z",
   },
   {
-    id: "mc-ci2",
-    title: "Still Waters — Artist intro story series",
-    type: "STORY",
-    phase: "DRAFT",
+    id: "cc-ci2",
+    title: "Eastside Evangelist — Album trailer (YouTube)",
+    type: "VIDEO",
+    phase: "POSTED",
+    platforms: ["youtube"],
+    scheduledAt: "2026-03-12T16:00:00Z",
+  },
+  {
+    id: "cc-ci3",
+    title: "40 Days & 40 Nights — Lyric video snippet",
+    type: "REEL",
+    phase: "EDITING",
+    platforms: ["instagram", "tiktok"],
+    scheduledAt: "2026-05-28T12:00:00Z",
+  },
+  {
+    id: "cc-ci4",
+    title: "God's Soldier — Testimony carousel",
+    type: "CAROUSEL",
+    phase: "REVIEW",
     platforms: ["instagram"],
     scheduledAt: "2026-06-05T18:00:00Z",
   },
   {
-    id: "mc-ci3",
-    title: "He Restores — Devotional carousel",
-    type: "CAROUSEL",
-    phase: "PLANNING",
-    platforms: ["instagram"],
-    scheduledAt: "2026-06-20T12:00:00Z",
+    id: "cc-ci5",
+    title: "Fort Worth origin story — BTS doc clip",
+    type: "VIDEO",
+    phase: "PRODUCTION",
+    platforms: ["youtube", "instagram"],
+    scheduledAt: "2026-06-15T10:00:00Z",
   },
 ];
