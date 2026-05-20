@@ -19,7 +19,7 @@ export default function SelectWorkspacePage() {
           className="text-[0.65rem] font-semibold tracking-[0.3em] uppercase mb-4"
           style={{ color: "rgba(200,146,58,0.7)" }}
         >
-          Royal Priesthood · SCOPE
+          Royal Priesthood
         </p>
         <h1 className="text-2xl font-black text-white tracking-tight mb-2">
           Welcome back, {firstName}.
@@ -41,7 +41,7 @@ export default function SelectWorkspacePage() {
         className="mt-14 text-[0.6rem] tracking-[0.2em] uppercase"
         style={{ color: "rgba(255,255,255,0.1)" }}
       >
-        by The Sighte Project
+        SCOPE · Built by The Sighte Project
       </p>
     </div>
   );
