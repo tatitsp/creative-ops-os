@@ -4,7 +4,7 @@ export const CAAM1K_PHOTO =
   "https://i.scdn.co/image/ab6761610000e5ebe0b7e8617073ecad7baaee17";
 
 export const CAAM1K_COVER =
-  "https://i.scdn.co/image/ab67616d00004851e7afc98daff07952a21999a5";
+  "https://i.scdn.co/image/ab67616d0000b27371c4e3aa789a84459742eb9b";
 
 export const CAAM1K_RELEASES = [
   {
@@ -12,17 +12,25 @@ export const CAAM1K_RELEASES = [
     title: "Eastside Evangelist",
     type: "Album",
     status: "ACTIVE" as const,
-    releaseDate: "2026-03-14",
+    releaseDate: "2026-04-10",
+    label: "Son Of Yahweh Entertainment",
     coverImage: CAAM1K_COVER,
     tracklist: [
-      "Intro (Fort Worth)",
-      "Psalms 7",
-      "40 Days & 40 Nights",
-      "God's Soldier",
-      "Eastside Evangelist",
-      "No Weapon",
-      "Through the Fire",
-      "Still Standing",
+      "Eastside Story (Intro)",
+      "Discernment",
+      "False Prophets",
+      "Everywhere I Go",
+      "Free Game",
+      "Don't Panic",
+      "Heaven's Interlude",
+      "Pray For Me",
+      "Yahweh Flow",
+      "Walkin' Saint",
+      "7th Day",
+      "Desert Eagle",
+      "Last Supper",
+      "For A Living",
+      "Make It Home (Outro)",
     ],
   },
   {
@@ -31,15 +39,16 @@ export const CAAM1K_RELEASES = [
     type: "Single",
     status: "POSTED" as const,
     releaseDate: "2025-11-08",
+    label: "Son Of Yahweh Entertainment",
     coverImage: null,
     tracklist: ["God's Soldier"],
   },
 ];
 
 export const CAAM1K_TOP_TRACKS = [
-  { title: "Psalms 7", streams: "567K" },
-  { title: "40 Days & 40 Nights", streams: "477K" },
-  { title: "God's Soldier", streams: "443K" },
+  { title: "Everywhere I Go", streams: "567K" },
+  { title: "Don't Panic", streams: "477K" },
+  { title: "Yahweh Flow", streams: "443K" },
 ];
 
 export const CAAM1K_CAMPAIGNS = [
@@ -57,13 +66,13 @@ export const CAAM1K_CAMPAIGNS = [
   },
   {
     id: "cc2",
-    name: "Psalms 7 — Playlist Pitching",
+    name: "Everywhere I Go — Playlist Pitching",
     status: "ACTIVE" as const,
     phase: "POSTED" as const,
     progress: 85,
     taskCount: 8,
     completedTasks: 7,
-    startDate: "2026-04-01",
+    startDate: "2026-04-10",
     endDate: "2026-05-31",
     platforms: ["spotify"],
   },
@@ -84,7 +93,7 @@ export const CAAM1K_CAMPAIGNS = [
 export const CAAM1K_TASKS = [
   {
     id: "ct1",
-    title: "Edit 'Psalms 7' visualizer (YouTube cut)",
+    title: "Edit 'Everywhere I Go' visualizer (YouTube cut)",
     status: "IN_PROGRESS" as const,
     priority: "HIGH" as const,
     assignee: "Darius",
@@ -102,16 +111,16 @@ export const CAAM1K_TASKS = [
   },
   {
     id: "ct3",
-    title: "Submit 'Psalms 7' to 5 Spotify editorial playlists",
+    title: "Submit 'Everywhere I Go' to 5 Spotify editorial playlists",
     status: "DONE" as const,
     priority: "URGENT" as const,
     assignee: "Tati",
     dueDate: "2026-05-20",
-    campaignName: "Psalms 7 — Playlist Pitching",
+    campaignName: "Everywhere I Go — Playlist Pitching",
   },
   {
     id: "ct4",
-    title: "40 Days — TikTok lyric reel (30s cut)",
+    title: "Don't Panic — TikTok lyric reel (30s cut)",
     status: "TODO" as const,
     priority: "MEDIUM" as const,
     assignee: "Darius",
@@ -141,7 +150,7 @@ export const CAAM1K_APPROVALS = [
   },
   {
     id: "ca2",
-    title: "Psalms 7 visualizer — final cut",
+    title: "Everywhere I Go visualizer — final cut",
     type: "content" as const,
     status: "PENDING" as const,
     requestedBy: "Darius",
@@ -150,7 +159,7 @@ export const CAAM1K_APPROVALS = [
   },
   {
     id: "ca3",
-    title: "Social copy — Psalms 7 week 4 push",
+    title: "Social copy — Everywhere I Go week 4 push",
     type: "task" as const,
     status: "REVISION_REQUESTED" as const,
     requestedBy: "Tati",
@@ -313,7 +322,7 @@ export const CAAM1K_ASSETS = [
 export const CAAM1K_CONTENT = [
   {
     id: "cc-ci1",
-    title: "Psalms 7 — Hook reel (Instagram/TikTok)",
+    title: "Everywhere I Go — Hook reel (Instagram/TikTok)",
     type: "REEL",
     phase: "POSTED",
     platforms: ["instagram", "tiktok"],
@@ -329,7 +338,7 @@ export const CAAM1K_CONTENT = [
   },
   {
     id: "cc-ci3",
-    title: "40 Days & 40 Nights — Lyric video snippet",
+    title: "Don't Panic — Lyric video snippet",
     type: "REEL",
     phase: "EDITING",
     platforms: ["instagram", "tiktok"],
@@ -337,7 +346,7 @@ export const CAAM1K_CONTENT = [
   },
   {
     id: "cc-ci4",
-    title: "God's Soldier — Testimony carousel",
+    title: "Yahweh Flow — Testimony carousel",
     type: "CAROUSEL",
     phase: "REVIEW",
     platforms: ["instagram"],
@@ -357,7 +366,7 @@ export const CAAM1K_CHANNELS = [
   { id: "ch1", name: "general",                  type: "text",         unread: 0, pinned: true },
   { id: "ch2", name: "announcements",             type: "announcement", unread: 1, pinned: true },
   { id: "ch3", name: "eastside-evangelist",       type: "text",         unread: 2, pinned: false },
-  { id: "ch4", name: "psalms7-push",              type: "text",         unread: 0, pinned: false },
+  { id: "ch4", name: "everywhere-i-go-push",       type: "text",         unread: 0, pinned: false },
   { id: "ch5", name: "social-scheduling",         type: "text",         unread: 0, pinned: false },
 ];
 
@@ -365,7 +374,7 @@ export const CAAM1K_MESSAGES = [
   {
     id: "m1",
     author: { name: "Tatiyana", image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=96&h=96&fit=crop", status: "ACTIVE" as const },
-    content: "Psalms 7 visualizer is looking really strong. Darius, can you get the final cut into the approval queue today?",
+    content: "Everywhere I Go visualizer is looking really strong. Darius, can you get the final cut into the approval queue today?",
     timestamp: "2026-05-21T10:28:00Z",
   },
   {

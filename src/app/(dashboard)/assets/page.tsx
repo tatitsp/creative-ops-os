@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { TopBar } from "@/components/navigation/TopBar";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/Avatar";
+import { AssetUploadButton } from "@/components/assets/AssetUploadButton";
 import { MOCK_USERS, COVERS, ARTIST_PHOTO } from "@/lib/mock-data";
 import { formatFileSize, formatRelativeTime } from "@/lib/utils";
 import {
-  Upload,
   FolderOpen,
   Image as ImageIcon,
   Film,
@@ -15,8 +14,6 @@ import {
   Music,
   Search,
   Filter,
-  LayoutGrid,
-  List,
   MoreHorizontal,
   Tag,
 } from "lucide-react";
@@ -171,11 +168,7 @@ export default function AssetsPage() {
       <TopBar
         title="Asset Library"
         subtitle={`${MOCK_ASSETS.length} files · Central media archive`}
-        actions={
-          <Button variant="primary" size="sm" leftIcon={<Upload className="w-3.5 h-3.5" />}>
-            Upload assets
-          </Button>
-        }
+        actions={<AssetUploadButton workspaceSlug="lil-tony" />}
       />
 
       <div className="flex h-[calc(100vh-3.5rem)]">
