@@ -2,6 +2,7 @@
 //
 // Step 2 of 2. Called by the client after a successful PUT to the GCS signed
 // URL. Creates an Asset record in Prisma so the file appears in the library.
+// Upserts the user and workspace if they don't exist yet (no seed required).
 
 import { NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
@@ -45,24 +46,28 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // Look up the authenticated user and workspace
-    const [user, workspace] = await Promise.all([
-      prisma.user.findUnique({ where: { email: session.user.email } }),
-      prisma.workspace.findUnique({ where: { slug: workspaceSlug } }),
-    ]);
+    // Upsert user from session so uploads work before the DB is fully seeded
+    const user = await prisma.user.upsert({
+      where: { email: session.user.email },
+      update: {},
+      create: {
+        email: session.user.email,
+        name: session.user.name ?? session.user.email,
+        image: session.user.image ?? null,
+        role: "CREATIVE_OPS_DIRECTOR",
+      },
+    });
 
-    if (!user) {
-      return Response.json(
-        { error: `User not found for ${session.user.email}. Run the DB seed first.` },
-        { status: 404 },
-      );
-    }
-    if (!workspace) {
-      return Response.json(
-        { error: `Workspace "${workspaceSlug}" not found. Run the DB seed first.` },
-        { status: 404 },
-      );
-    }
+    // Upsert workspace by slug
+    const workspace = await prisma.workspace.upsert({
+      where: { slug: workspaceSlug },
+      update: {},
+      create: {
+        slug: workspaceSlug,
+        name: workspaceSlug,
+        ownerId: user.id,
+      },
+    });
 
     // Optionally resolve a named folder to its DB record
     let folderId: string | undefined;
@@ -85,14 +90,14 @@ export async function POST(req: NextRequest) {
         url: publicUrl,
         tags,
         folderId,
-        // gcsPath stored in metadata so we can generate signed download URLs later
         metadata: { gcsPath },
       },
     });
 
     return Response.json({ asset }, { status: 201 });
   } catch (err) {
-    console.error("[upload/complete] error:", err);
-    return Response.json({ error: "Failed to record asset" }, { status: 500 });
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("[upload/complete] error:", message);
+    return Response.json({ error: message }, { status: 500 });
   }
 }

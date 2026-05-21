@@ -46,7 +46,8 @@ export async function POST(req: NextRequest) {
 
     return Response.json({ signedUrl, gcsPath, publicUrl });
   } catch (err) {
-    console.error("[upload] signed URL error:", err);
-    return Response.json({ error: "Failed to generate upload URL" }, { status: 500 });
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("[upload] signed URL error:", message);
+    return Response.json({ error: message }, { status: 500 });
   }
 }
