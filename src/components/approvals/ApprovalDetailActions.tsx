@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CheckCircle2, RotateCcw, XCircle, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { STAGE_LABELS, getNextStage } from "@/lib/mock-approvals";
+import { useApprovalsStore } from "@/store/approvals-store";
 import type { RichApproval } from "@/types";
 
 interface ApprovalDetailActionsProps {
@@ -13,53 +14,46 @@ interface ApprovalDetailActionsProps {
 export function ApprovalDetailActions({ approval }: ApprovalDetailActionsProps) {
   const [actionMode, setActionMode] = useState<"idle" | "revision" | "reject">("idle");
   const [note, setNote] = useState("");
-  const [actioned, setActioned] = useState(false);
-  const [result, setResult] = useState<{ type: "approved" | "revision" | "rejected"; note?: string } | null>(null);
+  const { approve, requestRevision, reject } = useApprovalsStore();
 
-  const isDone = approval.status === "APPROVED" || approval.status === "REJECTED" || actioned;
+  const isDone = approval.status === "APPROVED" || approval.status === "REJECTED";
   const nextStage = getNextStage(approval.stage);
 
   function handleApprove() {
-    setResult({ type: "approved" });
-    setActioned(true);
+    approve(approval.id);
   }
 
   function handleRevisionSubmit() {
     if (!note.trim()) return;
-    setResult({ type: "revision", note: note.trim() });
-    setActioned(true);
+    requestRevision(approval.id, note.trim());
+    setNote("");
+    setActionMode("idle");
   }
 
   function handleRejectSubmit() {
     if (!note.trim()) return;
-    setResult({ type: "rejected", note: note.trim() });
-    setActioned(true);
-  }
-
-  if (result) {
-    return (
-      <div className={cn(
-        "p-4 rounded-xl border text-sm",
-        result.type === "approved" ? "bg-emerald-100 border-emerald-500/20 text-emerald-500" :
-        result.type === "revision" ? "bg-amber-100 border-amber-400/20 text-amber-400" :
-        "bg-rose-100 border-rose-500/20 text-rose-500",
-      )}>
-        <p className="font-semibold">
-          {result.type === "approved" && "✓ Approved"}
-          {result.type === "revision" && "↩ Revision requested"}
-          {result.type === "rejected" && "✗ Rejected"}
-        </p>
-        {result.note && <p className="text-xs mt-1 opacity-75">{result.note}</p>}
-        <p className="text-xs mt-2 opacity-60">Action logged · refresh to see updated history</p>
-      </div>
-    );
+    reject(approval.id, note.trim());
+    setNote("");
+    setActionMode("idle");
   }
 
   if (isDone) {
     return (
-      <p className="text-sm text-ink-tertiary">
-        This item has already been {approval.status.toLowerCase().replace("_", " ")}. No further action needed.
-      </p>
+      <div className={cn(
+        "p-4 rounded-xl border text-sm",
+        approval.status === "APPROVED"
+          ? "bg-emerald-100 border-emerald-500/20 text-emerald-600"
+          : "bg-rose-100 border-rose-500/20 text-rose-500",
+      )}>
+        <p className="font-semibold">
+          {approval.status === "APPROVED" ? "✓ Approved" : "✗ Rejected"}
+        </p>
+        <p className="text-xs mt-1 opacity-70">
+          {approval.status === "APPROVED"
+            ? `Advanced to ${STAGE_LABELS[approval.stage]}`
+            : "This item has been rejected."}
+        </p>
+      </div>
     );
   }
 
@@ -110,7 +104,11 @@ export function ApprovalDetailActions({ approval }: ApprovalDetailActionsProps) 
             autoFocus
             value={note}
             onChange={(e) => setNote(e.target.value)}
-            placeholder={actionMode === "revision" ? "Be specific so the team knows exactly what to fix..." : "Explain why this is being rejected..."}
+            placeholder={
+              actionMode === "revision"
+                ? "Be specific so the team knows exactly what to fix..."
+                : "Explain why this is being rejected..."
+            }
             rows={4}
             className="w-full text-xs bg-canvas-100 border border-border focus:border-border-strong rounded-xl px-3 py-2.5 text-ink placeholder-ink-tertiary resize-none outline-none transition-colors"
           />
@@ -120,7 +118,9 @@ export function ApprovalDetailActions({ approval }: ApprovalDetailActionsProps) 
               disabled={!note.trim()}
               className={cn(
                 "flex-1 text-sm font-semibold py-2.5 rounded-xl transition-colors disabled:opacity-40 disabled:cursor-not-allowed",
-                actionMode === "revision" ? "bg-amber-400 text-white hover:bg-amber-500" : "bg-rose-500 text-white hover:bg-rose-600",
+                actionMode === "revision"
+                  ? "bg-amber-400 text-white hover:bg-amber-500"
+                  : "bg-rose-500 text-white hover:bg-rose-600",
               )}
             >
               {actionMode === "revision" ? "Send Notes" : "Confirm Rejection"}

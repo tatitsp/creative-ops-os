@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { CheckSquare } from "lucide-react";
 import { ApprovalsQueue } from "@/components/approvals/ApprovalsQueue";
-import { MOCK_RICH_APPROVALS, PENDING_APPROVALS_COUNT } from "@/lib/mock-approvals";
+import { PENDING_APPROVALS_COUNT } from "@/lib/mock-approvals";
 
 export const metadata: Metadata = { title: "Approvals" };
 
@@ -28,7 +28,7 @@ export default function ApprovalsPage() {
 
       {/* Queue */}
       <div className="p-6 animate-in">
-        <ApprovalsQueue initialApprovals={MOCK_RICH_APPROVALS} />
+        <ApprovalsQueue />
       </div>
     </div>
   );

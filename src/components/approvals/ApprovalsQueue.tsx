@@ -3,10 +3,10 @@
 import { useState, useMemo } from "react";
 import { CheckCircle2, Clock, RotateCcw, XCircle, Filter } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { STAGE_LABELS, STAGE_ORDER, getNextStage } from "@/lib/mock-approvals";
+import { STAGE_LABELS, STAGE_ORDER } from "@/lib/mock-approvals";
 import { ApprovalCard } from "@/components/approvals/ApprovalCard";
-import { MOCK_USERS } from "@/lib/mock-data";
-import type { RichApproval, ApprovalStatus, ApprovalHistoryEntry } from "@/types";
+import { useApprovalsStore } from "@/store/approvals-store";
+import type { ApprovalStatus } from "@/types";
 
 // ─── Filter config ────────────────────────────────────────────────────────────
 
@@ -22,15 +22,8 @@ const PRIORITY_OPTIONS = ["ALL", "URGENT", "HIGH", "MEDIUM", "LOW"] as const;
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-interface ApprovalsQueueProps {
-  initialApprovals: RichApproval[];
-}
-
-// Current user for logging actions
-const CURRENT_USER = MOCK_USERS[0];
-
-export function ApprovalsQueue({ initialApprovals }: ApprovalsQueueProps) {
-  const [approvals, setApprovals] = useState<RichApproval[]>(initialApprovals);
+export function ApprovalsQueue() {
+  const { approvals, approve, requestRevision, reject } = useApprovalsStore();
   const [statusFilter, setStatusFilter] = useState<ApprovalStatus | "ALL">("ALL");
   const [campaignFilter, setCampaignFilter] = useState("ALL");
   const [priorityFilter, setPriorityFilter] = useState<typeof PRIORITY_OPTIONS[number]>("ALL");
@@ -59,75 +52,6 @@ export function ApprovalsQueue({ initialApprovals }: ApprovalsQueueProps) {
     }
     return c;
   }, [approvals]);
-
-  // ── Action handlers ──────────────────────────────────────────────────────────
-
-  function handleApprove(id: string) {
-    setApprovals((prev) =>
-      prev.map((a) => {
-        if (a.id !== id) return a;
-        const next = getNextStage(a.stage);
-        const newHistory: ApprovalHistoryEntry = {
-          id: `h-${Date.now()}-approved`,
-          stage: a.stage,
-          action: "APPROVED",
-          actor: CURRENT_USER,
-          timestamp: new Date().toISOString(),
-        };
-        if (next) {
-          const advanceEntry: ApprovalHistoryEntry = {
-            id: `h-${Date.now()}-advanced`,
-            stage: next,
-            action: "ADVANCED",
-            actor: CURRENT_USER,
-            timestamp: new Date().toISOString(),
-          };
-          return {
-            ...a,
-            stage: next,
-            status: next === "POSTED" ? "APPROVED" : "PENDING",
-            history: [...a.history, newHistory, advanceEntry],
-            nextApprover: next === "POSTED" ? undefined : a.nextApprover,
-          };
-        }
-        return { ...a, status: "APPROVED", history: [...a.history, newHistory], nextApprover: undefined };
-      }),
-    );
-  }
-
-  function handleRevision(id: string, note: string) {
-    setApprovals((prev) =>
-      prev.map((a) => {
-        if (a.id !== id) return a;
-        const entry: ApprovalHistoryEntry = {
-          id: `h-${Date.now()}-revision`,
-          stage: a.stage,
-          action: "REVISION_REQUESTED",
-          actor: CURRENT_USER,
-          timestamp: new Date().toISOString(),
-          note,
-        };
-        return { ...a, status: "REVISION_REQUESTED", history: [...a.history, entry] };
-      }),
-    );
-  }
-
-  function handleReject(id: string, reason: string) {
-    setApprovals((prev) =>
-      prev.map((a) => {
-        if (a.id !== id) return a;
-        const entry: ApprovalHistoryEntry = {
-          id: `h-${Date.now()}-rejected`,
-          stage: a.stage,
-          action: "REJECTED",
-          actor: CURRENT_USER,
-          timestamp: new Date().toISOString(),
-          note: reason,
-        };
-        return { ...a, status: "REJECTED", nextApprover: undefined, history: [...a.history, entry] };
-      }),
-    );
-  }
 
   return (
     <div className="space-y-5">
@@ -203,9 +127,9 @@ export function ApprovalsQueue({ initialApprovals }: ApprovalsQueueProps) {
             <ApprovalCard
               key={approval.id}
               approval={approval}
-              onApprove={handleApprove}
-              onRevision={handleRevision}
-              onReject={handleReject}
+              onApprove={approve}
+              onRevision={requestRevision}
+              onReject={reject}
             />
           ))}
         </div>

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { WorkspaceSidebar } from "@/components/navigation/WorkspaceSidebar";
-import { CopilotPanel } from "@/components/copilot/CopilotPanel";
+// import { CopilotPanel } from "@/components/copilot/CopilotPanel";
 import { WORKSPACES } from "@/lib/workspaces";
 
 type Props = {
@@ -25,7 +25,7 @@ export default async function ArtistWorkspaceLayout({ children, params }: Props)
       <main className="pl-60 min-h-screen">
         {children}
       </main>
-      <CopilotPanel />
+      {/* <CopilotPanel /> */}
     </div>
   );
 }

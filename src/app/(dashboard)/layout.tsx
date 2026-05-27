@@ -1,5 +1,5 @@
 import { Sidebar } from "@/components/navigation/Sidebar";
-import { CopilotPanel } from "@/components/copilot/CopilotPanel";
+// import { CopilotPanel } from "@/components/copilot/CopilotPanel";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -8,7 +8,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <main className="pl-60 min-h-screen">
         {children}
       </main>
-      <CopilotPanel />
+      {/* <CopilotPanel /> */}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { formatRelativeTime } from "@/lib/utils";
 import { PRIORITY_CONFIG } from "@/lib/constants";
+import { useApprovalsStore } from "@/store/approvals-store";
 import type { Approval } from "@/types";
 import { CheckCircle2, XCircle, RotateCcw, FileText, Film } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -19,6 +20,8 @@ const TYPE_ICON = {
 };
 
 export function ApprovalQueue({ approvals }: ApprovalQueueProps) {
+  const { approve, requestRevision } = useApprovalsStore();
+
   if (approvals.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-8 text-center">
@@ -47,7 +50,7 @@ export function ApprovalQueue({ approvals }: ApprovalQueueProps) {
           >
             {/* Type icon */}
             <div className="w-7 h-7 rounded-lg bg-canvas-200 flex items-center justify-center text-ink-secondary flex-shrink-0 mt-0.5">
-              {TYPE_ICON[approval.type]}
+              {TYPE_ICON[approval.type as keyof typeof TYPE_ICON]}
             </div>
 
             <div className="flex-1 min-w-0">
@@ -80,6 +83,7 @@ export function ApprovalQueue({ approvals }: ApprovalQueueProps) {
                   variant="primary"
                   leftIcon={<CheckCircle2 className="w-3 h-3" />}
                   className="text-2xs py-1 px-2.5"
+                  onClick={() => approve(approval.id)}
                 >
                   Approve
                 </Button>
@@ -88,6 +92,7 @@ export function ApprovalQueue({ approvals }: ApprovalQueueProps) {
                   variant="ghost"
                   leftIcon={<RotateCcw className="w-3 h-3" />}
                   className="text-2xs py-1 px-2.5"
+                  onClick={() => requestRevision(approval.id, "Revision requested from dashboard.")}
                 >
                   Revise
                 </Button>

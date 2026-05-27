@@ -21,32 +21,32 @@ export const MOCK_NOTIFICATIONS: AppNotification[] = [
   {
     id: "n1",
     type: "approval",
-    message: "3 approvals have been waiting over 24 hours.",
-    timestamp: "2026-05-18T10:30:00Z",
-    href: "/approvals",
+    message: '"Gravity" MV final cut needs your approval — premiere is June 3.',
+    timestamp: "2026-05-27T10:30:00Z",
+    href: "/approvals/ra1",
     read: false,
   },
   {
     id: "n2",
     type: "release",
-    message: "Elijah pre-save campaign hasn't launched yet — release is in 61 days.",
-    timestamp: "2026-05-18T09:15:00Z",
-    href: "/releases",
+    message: "YouTube premiere for \"Gravity\" isn't scheduled yet — 7 days out.",
+    timestamp: "2026-05-27T09:15:00Z",
+    href: "/releases/elijah",
     read: false,
   },
   {
     id: "n3",
-    type: "team",
-    message: "Sofia is at capacity — reassign before adding more.",
-    timestamp: "2026-05-18T08:45:00Z",
-    href: "/team",
+    type: "approval",
+    message: '"Gravity" vertical edit (60s) submitted — needs sign-off before June 3.',
+    timestamp: "2026-05-27T08:45:00Z",
+    href: "/approvals/ra4",
     read: false,
   },
   {
     id: "n4",
     type: "approval",
-    message: "Revision requested on press kit bio — needs your attention.",
-    timestamp: "2026-05-18T07:00:00Z",
+    message: "YouTube thumbnail revision requested — Key needs to approve final version.",
+    timestamp: "2026-05-27T07:00:00Z",
     href: "/approvals/ra3",
     read: false,
   },
@@ -54,50 +54,50 @@ export const MOCK_NOTIFICATIONS: AppNotification[] = [
   {
     id: "n5",
     type: "campaign",
-    message: "Elijah drops in 61 days — 3 deliverables are still open.",
-    timestamp: "2026-05-17T16:30:00Z",
-    href: "/releases",
+    message: "Elijah drops in 52 days — pre-save campaign launches June 10.",
+    timestamp: "2026-05-26T16:30:00Z",
+    href: "/releases/elijah",
     read: false,
   },
   {
     id: "n6",
     type: "approval",
-    message: "Lil Tony approved the REPENT! social copy.",
-    timestamp: "2026-05-17T14:00:00Z",
+    message: "Key approved the Elijah album cover art — final.",
+    timestamp: "2026-05-26T15:00:00Z",
     href: "/approvals",
     read: true,
   },
   {
     id: "n7",
     type: "team",
-    message: "2 team members haven't logged activity in 3 days.",
-    timestamp: "2026-05-17T11:00:00Z",
-    href: "/team",
+    message: "Kaito delivered Press Set A — 25 selects in the asset vault.",
+    timestamp: "2026-05-26T18:30:00Z",
+    href: "/assets",
     read: false,
   },
   // ── Earlier ────────────────────────────────────────────────────────────────
   {
     id: "n8",
     type: "release",
-    message: "No content scheduled for the week of June 2nd.",
-    timestamp: "2026-05-16T09:00:00Z",
-    href: "/calendar",
+    message: "Apple Music editorial pitch submitted for Elijah.",
+    timestamp: "2026-05-25T09:00:00Z",
+    href: "/releases/elijah",
     read: true,
   },
   {
     id: "n9",
     type: "campaign",
-    message: "Mrs.Key rollout is 2 days behind schedule.",
-    timestamp: "2026-05-16T08:00:00Z",
+    message: '"Gravity" single announcement goes live tomorrow — assets approved.',
+    timestamp: "2026-05-25T08:00:00Z",
     href: "/projects",
     read: true,
   },
   {
     id: "n10",
     type: "approval",
-    message: "Start a Business video treatment has been waiting 48hrs for approval.",
-    timestamp: "2026-05-15T17:00:00Z",
-    href: "/approvals",
+    message: 'Studio BTS reel ("Gravity" MV day) approved — scheduled for June 10.',
+    timestamp: "2026-05-24T17:00:00Z",
+    href: "/approvals/ra8",
     read: true,
   },
 ];
@@ -105,7 +105,7 @@ export const MOCK_NOTIFICATIONS: AppNotification[] = [
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 // Fixed mock reference point so timestamps render consistently
-const MOCK_NOW = new Date("2026-05-18T14:00:00Z");
+const MOCK_NOW = new Date("2026-05-27T14:00:00Z");
 
 export function formatNotifTime(timestamp: string): string {
   const date = new Date(timestamp);
@@ -120,8 +120,8 @@ export function formatNotifTime(timestamp: string): string {
 
 export function getNotifGroup(timestamp: string): "today" | "yesterday" | "earlier" {
   const d = timestamp.slice(0, 10);
-  if (d === "2026-05-18") return "today";
-  if (d === "2026-05-17") return "yesterday";
+  if (d === "2026-05-27") return "today";
+  if (d === "2026-05-26") return "yesterday";
   return "earlier";
 }
 
