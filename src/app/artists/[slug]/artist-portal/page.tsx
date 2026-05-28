@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { CURRENT_USER } from "@/lib/mock-data";
 import { WORKSPACES } from "@/lib/workspaces";
 import { Caam1kPortalView } from "@/components/artist-portal/Caam1kPortalView";
 
@@ -16,6 +17,7 @@ export async function generateStaticParams() {
 }
 
 export default async function ArtistPortalPage({ params }: Props) {
+  if (CURRENT_USER.role !== "CREATIVE_OPS_DIRECTOR") notFound();
   const { slug } = await params;
   const ws = WORKSPACES.find((w) => w.slug === slug);
   if (!ws) notFound();

@@ -22,7 +22,7 @@ import {
   CheckSquare,
   Star,
   DollarSign,
-  ArrowLeft,
+  ArrowLeftRight,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -44,7 +44,9 @@ export function WorkspaceSidebar({ artistName, artistPhoto, genre, basePath }: W
       label: "Workspace",
       items: [
         { label: "Dashboard",     href: `${basePath}/dashboard`,     icon: LayoutDashboard },
-        { label: "Artist Portal", href: `${basePath}/artist-portal`, icon: Star },
+        ...(CURRENT_USER.role === "CREATIVE_OPS_DIRECTOR"
+          ? [{ label: "Artist Portal", href: `${basePath}/artist-portal`, icon: Star }]
+          : []),
         { label: "Releases",      href: `${basePath}/releases`,      icon: Rocket,       badge: 1 },
         { label: "Projects",      href: `${basePath}/projects`,      icon: FolderKanban },
         { label: "Content",       href: `${basePath}/content`,       icon: Film },
@@ -147,7 +149,7 @@ export function WorkspaceSidebar({ artistName, artistPhoto, genre, basePath }: W
             <p className="text-xs font-semibold text-white truncate">{ME.name}</p>
             <p className="text-2xs text-[#444444] truncate">{ROLE_LABELS[ME.role]}</p>
           </div>
-          <ArrowLeft className="w-3.5 h-3.5 text-[#444444] group-hover:text-[#888888] transition-colors flex-shrink-0" />
+          <ArrowLeftRight className="w-3.5 h-3.5 text-[#444444] group-hover:text-[#888888] transition-colors flex-shrink-0" />
         </Link>
       </div>
     </aside>

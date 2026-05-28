@@ -1,91 +1,76 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
-import { ArrowRight, MapPin, Headphones, Disc3 } from "lucide-react";
+import Image from "next/image";
+import { ChevronRight, Radio } from "lucide-react";
 import type { Workspace } from "@/lib/workspaces";
 
-export function WorkspaceCard({ workspace: ws }: { workspace: Workspace }) {
-  const [hovered, setHovered] = useState(false);
+const STATUS_COLORS: Record<string, string> = {
+  ACTIVE:   "bg-emerald-500",
+  PLANNING: "bg-gold",
+  COMPLETE: "bg-ink-tertiary",
+};
 
+const STATUS_LABELS: Record<string, string> = {
+  ACTIVE:   "Active",
+  PLANNING: "Planning",
+  COMPLETE: "Complete",
+};
+
+export function WorkspaceCard({ workspace: ws }: { workspace: Workspace }) {
   return (
     <Link
       href={ws.href}
-      className="group flex-1 rounded-2xl overflow-hidden flex flex-col"
-      style={{
-        background: "rgba(255,255,255,0.04)",
-        border: hovered
-          ? "1px solid rgba(255,255,255,0.2)"
-          : "1px solid rgba(255,255,255,0.08)",
-        boxShadow: hovered ? "0 8px 40px rgba(0,0,0,0.5)" : "0 4px 20px rgba(0,0,0,0.3)",
-        transition: "border-color 0.2s, box-shadow 0.2s, transform 0.2s",
-        transform: hovered ? "translateY(-2px)" : "translateY(0)",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      className="flex flex-col gap-4 p-5 rounded-2xl border border-[#1A1A1A] bg-[#0A0A0A] hover:border-[#2A2A2A] hover:bg-[#111111] transition-all group"
     >
-      {/* Artist photo — full width, square */}
-      <div className="relative w-full aspect-square overflow-hidden bg-[#111111]">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={ws.photo}
-          alt={ws.artistName}
-          className="w-full h-full object-cover object-top"
-          style={{ transition: "transform 0.4s ease", transform: hovered ? "scale(1.03)" : "scale(1)" }}
-        />
-        {/* Bottom gradient for readability */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-16"
-          style={{ background: "linear-gradient(to top, rgba(0,0,0,0.7), transparent)" }}
-        />
-        {/* Active indicator */}
-        <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2 py-1 rounded-full" style={{ background: "rgba(0,0,0,0.55)", backdropFilter: "blur(8px)" }}>
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-          <span className="text-[0.6rem] font-semibold text-white/80 uppercase tracking-wide">Active</span>
+      {/* Artist photo + name */}
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 bg-[#1A1A1A]">
+          <Image
+            src={ws.photo}
+            alt={ws.artistName}
+            width={40}
+            height={40}
+            className="w-full h-full object-cover object-top"
+            unoptimized
+          />
         </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-bold text-white leading-tight truncate">{ws.artistName}</p>
+          <p className="text-2xs mt-0.5 truncate" style={{ color: "rgba(255,255,255,0.3)" }}>
+            {ws.artistHandle}
+          </p>
+        </div>
+        <ChevronRight
+          className="w-4 h-4 flex-shrink-0 transition-transform group-hover:translate-x-0.5"
+          style={{ color: "rgba(255,255,255,0.2)" }}
+        />
       </div>
 
-      {/* Info block */}
-      <div className="p-5 flex flex-col gap-4 flex-1">
-        {/* Name + location */}
-        <div>
-          <p className="text-base font-black text-white tracking-tight leading-tight">{ws.artistName}</p>
-          <div className="flex items-center gap-1 mt-1">
-            <MapPin className="w-3 h-3 flex-shrink-0" style={{ color: "rgba(255,255,255,0.35)" }} />
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>{ws.location}</p>
-          </div>
-        </div>
+      {/* Divider */}
+      <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }} />
 
-        {/* Stats */}
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <Headphones className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "rgba(255,255,255,0.3)" }} />
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.55)" }}>
-              <span className="font-semibold text-white">{ws.monthlyListeners}</span> monthly listeners
-            </p>
+      {/* Release + stats */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${STATUS_COLORS[ws.releaseStatus]}`} />
+            <span className="text-2xs font-semibold" style={{ color: "rgba(255,255,255,0.5)" }}>
+              {ws.activeRelease} · {ws.releaseType}
+            </span>
           </div>
-          <div className="flex items-center gap-2">
-            <Disc3 className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "rgba(255,255,255,0.3)" }} />
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.55)" }}>
-              <span className="font-semibold text-white">{ws.activeRelease}</span>
-              <span className="ml-1" style={{ color: "rgba(255,255,255,0.3)" }}>· {ws.releaseType}</span>
-            </p>
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div className="mt-auto">
-          <div
-            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all"
-            style={{
-              background: hovered ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.06)",
-              color: hovered ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.6)",
-            }}
+          <span
+            className="text-2xs font-semibold px-1.5 py-0.5 rounded-full"
+            style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.35)" }}
           >
-            Enter Workspace
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-          </div>
+            {STATUS_LABELS[ws.releaseStatus]}
+          </span>
         </div>
+
+        <div className="flex items-center gap-1" style={{ color: "rgba(255,255,255,0.3)" }}>
+          <Radio className="w-3 h-3" />
+          <span className="text-2xs font-semibold">{ws.monthlyListeners} monthly listeners</span>
+        </div>
+
+        <p className="text-2xs" style={{ color: "rgba(255,255,255,0.25)" }}>{ws.genre}</p>
       </div>
     </Link>
   );

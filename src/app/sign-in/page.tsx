@@ -51,7 +51,7 @@ export default function SignInPage() {
         className="absolute bottom-8 z-10 text-[0.6rem] tracking-[0.2em] uppercase"
         style={{ color: "rgba(255,255,255,0.18)" }}
       >
-        SCOPE · Built by The Sighte Project
+        Powered by Scope
       </p>
     </div>
   );

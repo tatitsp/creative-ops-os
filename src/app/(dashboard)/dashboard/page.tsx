@@ -5,6 +5,7 @@ import {
   MOCK_CONTENT,
   MOCK_APPROVALS,
   MOCK_USERS,
+  ARTIST_PHOTO,
 } from "@/lib/mock-data";
 import { MOCK_RELEASES } from "@/lib/mock-releases";
 import { Disc3, FolderKanban, Film, BarChart2, Users, CheckSquare } from "lucide-react";
@@ -93,7 +94,12 @@ const DOCK_CARDS: DockCard[] = [
 export default function DashboardPage() {
   return (
     <div className="min-h-screen">
-      <DashboardHero cards={DOCK_CARDS} />
+      <DashboardHero
+        cards={DOCK_CARDS}
+        artistName="Lil Tony Official"
+        artistPhoto={ARTIST_PHOTO}
+        imagePosition="center 60%"
+      />
     </div>
   );
 }

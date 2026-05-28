@@ -17,7 +17,7 @@ import {
   MessageSquare,
   Settings,
   UserCheck,
-  ChevronRight,
+  ArrowLeftRight,
   Rocket,
   CheckSquare,
   Star,
@@ -33,7 +33,9 @@ const NAV_SECTIONS = [
     label: "Workspace",
     items: [
       { label: "Dashboard",      href: "/dashboard",      icon: LayoutDashboard },
-      { label: "Artist Portal",  href: "/artist-portal",  icon: Star },
+      ...(CURRENT_USER.role === "CREATIVE_OPS_DIRECTOR"
+        ? [{ label: "Artist Portal", href: "/artist-portal", icon: Star }]
+        : []),
       { label: "Releases",       href: "/releases",       icon: Rocket,       badge: 1 },
       { label: "Projects",       href: "/projects",       icon: FolderKanban, badge: 4 },
       { label: "Content",        href: "/content",        icon: Film,         badge: 6 },
@@ -130,16 +132,19 @@ export function Sidebar() {
         ))}
       </nav>
 
-      {/* User */}
+      {/* User + workspace switcher */}
       <div className="p-3 border-t border-[#1A1A1A]">
-        <button className="w-full flex items-center gap-2.5 px-2 py-2 rounded-lg hover:bg-[#1A1A1A] transition-colors group">
+        <Link
+          href="/select-workspace"
+          className="w-full flex items-center gap-2.5 px-2 py-2 rounded-lg hover:bg-[#1A1A1A] transition-colors group"
+        >
           <Avatar user={ME} size="sm" showStatus />
           <div className="flex-1 text-left min-w-0">
             <p className="text-xs font-semibold text-white truncate">{ME.name}</p>
             <p className="text-2xs text-[#444444] truncate">{ROLE_LABELS[ME.role]}</p>
           </div>
-          <ChevronRight className="w-3.5 h-3.5 text-[#444444] group-hover:text-[#888888] transition-colors" />
-        </button>
+          <ArrowLeftRight className="w-3.5 h-3.5 text-[#444444] group-hover:text-[#888888] transition-colors flex-shrink-0" />
+        </Link>
       </div>
     </aside>
   );

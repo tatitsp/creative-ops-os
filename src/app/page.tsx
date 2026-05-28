@@ -1,6 +1,10 @@
 import { redirect } from "next/navigation";
+import { CURRENT_USER } from "@/lib/mock-data";
 
-// Root redirects to main dashboard
 export default function RootPage() {
-  redirect("/dashboard");
+  // Artists go straight to their dashboard; team members pick a workspace first
+  if (CURRENT_USER.role === "ARTIST_CEO") {
+    redirect("/dashboard");
+  }
+  redirect("/select-workspace");
 }

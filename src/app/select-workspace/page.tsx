@@ -41,7 +41,7 @@ export default function SelectWorkspacePage() {
         className="mt-14 text-[0.6rem] tracking-[0.2em] uppercase"
         style={{ color: "rgba(255,255,255,0.1)" }}
       >
-        SCOPE · Built by The Sighte Project
+        Powered by Scope
       </p>
     </div>
   );
