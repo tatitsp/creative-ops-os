@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { CURRENT_USER } from "@/lib/mock-data";
+import { CURRENT_USER, ARTIST_PHOTO } from "@/lib/mock-data";
 import { ROLE_LABELS } from "@/lib/constants";
 import { Avatar } from "@/components/ui/Avatar";
 import {
@@ -74,15 +75,22 @@ export function Sidebar() {
 
   return (
     <aside className="fixed left-0 top-0 h-full w-60 bg-[#050505] border-r border-[#1A1A1A] flex flex-col z-30">
-      {/* Logo / Workspace */}
+      {/* Workspace — artist identity */}
       <div className="px-4 pt-5 pb-4 border-b border-[#1A1A1A]">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-gold flex items-center justify-center shadow-glow flex-shrink-0">
-            <span className="text-xs font-black text-white tracking-tight">SC</span>
+          <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0 bg-canvas-100">
+            <Image
+              src={ARTIST_PHOTO}
+              alt="Lil Tony Official"
+              width={32}
+              height={32}
+              className="w-full h-full object-cover object-top"
+              unoptimized
+            />
           </div>
-          <div>
-            <p className="text-sm font-bold text-white leading-none">SCOPE</p>
-            <p className="text-2xs text-[#444444] mt-0.5">by The Sighte Project</p>
+          <div className="min-w-0">
+            <p className="text-sm font-bold text-white leading-none truncate">Lil Tony Official</p>
+            <p className="text-2xs text-[#444444] mt-0.5 truncate">Hip-Hop / Gospel Rap</p>
           </div>
         </div>
       </div>
