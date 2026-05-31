@@ -22,6 +22,16 @@
   body {
     @apply bg-canvas text-ink;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+    cursor: url('/Key_Icon_Gold.svg') 14 0, auto;
+  }
+
+  /* Restore default cursor for interactive elements so the key doesn't replace pointer */
+  a, button, [role="button"], select, label[for], input[type="checkbox"], input[type="radio"] {
+    cursor: url('/Key_Icon_Gold.svg') 14 0, pointer;
+  }
+
+  input, textarea {
+    cursor: url('/Key_Icon_White.svg') 14 0, text;
   }
 
   /* Scrollbar — dark */
