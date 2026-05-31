@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { TopBar } from "@/components/navigation/TopBar";
 import { Button } from "@/components/ui/Button";
 import { AssetUploadButton } from "@/components/assets/AssetUploadButton";
-import { AssetGrid } from "@/components/assets/AssetGrid";
 import { WORKSPACES } from "@/lib/workspaces";
 import { FolderOpen, Search, Filter, Tag, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -24,9 +23,10 @@ const TAG_OPTIONS = ["Mrs.Key", "Ecclesiastes", "Press Kit", "Social", "Merch", 
 
 interface Props {
   workspaceSlug: string;
+  children: React.ReactNode;
 }
 
-export function AssetsPageClient({ workspaceSlug }: Props) {
+export function AssetsPageClient({ workspaceSlug, children }: Props) {
   const ws = WORKSPACES.find((w) => w.slug === workspaceSlug);
   const [activeFolder, setActiveFolder] = useState("All Files");
   const [search, setSearch] = useState("");
@@ -187,7 +187,7 @@ export function AssetsPageClient({ workspaceSlug }: Props) {
           )}
 
           {/* Live asset grid */}
-          <AssetGrid workspaceSlug={workspaceSlug} />
+          {children}
         </div>
       </div>
     </div>

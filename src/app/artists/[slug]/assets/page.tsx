@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { WORKSPACES } from "@/lib/workspaces";
 import { AssetsPageClient } from "@/app/(dashboard)/assets/AssetsPageClient";
+import { AssetGrid } from "@/components/assets/AssetGrid";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -20,5 +21,9 @@ export default async function ArtistAssetsPage({ params }: Props) {
   const ws = WORKSPACES.find((w) => w.slug === slug);
   if (!ws) notFound();
 
-  return <AssetsPageClient workspaceSlug={slug} />;
+  return (
+    <AssetsPageClient workspaceSlug={slug}>
+      <AssetGrid workspaceSlug={slug} />
+    </AssetsPageClient>
+  );
 }
