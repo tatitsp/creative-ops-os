@@ -130,7 +130,7 @@ export const MOCK_RICH_APPROVALS: RichApproval[] = [
     id: "ra3",
     title: "Press kit bio — Post Mrs.Key update",
     description:
-      "Updated artist bio reflecting the Mrs.Key release, current streaming stats (1.27M monthly listeners), and updated press notes for the HipHopDX pitch.",
+      "Updated artist bio reflecting the Mrs.Key release, current streaming stats (1,273,747 monthly listeners), and updated press notes for the HipHopDX pitch.",
     type: "task",
     stage: "INTERNAL_REVIEW",
     status: "REVISION_REQUESTED",

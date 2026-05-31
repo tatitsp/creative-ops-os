@@ -43,12 +43,24 @@ export const CAAM1K_RELEASES = [
     coverImage: null,
     tracklist: ["God's Soldier"],
   },
+  {
+    id: "c-r3",
+    title: "Cosmo & Wanda",
+    type: "Album",
+    status: "ACTIVE" as const,
+    releaseDate: "2026-01-01",
+    label: "Son Of Yahweh Entertainment",
+    coverImage: "https://i.scdn.co/image/ab67616d000048518ada121453b0a009bfd8e31e",
+    tracklist: ["Cosmo & Wanda"],
+  },
 ];
 
 export const CAAM1K_TOP_TRACKS = [
-  { title: "Everywhere I Go", streams: "567K" },
-  { title: "Don't Panic", streams: "477K" },
-  { title: "Yahweh Flow", streams: "443K" },
+  { title: "Psalms 7", streams: "581K" },
+  { title: "40 Days & 40 Nights", streams: "491K" },
+  { title: "God's Soldier", streams: "465K" },
+  { title: "Cosmo & Wanda", streams: "102K" },
+  { title: "7th Day", streams: "80K" },
 ];
 
 export const CAAM1K_CAMPAIGNS = [
@@ -191,11 +203,11 @@ export const CAAM1K_ANALYTICS = [
   },
   {
     platform: "spotify",
-    followers: 3200,
+    followers: 7443,
     followersGrowth: 6.2,
-    impressions: 55787,
-    engagement: 3200,
-    engagementRate: 19.4,
+    impressions: 75861,
+    engagement: 7443,
+    engagementRate: 9.8,
     shares: 900,
     saves: 8200,
   },

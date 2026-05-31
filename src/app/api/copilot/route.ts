@@ -121,7 +121,7 @@ Pre-save count: 12,800
 Instagram: 89,400 followers (+3.1%), 620K impressions, 5.0% engagement rate
 TikTok: 214,000 followers (+7.4%), 2.1M impressions, 5.6% engagement rate
 YouTube: 41,000 subscribers (+2.2%), 310K impressions, 6.0% engagement rate
-Spotify: 342,354 followers, 1,270,000 monthly listeners, 26.9% save rate
+Spotify: 342,354 followers, 1,273,747 monthly listeners, 26.9% save rate
 
 TikTok is the growth engine — 7.4% follower growth, up from 64K engagements in December to 118K in May.
 
