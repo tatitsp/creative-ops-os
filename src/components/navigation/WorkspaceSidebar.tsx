@@ -23,6 +23,7 @@ import {
   Star,
   DollarSign,
   ArrowLeftRight,
+  Clapperboard,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -56,6 +57,16 @@ export function WorkspaceSidebar({ artistName, artistPhoto, genre, basePath }: W
           : []),
       ],
     },
+    ...(CURRENT_USER.role === "CREATIVE_OPS_DIRECTOR"
+      ? [
+          {
+            label: "Director",
+            items: [
+              { label: "Vision Studio", href: "/director/studio", icon: Clapperboard },
+            ],
+          },
+        ]
+      : []),
     {
       label: "Create",
       items: [

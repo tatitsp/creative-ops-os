@@ -23,6 +23,7 @@ import {
   CheckSquare,
   Star,
   DollarSign,
+  Clapperboard,
 } from "lucide-react";
 
 const BUDGET_ROLES = ["ARTIST_CEO", "CREATIVE_OPS_DIRECTOR"];
@@ -46,6 +47,16 @@ const NAV_SECTIONS = [
         : []),
     ],
   },
+  ...(CURRENT_USER.role === "CREATIVE_OPS_DIRECTOR"
+    ? [
+        {
+          label: "Director",
+          items: [
+            { label: "Vision Studio", href: "/director/studio", icon: Clapperboard },
+          ],
+        },
+      ]
+    : []),
   {
     label: "Create",
     items: [

@@ -35,7 +35,7 @@ export default async function ArtistReleasesPage({ params }: Props) {
 
   return (
     <>
-      <TopBar title="Releases" subtitle={ws.artistName} />
+      <TopBar title={`${ws.artistName} | Command`} subtitle="Every release. One room." />
 
       <div className="p-6 space-y-6 animate-in max-w-4xl">
         {/* Releases */}

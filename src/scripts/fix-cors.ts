@@ -4,7 +4,7 @@ const bucketName = process.env.GOOGLE_STORAGE_BUCKET!;
 
 const corsConfig = [
   {
-    origin: ["http://localhost:3003"],
+    origin: ["http://localhost:3000"],
     method: ["PUT", "GET", "HEAD"],
     responseHeader: ["Content-Type", "Content-Length"],
     maxAgeSeconds: 3600,

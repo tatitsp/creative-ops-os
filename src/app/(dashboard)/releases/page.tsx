@@ -4,16 +4,19 @@ import { TopBar } from "@/components/navigation/TopBar";
 import { Button } from "@/components/ui/Button";
 import { Progress } from "@/components/ui/Progress";
 import { MOCK_RELEASES, RELEASE_TYPE_CONFIG, RELEASE_STATUS_CONFIG } from "@/lib/mock-releases";
+import { WORKSPACES } from "@/lib/workspaces";
 import { cn } from "@/lib/utils";
 import { Plus, Flag, ChevronRight, Music2 } from "lucide-react";
 
 export const metadata: Metadata = { title: "Releases" };
 
+const LIL_TONY = WORKSPACES.find((w) => w.slug === "lil-tony")!;
+
 export default function ReleasesPage() {
   return (
     <div className="min-h-screen">
       <TopBar
-        title="Release Command Center"
+        title={`${LIL_TONY.artistName} | Command`}
         subtitle="Every release. One room."
         actions={
           <Button variant="primary" size="sm" leftIcon={<Plus className="w-3.5 h-3.5" />}>

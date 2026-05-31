@@ -6,6 +6,7 @@ import { MOCK_ANALYTICS, MONTHLY_ENGAGEMENT_DATA } from "@/lib/mock-data";
 import { PLATFORM_CONFIG } from "@/lib/constants";
 import { formatNumber } from "@/lib/utils";
 import { TrendingUp, Users, Heart, Share2, Bookmark } from "lucide-react";
+import { WORKSPACES } from "@/lib/workspaces";
 import {
   AreaChart,
   Area,
@@ -19,11 +20,13 @@ import {
   Legend,
 } from "recharts";
 
+const LIL_TONY = WORKSPACES.find((w) => w.slug === "lil-tony")!;
+
 export default function AnalyticsPage() {
   return (
     <div className="min-h-screen">
       <TopBar
-        title="Analytics"
+        title={`${LIL_TONY.artistName} | Command`}
         subtitle="Last 30 days · All platforms"
       />
 

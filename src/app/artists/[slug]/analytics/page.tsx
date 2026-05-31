@@ -43,7 +43,7 @@ export default async function ArtistAnalyticsPage({ params }: Props) {
 
   return (
     <>
-      <TopBar title="Analytics" subtitle={`${ws.artistName} · Last 30 days`} />
+      <TopBar title={`${ws.artistName} | Command`} subtitle="Last 30 days · All platforms" />
 
       <div className="p-6 space-y-6 animate-in">
         {/* Top metrics */}
