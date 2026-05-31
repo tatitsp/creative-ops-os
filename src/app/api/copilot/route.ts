@@ -43,7 +43,7 @@ Amara Osei — Graphic Designer. Status: ACTIVE. Working on Mrs.Key merch mockup
 
 Release: "Elijah" by Lil Tony Official
 Type: Album — 12 tracks
-Release Date: July 18, 2026 (52 days away)
+Release Date: August 8, 2026
 Lead Singles: "Gravity", "Elijah"
 Description: Named after his real middle name — Tekai Elijah Key. Faith, survival, identity. Cinematic production, introspective lyricism, carefully constructed visual world.
 
@@ -71,9 +71,9 @@ Timeline milestones:
 - UPCOMING: Visual Rollout — moodboard + aesthetic reveal (June 17)
 - UPCOMING: Tracklist Reveal — features + artwork (June 27)
 - UPCOMING: Listening Event — press + tastemakers, invite only (July 11)
-- KEY DATE: RELEASE DAY — Elijah everywhere (July 18)
-- UPCOMING: Post-Release Push — Week 1 content + press (July 25)
-- UPCOMING: Tour Announcement — Fall 2026 dates (August 8)
+- KEY DATE: RELEASE DAY — Elijah everywhere (August 8)
+- UPCOMING: Post-Release Push — Week 1 content + press (August 15)
+- UPCOMING: Tour Announcement — Fall 2026 dates (August 29)
 
 Pending approvals (by urgency):
 1. "Gravity" music video — Final cut | URGENT | Waiting on Tati (Management Approval) | Submitted by Darius May 30
