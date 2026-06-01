@@ -26,6 +26,7 @@ import {
   Clapperboard,
 } from "lucide-react";
 import Image from "next/image";
+import { useSidebar } from "@/lib/sidebar-store";
 
 const BUDGET_ROLES = ["ARTIST_CEO", "CREATIVE_OPS_DIRECTOR"];
 const ME = CURRENT_USER;
@@ -39,6 +40,7 @@ type WorkspaceSidebarProps = {
 
 export function WorkspaceSidebar({ artistName, artistPhoto, genre, basePath }: WorkspaceSidebarProps) {
   const pathname = usePathname();
+  const { isOpen, close } = useSidebar();
 
   const NAV_SECTIONS = [
     {
@@ -92,7 +94,19 @@ export function WorkspaceSidebar({ artistName, artistPhoto, genre, basePath }: W
   ];
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-60 bg-[#050505] border-r border-[#1A1A1A] flex flex-col z-30">
+    <>
+      {/* Mobile backdrop */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-20 md:hidden"
+          onClick={close}
+        />
+      )}
+
+    <aside className={cn(
+      "fixed left-0 top-0 h-full w-60 bg-[#050505] border-r border-[#1A1A1A] flex flex-col z-30 transition-transform duration-300",
+      isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
+    )}>
       {/* Artist header */}
       <div className="px-4 pt-5 pb-4 border-b border-[#1A1A1A]">
         <div className="flex items-center gap-2.5">
@@ -126,6 +140,7 @@ export function WorkspaceSidebar({ artistName, artistPhoto, genre, basePath }: W
                   <li key={item.href}>
                     <Link
                       href={item.href}
+                      onClick={close}
                       className={cn("nav-item", isActive && "active")}
                     >
                       <Icon className="w-4 h-4 flex-shrink-0" strokeWidth={isActive ? 2 : 1.75} />
@@ -164,5 +179,6 @@ export function WorkspaceSidebar({ artistName, artistPhoto, genre, basePath }: W
         </Link>
       </div>
     </aside>
+    </>
   );
 }

@@ -5,7 +5,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div className="min-h-screen bg-canvas">
       <Sidebar />
-      <main className="pl-60 min-h-screen">
+      <main className="md:pl-60 min-h-screen">
         {children}
       </main>
       {/* <CopilotPanel /> */}

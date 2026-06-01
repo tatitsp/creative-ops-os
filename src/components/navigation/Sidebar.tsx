@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { CURRENT_USER, ARTIST_PHOTO } from "@/lib/mock-data";
 import { ROLE_LABELS } from "@/lib/constants";
 import { Avatar } from "@/components/ui/Avatar";
+import { useSidebar } from "@/lib/sidebar-store";
 import {
   LayoutDashboard,
   FolderKanban,
@@ -83,9 +84,22 @@ const ME = CURRENT_USER;
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { isOpen, close } = useSidebar();
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-60 bg-[#050505] border-r border-[#1A1A1A] flex flex-col z-30">
+    <>
+      {/* Mobile backdrop */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-20 md:hidden"
+          onClick={close}
+        />
+      )}
+
+    <aside className={cn(
+      "fixed left-0 top-0 h-full w-60 bg-[#050505] border-r border-[#1A1A1A] flex flex-col z-30 transition-transform duration-300",
+      isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
+    )}>
       {/* Workspace — artist identity */}
       <div className="px-4 pt-5 pb-4 border-b border-[#1A1A1A]">
         <div className="flex items-center gap-2.5">
@@ -119,6 +133,7 @@ export function Sidebar() {
                   <li key={item.href}>
                     <Link
                       href={item.href}
+                      onClick={close}
                       className={cn(
                         "nav-item",
                         isActive && "active",
@@ -166,5 +181,6 @@ export function Sidebar() {
         </Link>
       </div>
     </aside>
+    </>
   );
 }

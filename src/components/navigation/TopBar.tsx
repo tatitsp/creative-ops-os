@@ -1,9 +1,10 @@
 "use client";
 
 import { useSession, signIn } from "next-auth/react";
-import { Search, Plus } from "lucide-react";
+import { Search, Plus, Menu } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
+import { useSidebar } from "@/lib/sidebar-store";
 
 interface TopBarProps {
   title: string;
@@ -13,9 +14,19 @@ interface TopBarProps {
 
 export function TopBar({ title, subtitle, actions }: TopBarProps) {
   const { data: session } = useSession();
+  const { toggle } = useSidebar();
 
   return (
-    <header className="h-14 border-b border-border bg-canvas-50/80 backdrop-blur-sm sticky top-0 z-20 px-6 flex items-center gap-4">
+    <header className="h-14 border-b border-border bg-canvas-50/80 backdrop-blur-sm sticky top-0 z-20 px-4 md:px-6 flex items-center gap-3 md:gap-4">
+      {/* Hamburger — mobile only */}
+      <button
+        className="md:hidden flex-shrink-0 p-1.5 rounded-lg hover:bg-canvas-100 transition-colors"
+        onClick={toggle}
+        aria-label="Open menu"
+      >
+        <Menu className="w-5 h-5 text-ink-secondary" />
+      </button>
+
       {/* Title */}
       <div className="flex-1 min-w-0">
         <h1 className="text-sm font-bold text-ink truncate">{title}</h1>

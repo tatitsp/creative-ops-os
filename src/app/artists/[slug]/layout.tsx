@@ -22,7 +22,7 @@ export default async function ArtistWorkspaceLayout({ children, params }: Props)
         genre={workspace.genre}
         basePath={`/artists/${slug}`}
       />
-      <main className="pl-60 min-h-screen">
+      <main className="md:pl-60 min-h-screen">
         {children}
       </main>
       {/* <CopilotPanel /> */}
