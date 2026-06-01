@@ -4,7 +4,6 @@
 // URL. Creates an Asset record in Prisma so the file appears in the library.
 // Upserts the user and workspace if they don't exist yet (no seed required).
 
-import { NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -24,7 +23,7 @@ function deriveFileType(mimeType: string): string {
   return "document";
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
     const session = await auth();
     if (!session?.user?.email) {

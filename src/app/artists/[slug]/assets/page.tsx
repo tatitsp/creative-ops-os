@@ -12,9 +12,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: ws ? `${ws.artistName} — Asset Library` : "Asset Library" };
 }
 
-export async function generateStaticParams() {
-  return WORKSPACES.filter((w) => w.slug !== "lil-tony").map((w) => ({ slug: w.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export default async function ArtistAssetsPage({ params }: Props) {
   const { slug } = await params;

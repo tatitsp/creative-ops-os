@@ -11,14 +11,13 @@
 //   gsutil cors set cors.json gs://YOUR_BUCKET
 //   cors.json: [{ "origin": ["*"], "method": ["PUT"], "responseHeader": ["Content-Type"], "maxAgeSeconds": 3600 }]
 
-import { bucket } from "@/lib/gcs";
-import { NextRequest } from "next/server";
+import { getBucket } from "@/lib/gcs";
 
 function sanitizeFilename(name: string): string {
   return name.replace(/[^a-zA-Z0-9._-]/g, "_");
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
     const { filename, contentType, size } = await req.json();
 
@@ -35,7 +34,7 @@ export async function POST(req: NextRequest) {
 
     // Signed URL is valid for 15 minutes — enough for very large files on slow
     // connections. The client must PUT with the exact Content-Type supplied here.
-    const [signedUrl] = await bucket.file(gcsPath).getSignedUrl({
+    const [signedUrl] = await getBucket().file(gcsPath).getSignedUrl({
       version: "v4",
       action: "write",
       expires: Date.now() + 15 * 60 * 1000,

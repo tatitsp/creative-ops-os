@@ -7,6 +7,7 @@ import { TopBar } from "@/components/navigation/TopBar";
 import { VisionStudio } from "@/components/director/VisionStudio";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Vision Studio · Director" };
 
 export default async function DirectorStudioPage() {
