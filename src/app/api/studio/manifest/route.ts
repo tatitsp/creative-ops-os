@@ -7,7 +7,6 @@
 // The workspace is always "lil-tony" for now; the route upserts both
 // the user and workspace so it works before the DB is fully seeded.
 
-import { NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -23,7 +22,7 @@ const PIPELINE_TEMPLATE = [
   { title: "Release Day Rollout Pack",  type: "CAROUSEL"      as const, phase: "IDEA"       as const },
 ] as const;
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
     const session = await auth();
     if (!session?.user?.email) {
