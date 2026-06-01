@@ -10,18 +10,7 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Seeding Creative Ops OS...");
 
-  // Workspace
-  const workspace = await prisma.workspace.upsert({
-    where: { slug: "creative-ops-demo" },
-    update: {},
-    create: {
-      name: "Creative Ops Studio",
-      slug: "creative-ops-demo",
-      description: "Demo workspace for Creative Operations OS",
-    },
-  });
-
-  // Artist CEO
+  // Artist CEO (must exist before workspace so it can be set as owner)
   const artist = await prisma.user.upsert({
     where: { email: "jordan@studio.io" },
     update: {},
@@ -30,6 +19,18 @@ async function main() {
       name: "Jordan Ellis",
       role: "ARTIST_CEO",
       status: "ACTIVE",
+    },
+  });
+
+  // Workspace
+  const workspace = await prisma.workspace.upsert({
+    where: { slug: "creative-ops-demo" },
+    update: {},
+    create: {
+      name: "Creative Ops Studio",
+      slug: "creative-ops-demo",
+      description: "Demo workspace for Creative Operations OS",
+      owner: { connect: { id: artist.id } },
     },
   });
 
