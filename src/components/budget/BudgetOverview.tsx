@@ -46,11 +46,11 @@ export function BudgetOverview() {
   const filteredTotal = filtered.reduce((s, t) => s + t.amount, 0);
 
   return (
-    <div className="p-6 max-w-5xl space-y-10">
+    <div className="p-4 md:p-6 max-w-5xl space-y-10">
 
       {/* ── Global summary ─────────────────────────────────────────────── */}
       <div>
-        <div className="grid grid-cols-4 gap-4 mb-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-4">
           <GlobalStat label="Total Budget"   value={formatMoney(globalTotal)}  sub="all active campaigns" />
           <GlobalStat
             label="Total Spent"
@@ -296,7 +296,7 @@ function GlobalStat({
   return (
     <div className="rounded-2xl border border-border bg-canvas-100 p-4">
       <p className="text-2xs font-bold text-ink-tertiary uppercase tracking-wider mb-2">{label}</p>
-      <p className={cn("text-xl font-black tabular-nums", valueColor)}>{value}</p>
+      <p className={cn("text-base md:text-xl font-black tabular-nums", valueColor)}>{value}</p>
       <p className="text-2xs text-ink-tertiary mt-0.5">{sub}</p>
     </div>
   );

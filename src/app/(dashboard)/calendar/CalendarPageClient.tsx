@@ -173,13 +173,13 @@ export function CalendarPageClient() {
         title="Content Calendar"
         subtitle={`${MONTH_NAMES[month - 1]} ${year}`}
         actions={
-          <div className="flex items-center gap-2">
+          <div className="flex items-center flex-wrap gap-2">
             <div className="flex items-center gap-1">
               <button onClick={prevMonth} className="p-1.5 rounded-lg hover:bg-canvas-100 transition-colors">
                 <ChevronLeft className="w-4 h-4 text-ink-secondary" />
               </button>
-              <span className="text-sm font-medium text-ink px-2">
-                {MONTH_NAMES[month - 1]} {year}
+              <span className="text-xs md:text-sm font-medium text-ink px-1 md:px-2 whitespace-nowrap">
+                {MONTH_NAMES[month - 1].slice(0, 3)} {year}
               </span>
               <button onClick={nextMonth} className="p-1.5 rounded-lg hover:bg-canvas-100 transition-colors">
                 <ChevronRight className="w-4 h-4 text-ink-secondary" />
@@ -191,7 +191,7 @@ export function CalendarPageClient() {
                   key={v}
                   onClick={() => setView(v)}
                   className={cn(
-                    "px-3 py-1 text-xs font-medium rounded-md transition-colors",
+                    "px-2 md:px-3 py-1 text-xs font-medium rounded-md transition-colors",
                     view === v ? "bg-canvas-200 text-ink shadow-card" : "text-ink-secondary hover:text-ink",
                   )}
                 >
@@ -200,7 +200,8 @@ export function CalendarPageClient() {
               ))}
             </div>
             <Button variant="primary" size="sm" leftIcon={<Plus className="w-3.5 h-3.5" />} onClick={() => setAddEventOpen(true)}>
-              Add event
+              <span className="hidden sm:inline">Add event</span>
+              <span className="sm:hidden">Add</span>
             </Button>
           </div>
         }
@@ -212,8 +213,9 @@ export function CalendarPageClient() {
           <div className="card overflow-hidden">
             <div className="grid grid-cols-7 border-b border-border">
               {DAYS_OF_WEEK.map((day) => (
-                <div key={day} className="py-3 text-center text-label border-r border-border last:border-r-0">
-                  {day}
+                <div key={day} className="py-2 md:py-3 text-center text-label border-r border-border last:border-r-0">
+                  <span className="hidden sm:inline">{day}</span>
+                  <span className="sm:hidden">{day[0]}</span>
                 </div>
               ))}
             </div>
@@ -229,7 +231,7 @@ export function CalendarPageClient() {
                   <div
                     key={i}
                     className={cn(
-                      "min-h-28 p-2 border-b border-r border-border last:border-r-0 relative",
+                      "min-h-14 md:min-h-28 p-1 md:p-2 border-b border-r border-border last:border-r-0 relative",
                       !day && "bg-canvas-50",
                       isPast && "bg-canvas-50/50",
                       isToday && "bg-gold-50/20",
