@@ -43,7 +43,7 @@ export function ProjectsPageClient() {
       )}
 
       <TopBar
-        title="Projects & Campaigns"
+        title="Campaigns"
         subtitle={`${MOCK_CAMPAIGNS.length} total campaigns`}
         actions={
           <Button
@@ -165,7 +165,7 @@ export function ProjectsPageClient() {
         <section>
           <div className="flex items-center justify-between mb-3">
             <div>
-              <h2 className="text-subheading">All Deliverables</h2>
+              <h2 className="text-subheading">All Tasks</h2>
               <p className="text-xs text-ink-tertiary mt-0.5">
                 {MOCK_TASKS.filter((t) => t.status !== "DONE").length} open ·{" "}
                 {MOCK_TASKS.filter((t) => t.status === "DONE").length} completed

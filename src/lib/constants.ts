@@ -16,14 +16,14 @@ import type { UserRole, ContentPhase, TaskStatus, Priority, CampaignStatus } fro
 
 export const NAV_ITEMS = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Projects", href: "/projects", icon: FolderKanban },
+  { label: "Campaigns", href: "/projects", icon: FolderKanban },
   { label: "Content", href: "/content", icon: Film },
-  { label: "Assets", href: "/assets", icon: ImageIcon },
+  { label: "Media Vault", href: "/assets", icon: ImageIcon },
   { label: "Calendar", href: "/calendar", icon: CalendarDays },
   { label: "Analytics", href: "/analytics", icon: BarChart3 },
   { label: "Team", href: "/team", icon: Users },
-  { label: "Channels", href: "/channels", icon: MessageSquare },
-  { label: "Onboarding", href: "/onboarding", icon: UserCheck },
+  { label: "Messages", href: "/channels", icon: MessageSquare },
+  { label: "Getting Started", href: "/onboarding", icon: UserCheck },
   { label: "Settings", href: "/settings", icon: Settings },
 ] as const;
 

@@ -35,7 +35,7 @@ export default async function ArtistDashboardPage({ params }: Props) {
   const DOCK_CARDS: DockCard[] = [
     {
       href: `${ws.href.replace("/dashboard", "")}/releases`,
-      label: "Releases",
+      label: "Drops",
       status: activeRelease
         ? `${CAAM1K_RELEASES.filter((r) => r.status === "ACTIVE").length} active · ${activeRelease.title}`
         : "No active releases",
@@ -43,7 +43,7 @@ export default async function ArtistDashboardPage({ params }: Props) {
     },
     {
       href: `${ws.href.replace("/dashboard", "")}/projects`,
-      label: "Projects",
+      label: "Campaigns",
       status: `${activeCampaigns.length} active campaign${activeCampaigns.length !== 1 ? "s" : ""} · ${planningCampaigns.length} in planning`,
       icon: <FolderKanban className="w-5 h-5 text-sky-500" />,
     },

@@ -58,13 +58,13 @@ export function ArtistChannelsClient({ artistName, channels, initialMessages, te
 
   return (
     <div className="min-h-screen">
-      <TopBar title="Channels" subtitle={`${artistName} · Team communication`} />
+      <TopBar title="Messages" subtitle={`${artistName} · Team communication`} />
 
       <div className="flex h-[calc(100vh-3.5rem)]">
         {/* Channel list */}
         <aside className="w-52 border-r border-border bg-canvas-50 flex flex-col flex-shrink-0">
           <div className="p-3 border-b border-border flex items-center justify-between">
-            <span className="text-label">Channels</span>
+            <span className="text-label">Messages</span>
             <button className="p-1 rounded hover:bg-canvas-100 transition-colors">
               <Plus className="w-3.5 h-3.5 text-ink-tertiary" />
             </button>

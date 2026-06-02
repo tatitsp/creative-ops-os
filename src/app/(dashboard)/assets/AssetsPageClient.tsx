@@ -48,7 +48,7 @@ export function AssetsPageClient({ workspaceSlug, children }: Props) {
   return (
     <div className="min-h-screen">
       <TopBar
-        title={ws ? `Welcome to ${ws.artistName}'s Vault` : "Asset Library"}
+        title={ws ? `Welcome to ${ws.artistName}'s Vault` : "Media Vault"}
         subtitle="Central media archive"
         actions={<AssetUploadButton workspaceSlug={workspaceSlug} />}
       />

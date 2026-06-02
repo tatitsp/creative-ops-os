@@ -32,7 +32,7 @@ const CHANNEL_MESSAGES: Record<string, { id: string; author: typeof MOCK_USERS[0
   ],
   ch2: [
     { id: "a1", author: MOCK_USERS[1], content: "⚡ SCOPE is live. All content, approvals, and assets are now managed through this system. Welcome to high-performance peace.", timestamp: "2026-05-17T08:00:00Z" },
-    { id: "a2", author: MOCK_USERS[1], content: "Reminder: all asset uploads go through the Asset Library. No more Google Drive links in DMs.", timestamp: "2026-05-18T08:00:00Z" },
+    { id: "a2", author: MOCK_USERS[1], content: "Reminder: all asset uploads go through the Media Vault. No more Google Drive links in DMs.", timestamp: "2026-05-18T08:00:00Z" },
   ],
   ch4: [
     { id: "e1", author: MOCK_USERS[2], content: "Ecclesiastes visualizer is fully edited. Submitting for approval now.", timestamp: "2026-05-16T14:00:00Z" },
@@ -94,13 +94,13 @@ export function ChannelsPageClient() {
 
   return (
     <div className="min-h-screen">
-      <TopBar title="Channels" subtitle="Team communication" />
+      <TopBar title="Messages" subtitle="Team communication" />
 
       <div className="flex h-[calc(100vh-3.5rem)]">
         {/* Channel list */}
         <aside className="hidden md:flex md:w-52 border-r border-border bg-canvas-50 flex-col flex-shrink-0">
           <div className="p-3 border-b border-border flex items-center justify-between">
-            <span className="text-label">Channels</span>
+            <span className="text-label">Messages</span>
             <button className="p-1 rounded hover:bg-canvas-100 transition-colors">
               <Plus className="w-3.5 h-3.5 text-ink-tertiary" />
             </button>

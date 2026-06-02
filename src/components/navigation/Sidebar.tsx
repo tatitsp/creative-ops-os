@@ -39,8 +39,8 @@ const NAV_SECTIONS = [
       ...(CURRENT_USER.role === "CREATIVE_OPS_DIRECTOR"
         ? [{ label: "Artist Portal", href: "/artist-portal", icon: Star }]
         : []),
-      { label: "Releases",       href: "/releases",       icon: Rocket,       badge: 1 },
-      { label: "Projects",       href: "/projects",       icon: FolderKanban, badge: 4 },
+      { label: "Drops",          href: "/releases",       icon: Rocket,       badge: 1 },
+      { label: "Campaigns",      href: "/projects",       icon: FolderKanban, badge: 4 },
       { label: "Content",        href: "/content",        icon: Film,         badge: 6 },
       { label: "Approvals",      href: "/approvals",      icon: CheckSquare,  badge: PENDING_APPROVALS_COUNT },
       ...(BUDGET_ROLES.includes(CURRENT_USER.role)
@@ -61,7 +61,7 @@ const NAV_SECTIONS = [
   {
     label: "Create",
     items: [
-      { label: "Asset Library", href: "/assets", icon: ImageIcon },
+      { label: "Media Vault", href: "/assets", icon: ImageIcon },
       { label: "Calendar", href: "/calendar", icon: CalendarDays },
     ],
   },
@@ -70,8 +70,8 @@ const NAV_SECTIONS = [
     items: [
       { label: "Analytics", href: "/analytics", icon: BarChart3 },
       { label: "Team", href: "/team", icon: Users },
-      { label: "Channels", href: "/channels", icon: MessageSquare, badge: 3 },
-      { label: "Onboarding", href: "/onboarding", icon: UserCheck },
+      { label: "Messages", href: "/channels", icon: MessageSquare, badge: 3 },
+      { label: "Getting Started", href: "/onboarding", icon: UserCheck },
     ],
   },
   {

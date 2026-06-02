@@ -272,7 +272,7 @@ export function ArtistPortalView() {
 
         {/* ── 1. MY RELEASES ──────────────────────────────────────────────── */}
         <section>
-          <SectionHeader label="My Releases" />
+          <SectionHeader label="My Drops" />
           <div className="grid grid-cols-1 gap-4">
             {/* Elijah card */}
             <div className="rounded-2xl border border-gold/20 bg-[#0c0c0c] overflow-hidden">

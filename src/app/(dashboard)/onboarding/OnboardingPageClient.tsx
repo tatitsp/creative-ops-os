@@ -97,7 +97,7 @@ export function OnboardingPageClient() {
                     <input className="input-base" type="email" placeholder="team@studio.io" value={inviteEmail} onChange={(e) => setInviteEmail(e.target.value)} />
                   </div>
                   <div>
-                    <label className="text-label block mb-1.5">Onboarding track</label>
+                    <label className="text-label block mb-1.5">Getting Started track</label>
                     <select className="input-base" value={activeRole} onChange={(e) => setActiveRole(e.target.value as RoleKey)}>
                       {(Object.entries(ROLE_LABELS) as [RoleKey, string][]).map(([role, label]) => (
                         <option key={role} value={role}>{label}</option>
@@ -118,7 +118,7 @@ export function OnboardingPageClient() {
       )}
 
       <TopBar
-        title="Onboarding"
+        title="Getting Started"
         subtitle="New team member setup flow"
         actions={
           <Button variant="primary" size="sm" onClick={() => setInviteOpen(true)}>

@@ -118,10 +118,10 @@ export function ReleasesPageClient() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {(
             [
-              { label: "Active Releases", value: MOCK_RELEASES.filter((r) => r.status === "PRE_RELEASE" || r.status === "RELEASE_WEEK").length, color: "text-amber-500" },
+              { label: "Active Drops", value: MOCK_RELEASES.filter((r) => r.status === "PRE_RELEASE" || r.status === "RELEASE_WEEK").length, color: "text-amber-500" },
               { label: "In Concept", value: MOCK_RELEASES.filter((r) => r.status === "CONCEPT").length, color: "text-ink-secondary" },
               { label: "Released", value: MOCK_RELEASES.filter((r) => r.status === "RELEASED").length, color: "text-emerald-600" },
-              { label: "Total Releases", value: MOCK_RELEASES.length, color: "text-gold" },
+              { label: "Total Drops", value: MOCK_RELEASES.length, color: "text-gold" },
             ] as const
           ).map((s) => (
             <div key={s.label} className="card p-4">

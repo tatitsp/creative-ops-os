@@ -3,7 +3,7 @@ import { AssetsPageClient } from "./AssetsPageClient";
 import { AssetGrid } from "@/components/assets/AssetGrid";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "Asset Library" };
+export const metadata: Metadata = { title: "Media Vault" };
 
 export default function AssetsPage() {
   return (

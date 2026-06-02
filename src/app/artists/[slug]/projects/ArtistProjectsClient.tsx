@@ -63,7 +63,7 @@ export function ArtistProjectsClient({ artistName, campaigns, tasks }: Props) {
       )}
 
       <TopBar
-        title="Projects & Campaigns"
+        title="Campaigns"
         subtitle={`${campaigns.length} total campaigns`}
         actions={
           <Button variant="primary" size="sm" leftIcon={<Plus className="w-3.5 h-3.5" />} onClick={() => showToast("Campaign creation coming soon")}>
@@ -170,7 +170,7 @@ export function ArtistProjectsClient({ artistName, campaigns, tasks }: Props) {
         <section>
           <div className="flex items-center justify-between mb-3">
             <div>
-              <h2 className="text-subheading">Deliverables</h2>
+              <h2 className="text-subheading">Tasks</h2>
               <p className="text-xs text-ink-tertiary mt-0.5">{open} open · {done} completed</p>
             </div>
             <Button size="sm" variant="secondary" leftIcon={<Plus className="w-3.5 h-3.5" />} onClick={() => showToast("Task creation coming soon")}>

@@ -16,7 +16,7 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const ws = WORKSPACES.find((w) => w.slug === slug);
-  return { title: ws ? `${ws.artistName} — Onboarding` : "Onboarding" };
+  return { title: ws ? `${ws.artistName} — Getting Started` : "Getting Started" };
 }
 
 export async function generateStaticParams() {
@@ -43,7 +43,7 @@ export default async function ArtistOnboardingPage({ params }: Props) {
   return (
     <>
       <TopBar
-        title="Onboarding"
+        title="Getting Started"
         subtitle={`${ws.artistName} · New team member setup`}
         actions={<Button variant="primary" size="sm">Send invite</Button>}
       />
@@ -110,7 +110,7 @@ export default async function ArtistOnboardingPage({ params }: Props) {
         </div>
 
         <section>
-          <h2 className="text-subheading mb-3">Onboard for a different role</h2>
+          <h2 className="text-subheading mb-3">Get started in a different role</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
             {(Object.entries(ROLE_LABELS) as [keyof typeof ROLE_LABELS, string][]).map(([role, label]) => (
               <button key={role} className="card p-3 text-left hover:border-gold-200 transition-colors">

@@ -46,7 +46,7 @@ const awayTeam = MOCK_USERS.filter((u) => u.status === "AWAY" || u.status === "B
 const DOCK_CARDS: DockCard[] = [
   {
     href: "/releases",
-    label: "Releases",
+    label: "Drops",
     status: activeRelease
       ? `${MOCK_RELEASES.filter((r) => r.status === "PRE_RELEASE").length} active · ${releaseDaysAway}d to ${activeRelease.title}`
       : "No active releases",
@@ -54,7 +54,7 @@ const DOCK_CARDS: DockCard[] = [
   },
   {
     href: "/projects",
-    label: "Projects",
+    label: "Campaigns",
     status: `${activeCampaigns.length} active campaign${activeCampaigns.length !== 1 ? "s" : ""} · ${planningCampaigns.length} in planning`,
     icon: <FolderKanban className="w-5 h-5 text-sky-500" />,
   },

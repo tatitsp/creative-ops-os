@@ -9,7 +9,7 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const ws = WORKSPACES.find((w) => w.slug === slug);
-  return { title: ws ? `${ws.artistName} — Asset Library` : "Asset Library" };
+  return { title: ws ? `${ws.artistName} — Media Vault` : "Media Vault" };
 }
 
 export const dynamic = "force-dynamic";

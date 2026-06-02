@@ -9,7 +9,7 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const ws = WORKSPACES.find((w) => w.slug === slug);
-  return { title: ws ? `${ws.artistName} — Projects` : "Projects" };
+  return { title: ws ? `${ws.artistName} — Campaigns` : "Campaigns" };
 }
 
 export async function generateStaticParams() {

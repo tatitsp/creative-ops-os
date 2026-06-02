@@ -50,8 +50,8 @@ export function WorkspaceSidebar({ artistName, artistPhoto, genre, basePath }: W
         ...(CURRENT_USER.role === "CREATIVE_OPS_DIRECTOR"
           ? [{ label: "Artist Portal", href: `${basePath}/artist-portal`, icon: Star }]
           : []),
-        { label: "Releases",      href: `${basePath}/releases`,      icon: Rocket,       badge: 1 },
-        { label: "Projects",      href: `${basePath}/projects`,      icon: FolderKanban },
+        { label: "Drops",         href: `${basePath}/releases`,      icon: Rocket,       badge: 1 },
+        { label: "Campaigns",     href: `${basePath}/projects`,      icon: FolderKanban },
         { label: "Content",       href: `${basePath}/content`,       icon: Film },
         { label: "Approvals",     href: `${basePath}/approvals`,     icon: CheckSquare },
         ...(BUDGET_ROLES.includes(CURRENT_USER.role)
@@ -72,7 +72,7 @@ export function WorkspaceSidebar({ artistName, artistPhoto, genre, basePath }: W
     {
       label: "Create",
       items: [
-        { label: "Asset Library", href: `${basePath}/assets`,   icon: ImageIcon },
+        { label: "Media Vault",   href: `${basePath}/assets`,   icon: ImageIcon },
         { label: "Calendar",      href: `${basePath}/calendar`, icon: CalendarDays },
       ],
     },
@@ -81,8 +81,8 @@ export function WorkspaceSidebar({ artistName, artistPhoto, genre, basePath }: W
       items: [
         { label: "Analytics",  href: `${basePath}/analytics`,  icon: BarChart3 },
         { label: "Team",       href: `${basePath}/team`,       icon: Users },
-        { label: "Channels",   href: `${basePath}/channels`,   icon: MessageSquare, badge: 2 },
-        { label: "Onboarding", href: `${basePath}/onboarding`, icon: UserCheck },
+        { label: "Messages",       href: `${basePath}/channels`,   icon: MessageSquare, badge: 2 },
+        { label: "Getting Started", href: `${basePath}/onboarding`, icon: UserCheck },
       ],
     },
     {

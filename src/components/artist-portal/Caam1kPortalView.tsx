@@ -282,7 +282,7 @@ export function Caam1kPortalView() {
 
         {/* ── 1. MY RELEASES ──────────────────────────────────────────────── */}
         <section>
-          <SectionHeader label="My Releases" />
+          <SectionHeader label="My Drops" />
           <div className="rounded-2xl border border-gold/20 bg-[#0c0c0c] overflow-hidden">
             <div className="p-6 flex gap-6">
               {/* Left: info */}
