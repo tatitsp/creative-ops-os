@@ -27,6 +27,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useSidebar } from "@/lib/sidebar-store";
+import { useDemoRole, isHrefAllowed } from "@/lib/demo-role-store";
+import { RoleSwitcher } from "@/components/navigation/RoleSwitcher";
 
 const BUDGET_ROLES = ["ARTIST_CEO", "CREATIVE_OPS_DIRECTOR"];
 const ME = CURRENT_USER;
@@ -41,6 +43,7 @@ type WorkspaceSidebarProps = {
 export function WorkspaceSidebar({ artistName, artistPhoto, genre, basePath }: WorkspaceSidebarProps) {
   const pathname = usePathname();
   const { isOpen, close } = useSidebar();
+  const { role } = useDemoRole();
 
   const NAV_SECTIONS = [
     {
@@ -129,11 +132,14 @@ export function WorkspaceSidebar({ artistName, artistPhoto, genre, basePath }: W
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto px-3 py-3 space-y-5">
-        {NAV_SECTIONS.map((section) => (
+        {NAV_SECTIONS.map((section) => {
+          const visibleItems = section.items.filter((item) => isHrefAllowed(item.href, role));
+          if (visibleItems.length === 0) return null;
+          return (
           <div key={section.label}>
             <p className="text-label px-2 mb-1">{section.label}</p>
             <ul className="space-y-0.5">
-              {section.items.map((item) => {
+              {visibleItems.map((item) => {
                 const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
                 const Icon = item.icon;
                 return (
@@ -161,8 +167,11 @@ export function WorkspaceSidebar({ artistName, artistPhoto, genre, basePath }: W
               })}
             </ul>
           </div>
-        ))}
+          );
+        })}
       </nav>
+
+      <RoleSwitcher />
 
       {/* User */}
       <div className="p-3 border-t border-[#1A1A1A]">
