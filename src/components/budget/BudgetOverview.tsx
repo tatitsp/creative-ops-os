@@ -94,7 +94,7 @@ export function BudgetOverview() {
         <h2 className="text-xs font-bold text-ink-tertiary uppercase tracking-widest mb-4">
           By Campaign
         </h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {budgets.map((budget) => {
             const { totalSpent, totalRemaining, burnPct } = getBudgetTotals(budget);
             const isHot = burnPct >= 85;
@@ -294,9 +294,9 @@ function GlobalStat({
   valueColor?: string;
 }) {
   return (
-    <div className="rounded-2xl border border-border bg-canvas-100 p-4">
+    <div className="rounded-2xl border border-border bg-canvas-100 p-3 md:p-4">
       <p className="text-2xs font-bold text-ink-tertiary uppercase tracking-wider mb-2">{label}</p>
-      <p className={cn("text-base md:text-xl font-black tabular-nums", valueColor)}>{value}</p>
+      <p className={cn("text-sm md:text-xl font-black tabular-nums truncate", valueColor)}>{value}</p>
       <p className="text-2xs text-ink-tertiary mt-0.5">{sub}</p>
     </div>
   );
