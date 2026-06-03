@@ -6,12 +6,14 @@ import { Button } from "@/components/ui/Button";
 import { Avatar } from "@/components/ui/Avatar";
 import { MOCK_USERS } from "@/lib/mock-data";
 import { ROLE_LABELS } from "@/lib/constants";
-import { User, Bell, Shield, Palette, Building2, Key, Globe, Zap, Check, X } from "lucide-react";
+import { User, Bell, Shield, Palette, Building2, Key, Globe, Zap, Check, X, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CURRENT_USER } from "@/lib/mock-data";
+import { AdminPanel } from "@/components/settings/AdminPanel";
 
-type SettingsTab = "Profile" | "Workspace" | "Notifications" | "Permissions" | "Appearance" | "API & Integrations" | "Billing";
+type SettingsTab = "Profile" | "Workspace" | "Notifications" | "Permissions" | "Appearance" | "API & Integrations" | "Billing" | "Admin";
 
-const SETTINGS_NAV: { icon: React.ElementType; label: SettingsTab }[] = [
+const BASE_SETTINGS_NAV: { icon: React.ElementType; label: SettingsTab }[] = [
   { icon: User, label: "Profile" },
   { icon: Building2, label: "Workspace" },
   { icon: Bell, label: "Notifications" },
@@ -22,9 +24,13 @@ const SETTINGS_NAV: { icon: React.ElementType; label: SettingsTab }[] = [
 ];
 
 const me = MOCK_USERS[0];
+const isAdmin = CURRENT_USER.role === "CREATIVE_OPS_DIRECTOR";
 
 export function SettingsPageClient() {
   const [activeTab, setActiveTab] = useState<SettingsTab>("Profile");
+  const SETTINGS_NAV = isAdmin
+    ? [...BASE_SETTINGS_NAV, { icon: ShieldCheck, label: "Admin" as SettingsTab }]
+    : BASE_SETTINGS_NAV;
   const [name, setName] = useState(me.name);
   const [displayName, setDisplayName] = useState(me.displayName ?? me.name.split(" ")[0]);
   const [email, setEmail] = useState(me.email);
@@ -252,6 +258,8 @@ export function SettingsPageClient() {
               </div>
             </section>
           )}
+
+          {activeTab === "Admin" && isAdmin && <AdminPanel />}
 
           {/* Danger Zone — always visible */}
           {(activeTab === "Profile" || activeTab === "Workspace") && (
