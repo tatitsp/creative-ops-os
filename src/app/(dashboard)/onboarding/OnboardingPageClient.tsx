@@ -127,7 +127,7 @@ export function OnboardingPageClient() {
         }
       />
 
-      <div className="p-6 max-w-3xl space-y-8 animate-in">
+      <div className="p-6 space-y-8 animate-in">
         {/* Header card */}
         <div className="card p-6 bg-gradient-to-br from-gold-50 to-canvas-100 border-gold-200">
           <div className="flex items-start justify-between gap-6">

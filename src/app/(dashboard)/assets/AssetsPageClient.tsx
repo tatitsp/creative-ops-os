@@ -5,7 +5,7 @@ import { TopBar } from "@/components/navigation/TopBar";
 import { Button } from "@/components/ui/Button";
 import { AssetUploadButton } from "@/components/assets/AssetUploadButton";
 import { WORKSPACES } from "@/lib/workspaces";
-import { FolderOpen, Search, Filter, Tag, X } from "lucide-react";
+import { Search, Filter, Tag, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const FOLDERS = [
@@ -53,32 +53,28 @@ export function AssetsPageClient({ workspaceSlug, children }: Props) {
         actions={<AssetUploadButton workspaceSlug={workspaceSlug} />}
       />
 
-      <div className="flex h-[calc(100vh-3.5rem)]">
-        {/* Folder sidebar */}
-        <aside className="w-48 border-r border-border bg-canvas-50 p-3 flex-shrink-0">
-          <p className="text-label mb-2">Folders</p>
-          <ul className="space-y-0.5">
-            {FOLDERS.map((folder) => (
-              <li key={folder}>
-                <button
-                  onClick={() => setActiveFolder(folder)}
-                  className={cn(
-                    "w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors",
-                    activeFolder === folder
-                      ? "bg-gold-50 text-gold"
-                      : "text-ink-secondary hover:bg-canvas-100 hover:text-ink",
-                  )}
-                >
-                  <FolderOpen className="w-3.5 h-3.5 flex-shrink-0" />
-                  {folder}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </aside>
+      {/* Horizontal folder tabs */}
+      <div className="border-b border-border px-6">
+        <div className="flex">
+          {FOLDERS.map((folder) => (
+            <button
+              key={folder}
+              onClick={() => setActiveFolder(folder)}
+              className={cn(
+                "flex-1 py-3 text-sm font-semibold text-center border-b-2 -mb-px transition-colors whitespace-nowrap",
+                activeFolder === folder
+                  ? "border-gold text-gold"
+                  : "border-transparent text-ink-tertiary hover:text-ink-secondary",
+              )}
+            >
+              {folder}
+            </button>
+          ))}
+        </div>
+      </div>
 
         {/* Main content */}
-        <div className="flex-1 overflow-auto p-6 space-y-4">
+        <div className="p-6 space-y-4">
           {/* Search + filter bar */}
           <div className="flex items-center gap-3 flex-wrap">
             <div className="flex items-center gap-2 bg-canvas-100 border border-border rounded-lg px-3 py-2 flex-1 max-w-sm focus-within:ring-1 focus-within:ring-white/20 focus-within:border-border-strong transition-all">
@@ -175,21 +171,9 @@ export function AssetsPageClient({ workspaceSlug, children }: Props) {
             </div>
           )}
 
-          {/* Folder breadcrumb */}
-          {activeFolder !== "All Files" && (
-            <div className="flex items-center gap-2 text-xs text-ink-secondary">
-              <button onClick={() => setActiveFolder("All Files")} className="hover:text-ink transition-colors">
-                All Files
-              </button>
-              <span>/</span>
-              <span className="text-ink font-medium">{activeFolder}</span>
-            </div>
-          )}
-
           {/* Live asset grid */}
           {children}
         </div>
-      </div>
     </div>
   );
 }

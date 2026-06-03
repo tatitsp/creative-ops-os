@@ -149,59 +149,55 @@ export function Sidebar() {
         {/* Nav */}
         <nav
           className={cn(
-            "flex-1 overflow-y-auto py-4 space-y-6",
+            "flex-1 overflow-y-auto py-4",
             isCollapsed ? "px-2" : "px-3",
           )}
         >
-          {NAV_SECTIONS.map((section) => {
-            const visibleItems = section.items.filter((item) => isHrefAllowed(item.href, role));
-            if (visibleItems.length === 0) return null;
-            return (
-              <ul key={section.label} className="space-y-0.5">
-                {visibleItems.map((item) => {
-                  const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
-                  const Icon = item.icon;
-                  return (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        onClick={close}
-                        title={isCollapsed ? item.label : undefined}
-                        className={cn(
-                          "nav-item",
-                          isActive && "active",
-                          isCollapsed && "justify-center px-0",
-                        )}
-                      >
-                        <Icon className="w-4 h-4 flex-shrink-0" strokeWidth={isActive ? 2 : 1.75} />
+          <ul className="space-y-0.5">
+            {NAV_SECTIONS.flatMap((section) =>
+              section.items.filter((item) => isHrefAllowed(item.href, role))
+            ).map((item) => {
+              const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+              const Icon = item.icon;
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    onClick={close}
+                    title={isCollapsed ? item.label : undefined}
+                    className={cn(
+                      "nav-item",
+                      isActive && "active",
+                      isCollapsed && "justify-center px-0",
+                    )}
+                  >
+                    <Icon className="w-4 h-4 flex-shrink-0" strokeWidth={isActive ? 2 : 1.75} />
 
-                        {!isCollapsed && (
-                          <>
-                            <span className="flex-1">{item.label}</span>
-                            {!isActive && UNREAD_NAV_SECTIONS.has(item.href) && !("badge" in item && item.badge) && (
-                              <span className="w-1.5 h-1.5 rounded-full bg-gold flex-shrink-0" />
-                            )}
-                            {"badge" in item && item.badge ? (
-                              <span
-                                className={cn(
-                                  "text-2xs font-bold px-1.5 py-0.5 rounded-full",
-                                  isActive
-                                    ? "bg-gold-100 text-gold"
-                                    : "bg-[#1A1A1A] text-[#444444]",
-                                )}
-                              >
-                                {item.badge}
-                              </span>
-                            ) : null}
-                          </>
+                    {!isCollapsed && (
+                      <>
+                        <span className="flex-1">{item.label}</span>
+                        {!isActive && UNREAD_NAV_SECTIONS.has(item.href) && !("badge" in item && item.badge) && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-gold flex-shrink-0" />
                         )}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            );
-          })}
+                        {"badge" in item && item.badge ? (
+                          <span
+                            className={cn(
+                              "text-2xs font-bold px-1.5 py-0.5 rounded-full",
+                              isActive
+                                ? "bg-gold-100 text-gold"
+                                : "bg-[#1A1A1A] text-[#444444]",
+                            )}
+                          >
+                            {item.badge}
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </nav>
 
         {!isCollapsed && <RoleSwitcher />}
