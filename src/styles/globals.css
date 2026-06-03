@@ -22,16 +22,16 @@
   body {
     @apply bg-canvas text-ink;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
-    cursor: url('/Key_Icon_Gold.svg') 14 0, auto;
+    cursor: url('/Key_Icon_Gold.svg') 20 0, auto;
   }
 
   /* Restore default cursor for interactive elements so the key doesn't replace pointer */
   a, button, [role="button"], select, label[for], input[type="checkbox"], input[type="radio"] {
-    cursor: url('/Key_Icon_Gold.svg') 14 0, pointer;
+    cursor: url('/Key_Icon_Gold.svg') 20 0, pointer;
   }
 
   input, textarea {
-    cursor: url('/Key_Icon_White.svg') 14 0, text;
+    cursor: url('/Key_Icon_White.svg') 20 0, text;
   }
 
   /* Scrollbar — dark */
@@ -62,15 +62,15 @@
 @layer components {
   /* Typography scale — heavy, editorial */
   .text-display {
-    @apply text-2xl font-black tracking-tight text-ink;
+    @apply text-5xl font-black tracking-tight text-ink leading-none;
   }
 
   .text-heading {
-    @apply text-lg font-bold text-ink;
+    @apply text-3xl font-black tracking-tight text-ink leading-none;
   }
 
   .text-subheading {
-    @apply text-sm font-semibold text-ink;
+    @apply text-base font-semibold text-ink;
   }
 
   .text-body {
@@ -87,7 +87,7 @@
 
   /* Card styles — dark surface */
   .card {
-    @apply bg-canvas-50 rounded-xl border border-border shadow-card;
+    @apply bg-canvas-50 rounded-xl border border-[#181818] shadow-card;
   }
 
   .card-hover {

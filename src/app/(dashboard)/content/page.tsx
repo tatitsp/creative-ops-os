@@ -10,7 +10,7 @@ export default function ContentPage() {
   return (
     <div className="min-h-screen">
       <TopBar
-        title="Content Pipeline"
+        title="Content"
         subtitle="Elijah rollout · 6 pieces tracked"
         actions={
           <div className="flex items-center gap-2">

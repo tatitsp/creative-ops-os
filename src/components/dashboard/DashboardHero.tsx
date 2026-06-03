@@ -105,12 +105,12 @@ export function DashboardHero({ cards, artistName, artistPhoto, artistPortalHref
           <Link
             key={card.label}
             href={card.href}
-            className="flex flex-col items-center justify-center gap-2 py-3 md:py-0 md:flex-1 rounded-xl border border-[#1E1E1E] bg-[#0F0F0F] hover:bg-[#161616] hover:border-[#2A2A2A] transition-all group"
+            className="flex flex-col items-center justify-center gap-3 py-3 md:py-0 md:flex-1 rounded-xl border border-[#1E1E1E] bg-[#0F0F0F] hover:bg-[#161616] hover:border-[#2E2E2E] transition-all group"
           >
-            <div className="text-white/40 group-hover:text-white/75 transition-colors">
+            <div className="text-white/50 group-hover:text-white transition-colors [&_svg]:w-6 [&_svg]:h-6">
               {card.icon}
             </div>
-            <span className="text-[0.65rem] font-semibold text-white/40 group-hover:text-white/75 transition-colors tracking-wide">
+            <span className="text-sm font-bold text-white/50 group-hover:text-white transition-colors tracking-wide">
               {card.label}
             </span>
           </Link>

@@ -101,6 +101,10 @@ const config: Config = {
           from: { opacity: "0", transform: "translateX(-8px)" },
           to: { opacity: "1", transform: "translateX(0)" },
         },
+        "slide-in-right": {
+          from: { opacity: "0", transform: "translateX(24px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
         pulse_soft: {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.6" },
@@ -109,6 +113,7 @@ const config: Config = {
       animation: {
         "fade-in": "fade-in 0.2s ease-out",
         "slide-in-left": "slide-in-left 0.2s ease-out",
+        "slide-in-right": "slide-in-right 0.2s ease-out",
         pulse_soft: "pulse_soft 2s ease-in-out infinite",
       },
     },

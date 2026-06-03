@@ -26,7 +26,7 @@ export function MetricCard({
   change,
   changeLabel,
   trend = "neutral",
-  icon,
+  icon: _icon,
   accent = "gold",
   className,
 }: MetricCardProps) {
@@ -41,30 +41,23 @@ export function MetricCard({
         : "text-ink-tertiary";
 
   return (
-    <div className={cn("card p-5 flex flex-col gap-4", className)}>
-      <div className="flex items-start justify-between">
-        <p className="text-label">{label}</p>
-        {icon && (
-          <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", styles.icon)}>
-            {icon}
-          </div>
-        )}
-      </div>
+    <div className={cn("card p-7 flex flex-col gap-5", className)}>
+      <p className="text-label">{label}</p>
 
       <div>
-        <p className={cn("text-2xl font-black tracking-tight", styles.value)}>
+        <p className={cn("text-5xl font-black tracking-tight leading-none", styles.value)}>
           {typeof value === "number" ? formatNumber(value) : value}
         </p>
         {(change !== undefined || changeLabel) && (
-          <div className={cn("flex items-center gap-1 mt-1.5", trendColor)}>
-            <TrendIcon className="w-3.5 h-3.5" />
+          <div className={cn("flex items-center gap-1 mt-3", trendColor)}>
+            <TrendIcon className="w-4 h-4" />
             {change !== undefined && (
-              <span className="text-xs font-semibold">
+              <span className="text-sm font-semibold">
                 {trend === "up" ? "+" : ""}
                 {change}%
               </span>
             )}
-            {changeLabel && <span className="text-xs text-ink-tertiary">{changeLabel}</span>}
+            {changeLabel && <span className="text-sm text-ink-tertiary">{changeLabel}</span>}
           </div>
         )}
       </div>

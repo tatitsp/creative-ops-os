@@ -17,7 +17,7 @@ export function TopBar({ title, subtitle, actions }: TopBarProps) {
   const { toggle } = useSidebar();
 
   return (
-    <header className="h-14 border-b border-border bg-canvas-50/80 backdrop-blur-sm sticky top-0 z-20 px-4 md:px-6 flex items-center gap-3 md:gap-4">
+    <header className="border-b border-border bg-canvas-50/80 backdrop-blur-sm sticky top-0 z-20 px-4 md:px-6 py-4 flex items-center gap-3 md:gap-4">
       {/* Hamburger — mobile only */}
       <button
         className="md:hidden flex-shrink-0 p-1.5 rounded-lg hover:bg-canvas-100 transition-colors"
@@ -29,8 +29,8 @@ export function TopBar({ title, subtitle, actions }: TopBarProps) {
 
       {/* Title */}
       <div className="flex-1 min-w-0">
-        <h1 className="text-sm font-bold text-ink truncate">{title}</h1>
-        {subtitle && <p className="text-2xs text-ink-tertiary">{subtitle}</p>}
+        <h1 className="text-2xl font-black tracking-tight text-ink leading-none truncate">{title}</h1>
+        {subtitle && <p className="text-sm font-medium text-ink-secondary mt-1.5">{subtitle}</p>}
       </div>
 
       {/* Search */}

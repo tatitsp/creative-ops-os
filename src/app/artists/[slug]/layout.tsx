@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { WorkspaceSidebar } from "@/components/navigation/WorkspaceSidebar";
+import { SidebarAwareMain } from "@/components/navigation/SidebarAwareMain";
 // import { CopilotPanel } from "@/components/copilot/CopilotPanel";
 import { WORKSPACES } from "@/lib/workspaces";
 
@@ -22,9 +23,7 @@ export default async function ArtistWorkspaceLayout({ children, params }: Props)
         genre={workspace.genre}
         basePath={`/artists/${slug}`}
       />
-      <main className="md:pl-60 min-h-screen">
-        {children}
-      </main>
+      <SidebarAwareMain>{children}</SidebarAwareMain>
       {/* <CopilotPanel /> */}
     </div>
   );

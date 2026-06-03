@@ -12,7 +12,7 @@ export const DEMO_ROLES: { value: DemoRole; label: string; description: string }
 // hrefs visible per role. "*" = unrestricted
 export const ROLE_ALLOWED_HREFS: Record<DemoRole, string[] | "*"> = {
   "creative-director": "*",
-  "artist-ceo":   ["/dashboard", "/artist-portal", "/releases", "/content", "/calendar", "/analytics", "/assets", "/settings"],
+  "artist-ceo":   ["/artist-portal", "/releases", "/content", "/calendar", "/analytics", "/assets", "/settings"],
   "team-member":  ["/dashboard", "/content", "/assets", "/calendar", "/channels"],
   "management":   ["/dashboard", "/approvals", "/budget", "/releases", "/projects", "/analytics", "/settings"],
 };
