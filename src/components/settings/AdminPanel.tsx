@@ -307,12 +307,12 @@ function ArtistsSection() {
       {modalOpen && (
         <Modal title={editId ? "Edit Artist" : "Add Artist"} onClose={() => setModalOpen(false)}>
           <div className="space-y-3">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="col-span-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="sm:col-span-2">
                 <label className="text-label block mb-1.5">Artist name *</label>
                 <input className="input-base" placeholder="e.g. Lil Tony Official" value={form.name} onChange={f("name")} autoFocus />
               </div>
-              <div className="col-span-2">
+              <div className="sm:col-span-2">
                 <label className="text-label block mb-1.5">Photo URL</label>
                 <input className="input-base" placeholder="https://..." value={form.photo} onChange={f("photo")} />
               </div>
@@ -336,11 +336,11 @@ function ArtistsSection() {
                 <label className="text-label block mb-1.5">Twitter / X</label>
                 <input className="input-base" placeholder="@handle" value={form.twitter} onChange={f("twitter")} />
               </div>
-              <div className="col-span-2">
+              <div className="sm:col-span-2">
                 <label className="text-label block mb-1.5">Spotify URL</label>
                 <input className="input-base" placeholder="https://open.spotify.com/artist/..." value={form.spotify} onChange={f("spotify")} />
               </div>
-              <div className="col-span-2">
+              <div className="sm:col-span-2">
                 <label className="text-label block mb-1.5">Bio</label>
                 <textarea className="input-base resize-none" rows={3} placeholder="Short artist bio..." value={form.bio} onChange={f("bio")} />
               </div>
@@ -548,7 +548,7 @@ function RolesSection() {
                   <p className="text-xs text-ink-tertiary truncate">{member.email}</p>
                 </div>
                 <select
-                  className="input-base py-1 text-xs flex-shrink-0 w-44"
+                  className="input-base py-1 text-xs flex-shrink-0 w-32 sm:w-44"
                   value={member.role}
                   onChange={(e) => changeRole(member.id, e.target.value as UserRole)}
                 >
@@ -619,8 +619,8 @@ function WorkspacesSection() {
             <h3 className="text-heading">{editing.artistName}</h3>
           </div>
           <div className="card p-5 space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="col-span-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="sm:col-span-2">
                 <label className="text-label block mb-1.5">Artist / Workspace name</label>
                 <input className="input-base" value={editing.artistName} onChange={(e) => update(editId, "artistName", e.target.value)} />
               </div>
@@ -642,7 +642,7 @@ function WorkspacesSection() {
                   {["Album", "EP", "Single", "Mixtape", "Deluxe"].map((t) => <option key={t}>{t}</option>)}
                 </select>
               </div>
-              <div className="col-span-2">
+              <div className="sm:col-span-2">
                 <label className="text-label block mb-1.5">Cover image URL</label>
                 <input className="input-base" value={editing.coverImage} onChange={(e) => update(editId, "coverImage", e.target.value)} />
               </div>
@@ -797,7 +797,7 @@ function ContentSection() {
                   <p className="text-sm font-medium text-ink truncate">{item.title}</p>
                   <p className="text-xs text-ink-tertiary">{item.campaignName}</p>
                 </div>
-                <span className={cn("text-2xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0", PHASE_COLORS[item.phase] ?? "bg-canvas-100 text-ink-tertiary")}>
+                <span className={cn("text-2xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0 hidden sm:inline", PHASE_COLORS[item.phase] ?? "bg-canvas-100 text-ink-tertiary")}>
                   {item.phase.charAt(0) + item.phase.slice(1).toLowerCase()}
                 </span>
                 <div className="flex items-center gap-1 flex-shrink-0">
@@ -858,7 +858,7 @@ function ContentSection() {
                 onChange={(e) => setEditItem((c) => c ? { ...c, campaignName: e.target.value } : c)}
               />
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="text-label block mb-1.5">Type</label>
                 <select
@@ -962,11 +962,11 @@ function MediaSection() {
 
         {/* Filters */}
         <div className="flex flex-wrap gap-2">
-          <select className="input-base py-1 text-xs w-auto" value={filterArtist} onChange={(e) => setFilterArtist(e.target.value)}>
+          <select className="input-base py-1 text-xs flex-1 min-w-[120px]" value={filterArtist} onChange={(e) => setFilterArtist(e.target.value)}>
             <option value="All">All artists</option>
             {artists.map((a) => <option key={a} value={a}>{a}</option>)}
           </select>
-          <select className="input-base py-1 text-xs w-auto" value={filterFolder} onChange={(e) => setFilterFolder(e.target.value)}>
+          <select className="input-base py-1 text-xs flex-1 min-w-[120px]" value={filterFolder} onChange={(e) => setFilterFolder(e.target.value)}>
             <option value="All">All folders</option>
             {FOLDERS.map((f) => <option key={f} value={f}>{f}</option>)}
           </select>
@@ -1080,8 +1080,8 @@ export function AdminPanel() {
         </p>
       </div>
 
-      {/* Sub-nav */}
-      <div className="flex flex-wrap gap-1 bg-canvas-100 p-1 rounded-xl w-fit">
+      {/* Sub-nav — wraps on small screens */}
+      <div className="flex flex-wrap gap-1 bg-canvas-100 p-1 rounded-xl">
         {ADMIN_SECTIONS.map(({ icon: Icon, label }) => (
           <button
             key={label}

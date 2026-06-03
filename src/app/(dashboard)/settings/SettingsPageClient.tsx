@@ -62,24 +62,24 @@ export function SettingsPageClient() {
 
       <TopBar title="Settings" />
 
-      <div className="flex">
-        {/* Settings nav */}
-        <aside className="w-52 border-r border-border bg-canvas-50 p-3 min-h-[calc(100vh-3.5rem)]">
-          <ul className="space-y-0.5">
+      <div className="flex flex-col md:flex-row">
+        {/* Settings nav — horizontal scroll on mobile, vertical sidebar on desktop */}
+        <aside className="md:w-52 md:flex-shrink-0 border-b md:border-b-0 md:border-r border-border bg-canvas-50 md:p-3 md:min-h-[calc(100vh-3.5rem)]">
+          <ul className="flex md:flex-col gap-0.5 overflow-x-auto px-3 py-2 md:px-0 md:py-0 scrollbar-hide">
             {SETTINGS_NAV.map((item) => {
               const Icon = item.icon;
               return (
-                <li key={item.label}>
+                <li key={item.label} className="flex-shrink-0 md:flex-shrink">
                   <button
                     onClick={() => setActiveTab(item.label)}
                     className={cn(
-                      "w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                      "flex items-center gap-2 md:gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap w-full",
                       activeTab === item.label
                         ? "bg-gold-50 text-gold"
                         : "text-ink-secondary hover:bg-canvas-100 hover:text-ink",
                     )}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-4 h-4 flex-shrink-0" />
                     {item.label}
                   </button>
                 </li>
@@ -89,7 +89,7 @@ export function SettingsPageClient() {
         </aside>
 
         {/* Settings content */}
-        <div className="flex-1 p-6 max-w-2xl space-y-8 animate-in">
+        <div className="flex-1 p-4 md:p-6 max-w-2xl space-y-8 animate-in">
           {activeTab === "Profile" && (
             <>
               <section>
