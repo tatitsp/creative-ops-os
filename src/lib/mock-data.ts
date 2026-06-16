@@ -384,23 +384,23 @@ export const MOCK_ANALYTICS: AnalyticsSnapshot[] = [
   },
   {
     platform: "spotify",
-    // 342,354 followers, 1,273,747 monthly listeners
-    followers: 342354,
-    followersGrowth: 4.6,
-    impressions: 1_273_747,
-    engagement: 342354,
-    engagementRate: 26.9, // saves/follows as % of listeners
+    // 356,161 followers, 1,282,783 monthly listeners — updated June 2026
+    followers: 356161,
+    followersGrowth: 4.0,
+    impressions: 1_282_783,
+    engagement: 356161,
+    engagementRate: 27.8, // saves/follows as % of listeners
     shares: 28000,
     saves: 94000,
   },
 ];
 
 export const LIL_TONY_TOP_TRACKS = [
-  { title: "3 AM", streams: "18.3M" },
-  { title: "2 Sides To Every Story", streams: "15.8M" },
-  { title: "Who's The Flyest", streams: "12.3M" },
-  { title: "icon", streams: "8M" },
-  { title: "Keyette", streams: "2.5M" },
+  { title: "3 AM", streams: "19M" },
+  { title: "2 Sides To Every Story", streams: "16.5M" },
+  { title: "Who's The Flyest", streams: "12.9M" },
+  { title: "icon", streams: "8.8M" },
+  { title: "Keyette", streams: "2.9M" },
 ];
 
 export const MONTHLY_ENGAGEMENT_DATA = [

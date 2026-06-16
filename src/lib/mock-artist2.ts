@@ -56,11 +56,11 @@ export const CAAM1K_RELEASES = [
 ];
 
 export const CAAM1K_TOP_TRACKS = [
-  { title: "Psalms 7", streams: "581K" },
-  { title: "40 Days & 40 Nights", streams: "491K" },
-  { title: "God's Soldier", streams: "465K" },
-  { title: "Cosmo & Wanda", streams: "102K" },
-  { title: "7th Day", streams: "80K" },
+  { title: "Psalms 7", streams: "603K" },
+  { title: "40 Days & 40 Nights", streams: "511K" },
+  { title: "God's Soldier", streams: "496K" },
+  { title: "Cosmo & Wanda", streams: "272K" },
+  { title: "7th Day", streams: "91K" },
 ];
 
 export const CAAM1K_CAMPAIGNS = [
@@ -203,11 +203,12 @@ export const CAAM1K_ANALYTICS = [
   },
   {
     platform: "spotify",
-    followers: 7443,
-    followersGrowth: 6.2,
-    impressions: 75861,
-    engagement: 7443,
-    engagementRate: 9.8,
+    // 7,994 followers, 120,117 monthly listeners — updated June 2026
+    followers: 7994,
+    followersGrowth: 7.4,
+    impressions: 120117,
+    engagement: 7994,
+    engagementRate: 6.7, // saves/follows as % of listeners
     shares: 900,
     saves: 8200,
   },

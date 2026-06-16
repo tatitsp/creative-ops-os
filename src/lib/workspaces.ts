@@ -28,7 +28,7 @@ export const WORKSPACES: Workspace[] = [
     releaseType: "Album",
     releaseStatus: "ACTIVE",
     href: "/dashboard",
-    monthlyListeners: "1,273,747",
+    monthlyListeners: "1,282,783",
     genre: "Hip-Hop / Gospel Rap",
   },
   {
@@ -41,7 +41,7 @@ export const WORKSPACES: Workspace[] = [
     releaseType: "Album",
     releaseStatus: "ACTIVE",
     href: "/artists/caam1k/dashboard",
-    monthlyListeners: "75,861",
+    monthlyListeners: "120,117",
     genre: "Trap Gospel / Christian Hip-Hop",
   },
 ];
