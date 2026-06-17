@@ -22,7 +22,7 @@ export default async function CommandCenterPage() {
   const firstName = name?.split(" ")[0] ?? email.split("@")[0];
 
   // ── Fetch data from DB ───────────────────────────────────────────────────
-  const [dbClients, dbWorkspaces] = await Promise.all([
+  const [dbClients, dbWorkspaces, dbAllWorkspaceSlugs] = await Promise.all([
     // Clients with workspace counts
     prisma.client.findMany({
       where: isAdmin
@@ -48,29 +48,33 @@ export default async function CommandCenterPage() {
       select: { id: true, name: true, slug: true, dashboardHref: true },
       orderBy: { name: "asc" },
     }),
+    // All workspace slugs in the DB (client-linked OR not) — used to detect
+    // static workspaces with no DB record yet so we can always show them.
+    prisma.workspace.findMany({
+      where: isAdmin ? {} : { slug: { in: workspaceSlugs } },
+      select: { slug: true },
+    }),
   ]);
 
   // ── Determine what to show ───────────────────────────────────────────────
 
-  // Merge unassigned DB workspaces with static WORKSPACES data for richer display
-  const unassignedStatic = WORKSPACES.filter(
+  // Set of every workspace slug that exists anywhere in the DB
+  const dbSlugSet = new Set(dbAllWorkspaceSlugs.map((w) => w.slug));
+
+  // Unassigned DB workspaces enriched with static data for richer display
+  const unassignedCards = dbWorkspaces
+    .map((dw) => WORKSPACES.find((sw) => sw.slug === dw.slug) ?? null)
+    .filter(Boolean) as typeof WORKSPACES;
+
+  // Static workspaces with NO DB record at all — always show in Direct Access
+  // regardless of whether clients exist, so they never silently disappear.
+  const staticOrphans = WORKSPACES.filter(
     (ws) =>
-      (isAdmin || workspaceSlugs.includes(ws.slug)) &&
-      !dbWorkspaces.find((dw) => dw.slug === ws.slug) &&
-      dbClients.length === 0 // only fall back to static if no DB clients exist
+      (isAdmin || workspaceSlugs.includes(ws.slug)) && !dbSlugSet.has(ws.slug)
   );
 
-  // If DB is empty entirely, show static WORKSPACES as direct workspace cards
-  const noDbData = dbClients.length === 0 && dbWorkspaces.length === 0;
-  const fallbackWorkspaces = noDbData
-    ? WORKSPACES.filter((ws) => isAdmin || workspaceSlugs.includes(ws.slug))
-    : [];
-
-  // Enrich unassigned DB workspaces with static data where available
-  const unassignedCards = dbWorkspaces.map((dw) => {
-    const staticWs = WORKSPACES.find((sw) => sw.slug === dw.slug);
-    return staticWs ?? null;
-  }).filter(Boolean) as typeof WORKSPACES;
+  // Combined Direct Access section
+  const directAccess = [...unassignedCards, ...staticOrphans];
 
   // Client cards
   const clientCards = dbClients.map((c) => ({
@@ -81,8 +85,6 @@ export default async function CommandCenterPage() {
     status: c.status,
     workspaceCount: c._count.workspaces,
   }));
-
-  const showStatic = fallbackWorkspaces.length > 0;
 
   return (
     <div
@@ -100,9 +102,7 @@ export default async function CommandCenterPage() {
           Welcome back, {firstName}.
         </h1>
         <p className="text-sm" style={{ color: "rgba(255,255,255,0.3)" }}>
-          {showStatic || unassignedCards.length > 0
-            ? "Choose a workspace to continue."
-            : "Choose a client to continue."}
+          {clientCards.length > 0 ? "Choose a client to continue." : "Choose a workspace to continue."}
         </p>
       </div>
 
@@ -123,29 +123,22 @@ export default async function CommandCenterPage() {
         </div>
       )}
 
-      {/* Unassigned DB workspaces */}
-      {unassignedCards.length > 0 && (
+      {/* Direct Access — unassigned DB workspaces + static workspaces with no DB record */}
+      {directAccess.length > 0 && (
         <div className="w-full max-w-xl mb-8">
-          <p
-            className="text-2xs tracking-[0.2em] uppercase font-semibold mb-4"
-            style={{ color: "rgba(255,255,255,0.2)" }}
-          >
-            Direct Access
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {unassignedCards.map((ws) => (
+          {clientCards.length > 0 && (
+            <p
+              className="text-2xs tracking-[0.2em] uppercase font-semibold mb-4"
+              style={{ color: "rgba(255,255,255,0.2)" }}
+            >
+              Direct Access
+            </p>
+          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {directAccess.map((ws) => (
               <WorkspaceCard key={ws.slug} workspace={ws} />
             ))}
           </div>
-        </div>
-      )}
-
-      {/* Static fallback (no DB data yet) */}
-      {showStatic && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full max-w-xl">
-          {fallbackWorkspaces.map((ws) => (
-            <WorkspaceCard key={ws.slug} workspace={ws} />
-          ))}
         </div>
       )}
 
