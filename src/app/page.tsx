@@ -1,10 +1,18 @@
 import { redirect } from "next/navigation";
-import { CURRENT_USER } from "@/lib/mock-data";
+import { auth } from "@/lib/auth";
 
-export default function RootPage() {
-  // Artists go straight to their dashboard; team members pick a workspace first
-  if (CURRENT_USER.role === "ARTIST_CEO") {
-    redirect("/dashboard");
+export default async function RootPage() {
+  const session = await auth();
+
+  if (!session?.user?.email) {
+    redirect("/sign-in");
   }
+
+  // Artists go straight to their own workspace; everyone else picks from the list
+  if (session.user.role === "ARTIST_CEO") {
+    const slug = session.user.workspaceSlugs[0];
+    if (slug) redirect(`/artists/${slug}/dashboard`);
+  }
+
   redirect("/select-workspace");
 }

@@ -12,6 +12,7 @@
 //   cors.json: [{ "origin": ["*"], "method": ["PUT"], "responseHeader": ["Content-Type"], "maxAgeSeconds": 3600 }]
 
 import { getBucket } from "@/lib/gcs";
+import { requirePermission } from "@/lib/authorize";
 
 function sanitizeFilename(name: string): string {
   return name.replace(/[^a-zA-Z0-9._-]/g, "_");
@@ -19,7 +20,19 @@ function sanitizeFilename(name: string): string {
 
 export async function POST(req: Request) {
   try {
-    const { filename, contentType, size } = await req.json();
+    const body = await req.json();
+    const { filename, contentType, size, workspaceSlug } = body;
+
+    // Auth + permission check before touching GCS
+    const authResult = await requirePermission(workspaceSlug ?? "", "upload_assets");
+    if (!authResult.ok) return authResult.response;
+
+    if (!filename || !contentType || typeof size !== "number") {
+      return Response.json(
+        { error: "filename, contentType, and size are required" },
+        { status: 400 },
+      );
+    }
 
     if (!filename || !contentType || typeof size !== "number") {
       return Response.json(

@@ -1,12 +1,30 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
+import { isAdminEmail } from "@/lib/admin";
 import { WorkspaceCard } from "@/components/workspace/WorkspaceCard";
 import { WORKSPACES } from "@/lib/workspaces";
-import { CURRENT_USER } from "@/lib/mock-data";
 
 export const metadata: Metadata = { title: "Select Workspace" };
 
-export default function SelectWorkspacePage() {
-  const firstName = CURRENT_USER.displayName ?? CURRENT_USER.name.split(" ")[0];
+export default async function SelectWorkspacePage() {
+  const session = await auth();
+
+  if (!session?.user?.email) redirect("/sign-in");
+
+  const { email, name, workspaceSlugs, isAdmin } = session.user;
+  const firstName = name?.split(" ")[0] ?? email.split("@")[0];
+
+  // Users with no workspace assignment go to the access-pending screen
+  if (!isAdmin && workspaceSlugs.length === 0) {
+    redirect("/access-pending");
+  }
+
+  // Filter the static workspace list down to what this user can see.
+  // Admins see everything. ARTIST_CEO is handled before this page in page.tsx.
+  const visibleWorkspaces = isAdmin
+    ? WORKSPACES
+    : WORKSPACES.filter((ws) => workspaceSlugs.includes(ws.slug));
 
   return (
     <div
@@ -29,12 +47,23 @@ export default function SelectWorkspacePage() {
         </p>
       </div>
 
-      {/* Cards — equal width, side by side */}
+      {/* Workspace cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full max-w-xl">
-        {WORKSPACES.map((ws) => (
+        {visibleWorkspaces.map((ws) => (
           <WorkspaceCard key={ws.slug} workspace={ws} />
         ))}
       </div>
+
+      {/* Admin link */}
+      {isAdmin && (
+        <a
+          href="/admin/users"
+          className="mt-8 text-xs tracking-widest uppercase"
+          style={{ color: "rgba(200,146,58,0.6)" }}
+        >
+          Admin panel →
+        </a>
+      )}
 
       {/* Footer */}
       <p

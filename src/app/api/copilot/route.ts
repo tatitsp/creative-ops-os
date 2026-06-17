@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { requirePermission } from "@/lib/authorize";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
@@ -142,7 +143,12 @@ Be direct and specific. Use real names, dates, and task titles. When surfacing u
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json();
+    const body = await req.json();
+    const { messages, workspaceSlug } = body;
+
+    // Copilot requires use_copilot permission (Creative Director + Management only)
+    const authResult = await requirePermission(workspaceSlug ?? "", "use_copilot");
+    if (!authResult.ok) return authResult.response;
 
     if (!Array.isArray(messages) || messages.length === 0) {
       return new Response("Invalid messages", { status: 400 });
