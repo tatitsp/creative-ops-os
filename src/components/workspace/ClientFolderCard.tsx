@@ -26,18 +26,10 @@ export function ClientFolderCard({ client }: Props) {
   return (
     <Link
       href={`/clients/${client.slug}`}
-      className="relative flex flex-col gap-4 p-5 rounded-2xl border transition-all group overflow-hidden"
+      className="relative flex flex-col gap-4 p-5 rounded-2xl border transition-all group overflow-hidden hover:border-white/[0.14] hover:bg-white/[0.05]"
       style={{
         borderColor: "rgba(255,255,255,0.08)",
         background: "rgba(255,255,255,0.03)",
-      }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.14)";
-        (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.05)";
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.08)";
-        (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.03)";
       }}
     >
       {/* Brand color top stripe */}
