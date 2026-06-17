@@ -9,7 +9,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   // Double-check here — middleware already blocks non-admins, but
   // server components should never trust middleware alone.
   if (!session?.user?.email || !isAdminEmail(session.user.email)) {
-    redirect("/select-workspace");
+    redirect("/command-center");
   }
 
   return (
@@ -26,6 +26,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           Admin
         </span>
         {[
+          { href: "/admin/clients", label: "Clients" },
           { href: "/admin/users", label: "Users" },
           { href: "/admin/workspaces", label: "Workspaces" },
           { href: "/admin/roles", label: "Roles" },
@@ -40,11 +41,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </Link>
         ))}
         <Link
-          href="/select-workspace"
+          href="/command-center"
           className="ml-auto text-xs transition-opacity hover:opacity-70"
           style={{ color: "rgba(255,255,255,0.25)" }}
         >
-          ← Back to workspaces
+          ← Command Center
         </Link>
       </nav>
 

@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { WORKSPACES } from "@/lib/workspaces";
 import { SignInButton } from "@/components/auth/SignInButton";
 
 export default async function RootPage() {
@@ -9,26 +8,11 @@ export default async function RootPage() {
   // ── Authenticated: route to the right place ───────────────────────────────
 
   if (session?.user?.email) {
-    const { role, isAdmin, workspaceSlugs } = session.user;
+    const { isAdmin, workspaceSlugs } = session.user;
 
     if (!isAdmin && workspaceSlugs.length === 0) redirect("/access-pending");
 
-    // Admin or multi-workspace → let them choose
-    if (isAdmin || workspaceSlugs.length > 1) redirect("/select-workspace");
-
-    // Single workspace → go straight in
-    if (workspaceSlugs.length === 1) {
-      const ws = WORKSPACES.find((w) => w.slug === workspaceSlugs[0]);
-      if (ws) redirect(ws.href);
-      redirect("/select-workspace");
-    }
-
-    // Artist/CEO with a workspace
-    if (role === "ARTIST_CEO" && workspaceSlugs[0]) {
-      redirect(`/artists/${workspaceSlugs[0]}/dashboard`);
-    }
-
-    redirect("/select-workspace");
+    redirect("/command-center");
   }
 
   // ── Unauthenticated: SCOPE landing page ───────────────────────────────────

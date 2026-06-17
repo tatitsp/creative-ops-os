@@ -83,21 +83,46 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
+// ─── CLIENT ──────────────────────────────────────────────────────────────────
+// A Client is the top-level tenant grouping (e.g. Royal Priesthood label).
+// Each Client has one or more Workspaces (artists, projects, etc.).
+
+model Client {
+  id          String       @id @default(cuid())
+  name        String
+  slug        String       @unique
+  type        ClientType   @default(LABEL)
+  description String?
+  brandColor  String       @default("#7C3AED")
+  logo        String?
+  status      ClientStatus @default(ACTIVE)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  workspaces Workspace[]
+
+  @@map("clients")
+}
+
 // ─── WORKSPACE ───────────────────────────────────────────────────────────────
 
 model Workspace {
-  id          String   @id @default(cuid())
-  name        String
-  slug        String   @unique
-  description String?
-  logo        String?
-  coverImage  String?
-  plan        WorkspacePlan @default(STARTER)
-  ownerId     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(cuid())
+  name           String
+  slug           String   @unique
+  description    String?
+  logo           String?
+  photo          String?   // primary image (artist photo, brand mark, etc.)
+  coverImage     String?
+  dashboardHref  String?   // explicit routing target; defaults to /w/[slug]
+  plan           WorkspacePlan @default(STARTER)
+  ownerId        String
+  clientId       String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   owner    User               @relation("WorkspaceOwner", fields: [ownerId], references: [id])
+  client   Client?            @relation(fields: [clientId], references: [id])
   members  WorkspaceMember[]
   projects Project[]
   campaigns Campaign[]
@@ -499,6 +524,20 @@ enum UserStatus {
   AWAY
   BUSY
   OFFLINE
+}
+
+enum ClientType {
+  LABEL
+  ARTIST
+  BUSINESS
+  AGENCY
+  OTHER
+}
+
+enum ClientStatus {
+  ACTIVE
+  INACTIVE
+  ARCHIVED
 }
 
 enum WorkspacePlan {
