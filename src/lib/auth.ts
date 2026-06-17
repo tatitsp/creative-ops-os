@@ -38,8 +38,10 @@ const config = {
   callbacks: {
     // On every sign-in, populate the JWT with the user's role and workspaces.
     async jwt({ token, user, trigger }: { token: JWT; user?: { id?: string }; trigger?: string }) {
-      // `user` is only set on initial sign-in or when trigger === "update"
-      const userId = user?.id ?? token.userId;
+      // `user` is only set on initial sign-in or when trigger === "update".
+      // token.sub is always the user's DB id (set by NextAuth); use it as a
+      // fallback so sessions created before token.userId existed still work.
+      const userId = user?.id ?? token.userId ?? token.sub;
       if (userId && (user?.id || trigger === "update")) {
         const dbUser = await prisma.user.findUnique({
           where: { id: userId },
@@ -59,7 +61,7 @@ const config = {
     },
 
     async session({ session, token }: { session: Session; token: JWT }) {
-      session.user.id = token.userId ?? "";
+      session.user.id = token.userId ?? token.sub ?? "";
       session.user.role = token.role ?? "CREATIVE_ASSISTANT";
       session.user.isAdmin = isAdminEmail(session.user.email);
       session.user.workspaceSlugs = token.workspaceSlugs ?? [];

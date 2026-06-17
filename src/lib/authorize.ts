@@ -27,7 +27,7 @@ type AuthResult =
 
 export async function requireAuth(): Promise<AuthResult> {
   const session = await auth();
-  if (!session?.user?.email || !session.user.id) {
+  if (!session?.user?.email) {
     return {
       ok: false,
       response: Response.json({ error: "Unauthorized" }, { status: 401 }),
