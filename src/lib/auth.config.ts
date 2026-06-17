@@ -1,0 +1,19 @@
+// Minimal auth config used by middleware (Edge runtime — no Prisma allowed).
+// The full auth config in auth.ts adds the Prisma adapter and JWT callbacks.
+
+import type { NextAuthConfig } from "next-auth";
+import Google from "next-auth/providers/google";
+
+export const authConfig: NextAuthConfig = {
+  providers: [
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+  ],
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  trustHost: true,
+  pages: {
+    signIn: "/sign-in",
+  },
+};
