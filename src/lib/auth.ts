@@ -67,10 +67,9 @@ const config = {
     },
 
     redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
-      if (url === baseUrl || url === `${baseUrl}/`) return `${baseUrl}/select-workspace`;
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       if (url.startsWith(baseUrl)) return url;
-      return `${baseUrl}/select-workspace`;
+      return baseUrl;
     },
   },
 };

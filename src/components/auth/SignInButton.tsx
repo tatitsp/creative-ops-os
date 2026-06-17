@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 export function SignInButton() {
   return (
     <button
-      onClick={() => signIn("google", { callbackUrl: "/select-workspace" })}
+      onClick={() => signIn("google", { callbackUrl: "/" })}
       className="flex items-center gap-3 px-7 py-3.5 rounded-full text-sm font-semibold transition-all active:scale-95 hover:scale-[1.02]"
       style={{
         background: "rgba(255,255,255,0.95)",
