@@ -1,32 +1,60 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { WORKSPACES } from "@/lib/workspaces";
-import { CAAM1K_CHANNELS, CAAM1K_MESSAGES, CAAM1K_TEAM } from "@/lib/mock-artist2";
-import { ArtistChannelsClient } from "./ArtistChannelsClient";
+import { notFound, redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { ChannelsPageClient } from "@/components/channels/ChannelsPageClient";
+
+export const dynamic = "force-dynamic";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const ws = WORKSPACES.find((w) => w.slug === slug);
-  return { title: ws ? `${ws.artistName} — Messages` : "Messages" };
-}
-
-export async function generateStaticParams() {
-  return WORKSPACES.filter((w) => w.slug !== "lil-tony").map((w) => ({ slug: w.slug }));
+  const ws = await prisma.workspace.findUnique({ where: { slug }, select: { name: true } });
+  return { title: ws ? `${ws.name} — Channels` : "Channels" };
 }
 
 export default async function ArtistChannelsPage({ params }: Props) {
   const { slug } = await params;
-  const ws = WORKSPACES.find((w) => w.slug === slug);
-  if (!ws) notFound();
+  const session = await auth();
+  if (!session?.user?.email) redirect("/sign-in");
+
+  const { isAdmin, workspaceSlugs, role } = session.user;
+  if (!isAdmin && !workspaceSlugs.includes(slug)) redirect("/command-center");
+  const canManageChannels = isAdmin || role === "OWNER" || role === "CREATIVE_OPS_DIRECTOR" || role === "MANAGEMENT";
+
+  const workspace = await prisma.workspace.findUnique({
+    where: { slug },
+    select: { id: true, name: true },
+  });
+  if (!workspace) notFound();
+
+  const channels = await prisma.channel.findMany({
+    where: { workspaceId: workspace.id },
+    orderBy: { createdAt: "asc" },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      createdAt: true,
+      createdBy: { select: { id: true, name: true, email: true } },
+    },
+  });
 
   return (
-    <ArtistChannelsClient
-      artistName={ws.artistName}
-      channels={CAAM1K_CHANNELS}
-      initialMessages={CAAM1K_MESSAGES}
-      team={CAAM1K_TEAM}
+    <ChannelsPageClient
+      slug={slug}
+      canManageChannels={canManageChannels}
+      initialChannels={channels.map((c) => ({
+        ...c,
+        type: "TEXT",
+        isPrivate: false,
+        isPinned: false,
+        createdAt: c.createdAt.toISOString(),
+        createdBy: c.createdBy
+          ? { id: c.createdBy.id, name: c.createdBy.name, email: c.createdBy.email }
+          : null,
+      }))}
     />
   );
 }
