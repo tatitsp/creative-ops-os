@@ -40,6 +40,9 @@ model User {
   notifications     Notification[]
   activityLogs      ActivityLog[]
   onboardingSteps   OnboardingProgress[]
+  createdInvites    Invite[]           @relation("InviteCreator")
+  usedInvites       Invite[]           @relation("InviteUser")
+  assignedContent   ContentItem[]      @relation("ContentAssignee")
 
   @@map("users")
 }
@@ -130,6 +133,8 @@ model Workspace {
   channels Channel[]
   tags     Tag[]
   settings WorkspaceSettings?
+  invites  Invite[]
+  contentItems ContentItem[]
 
   @@map("workspaces")
 }
@@ -148,6 +153,24 @@ model WorkspaceMember {
 
   @@unique([workspaceId, userId])
   @@map("workspace_members")
+}
+
+model Invite {
+  id          String    @id @default(cuid())
+  token       String    @unique @default(cuid())
+  email       String?
+  workspaceId String
+  role        UserRole  @default(CREATIVE_ASSISTANT)
+  createdById String
+  expiresAt   DateTime
+  usedAt      DateTime?
+  usedById    String?
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  createdBy User      @relation("InviteCreator", fields: [createdById], references: [id])
+  usedBy    User?     @relation("InviteUser", fields: [usedById], references: [id])
+
+  @@map("invites")
 }
 
 model WorkspaceSettings {
@@ -257,6 +280,8 @@ model Task {
 model ContentItem {
   id          String       @id @default(cuid())
   campaignId  String?
+  workspaceId String?
+  assigneeId  String?
   title       String
   caption     String?
   phase       ContentPhase @default(IDEA)
@@ -266,10 +291,13 @@ model ContentItem {
   postedAt    DateTime?
   isOrganic   Boolean      @default(false)
   notes       String?
+  priority    Priority     @default(MEDIUM)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 
   campaign  Campaign?   @relation(fields: [campaignId], references: [id])
+  workspace Workspace?  @relation(fields: [workspaceId], references: [id])
+  assignee  User?       @relation("ContentAssignee", fields: [assigneeId], references: [id])
   assets    Asset[]
   approval  Approval?
   analytics ContentAnalytics?
@@ -338,6 +366,8 @@ model Approval {
   requesterId String
   reviewerId  String?
   status      ApprovalStatus @default(PENDING)
+  stage       String         @default("INTERNAL_REVIEW")
+  history     Json           @default("[]")
   notes       String?
   feedback    String?
   requestedAt DateTime       @default(now())
