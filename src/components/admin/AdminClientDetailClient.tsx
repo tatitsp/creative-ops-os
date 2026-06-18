@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ChevronLeft, Plus, Trash2, UserPlus } from "lucide-react";
+import { ChevronLeft, Plus, Trash2, UserPlus, Link2 } from "lucide-react";
 
 type WorkspaceMember = {
   role: string;
@@ -77,6 +77,12 @@ export function AdminClientDetailClient({
   // Add member form
   const [addMemberWsId, setAddMemberWsId] = useState<string | null>(null);
   const [memberForm, setMemberForm] = useState({ userId: "", role: "CREATIVE_ASSISTANT" });
+
+  // Generate invite link state
+  const [showInviteWsId, setShowInviteWsId] = useState<string | null>(null);
+  const [inviteRole, setInviteRole] = useState<Record<string, string>>({});
+  const [inviteLinks, setInviteLinks] = useState<Record<string, string>>({});
+  const [generatingInvite, setGeneratingInvite] = useState(false);
 
   function flash(msg: string) {
     setSuccess(msg);
@@ -190,6 +196,32 @@ export function AdminClientDetailClient({
       const res = await fetch(`/api/admin/clients/${client.id}`, { method: "DELETE" });
       if (res.ok) router.push("/admin/clients");
     } catch { /* noop */ }
+  }
+
+  async function handleGenerateInvite(wsId: string) {
+    const role = inviteRole[wsId] ?? "CREATIVE_ASSISTANT";
+    setGeneratingInvite(true);
+    try {
+      const res = await fetch("/api/admin/invites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ workspaceId: wsId, role }),
+      });
+      if (!res.ok) {
+        const d = await res.json();
+        setError(d.error ?? "Failed to generate invite");
+        return;
+      }
+      const d = await res.json();
+      setInviteLinks((prev) => ({
+        ...prev,
+        [wsId]: `https://creative-ops-os.vercel.app/invite/${d.invite.token}`,
+      }));
+    } catch {
+      setError("Network error");
+    } finally {
+      setGeneratingInvite(false);
+    }
   }
 
   const inputClass = "w-full text-sm rounded-lg px-3 py-2 bg-white/5 border border-white/10 text-white placeholder-white/25 focus:outline-none focus:border-white/25";
@@ -479,6 +511,69 @@ export function AdminClientDetailClient({
                     </tbody>
                   </table>
                 )}
+
+                {/* Generate Invite Link */}
+                <div className="mt-4 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowInviteWsId(showInviteWsId === ws.id ? null : ws.id)}
+                    className="flex items-center gap-1.5 text-xs transition-opacity hover:opacity-70"
+                    style={{ color: "rgba(255,255,255,0.4)" }}
+                  >
+                    <Link2 className="w-3 h-3" />
+                    {showInviteWsId === ws.id ? "Hide invite" : "Invite someone"}
+                  </button>
+
+                  {showInviteWsId === ws.id && (
+                    <div className="mt-3 p-3 rounded-lg space-y-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                      <p className="text-xs font-semibold text-white/60">Generate Invite Link</p>
+                      <div className="flex items-end gap-3">
+                        <div className="flex-1">
+                          <label className={labelClass}>Role</label>
+                          <select
+                            value={inviteRole[ws.id] ?? "CREATIVE_ASSISTANT"}
+                            onChange={(e) => setInviteRole((prev) => ({ ...prev, [ws.id]: e.target.value }))}
+                            className={inputClass}
+                          >
+                            {ROLE_OPTIONS.map((r) => (
+                              <option key={r} value={r} style={{ background: "#1a1a1a" }}>
+                                {r.replace(/_/g, " ").toLowerCase().replace(/\b\w/g, (l) => l.toUpperCase())}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <button
+                          type="button"
+                          disabled={generatingInvite}
+                          onClick={() => handleGenerateInvite(ws.id)}
+                          className="text-xs px-3 py-2 rounded-lg font-semibold disabled:opacity-50 flex-shrink-0"
+                          style={{ background: "#7C3AED", color: "white" }}
+                        >
+                          {generatingInvite ? "Generating…" : "Generate Link"}
+                        </button>
+                      </div>
+
+                      {inviteLinks[ws.id] && (
+                        <div className="flex items-center gap-2">
+                          <input
+                            readOnly
+                            value={inviteLinks[ws.id]}
+                            className="flex-1 text-xs rounded-lg px-3 py-2 bg-white/5 border border-white/10 text-white/70 focus:outline-none"
+                            onClick={(e) => (e.target as HTMLInputElement).select()}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => navigator.clipboard.writeText(inviteLinks[ws.id])}
+                            className="text-xs px-3 py-2 rounded-lg flex-shrink-0 transition-opacity hover:opacity-70"
+                            style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
+                          >
+                            Copy
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>

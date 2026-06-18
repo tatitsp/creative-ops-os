@@ -144,11 +144,12 @@ export interface Task {
 export interface ContentItem {
   id: string;
   title: string;
+  caption?: string;
   type: ContentType;
   phase: ContentPhase;
-  platforms: Platform[];
-  scheduledAt?: string;
-  assignee?: User;
+  platforms: string[];
+  scheduledAt?: Date | string;
+  assignee?: Pick<User, "id" | "name" | "image" | "role" | "status">;
   campaignName?: string;
   thumbnail?: string;
 }
