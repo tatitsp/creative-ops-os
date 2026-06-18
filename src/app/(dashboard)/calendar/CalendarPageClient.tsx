@@ -119,7 +119,7 @@ export function CalendarPageClient() {
 
   const scheduledItems = MOCK_CONTENT.filter(
     (c) => c.scheduledAt && (c.phase === "SCHEDULED" || c.phase === "APPROVED"),
-  ).sort((a, b) => (a.scheduledAt ?? "").localeCompare(b.scheduledAt ?? ""));
+  ).sort((a, b) => (String(a.scheduledAt ?? "")).localeCompare(String(b.scheduledAt ?? "")));
 
   return (
     <div className="min-h-screen">
@@ -360,7 +360,7 @@ export function CalendarPageClient() {
                     <p className="text-sm font-medium text-ink truncate">{item.title}</p>
                     <div className="flex items-center gap-2 mt-0.5">
                       {item.platforms.slice(0, 2).map((p) => {
-                        const cfg = PLATFORM_CONFIG[p];
+                        const cfg = PLATFORM_CONFIG[p as keyof typeof PLATFORM_CONFIG];
                         return <span key={p} className="text-2xs text-ink-tertiary">{cfg?.label ?? p}</span>;
                       })}
                     </div>
@@ -421,7 +421,7 @@ export function CalendarPageClient() {
                       <p className="text-sm font-medium text-ink truncate">{item.title}</p>
                       <div className="flex items-center gap-2 mt-0.5">
                         {item.platforms.slice(0, 2).map((p) => {
-                          const cfg = PLATFORM_CONFIG[p];
+                          const cfg = PLATFORM_CONFIG[p as keyof typeof PLATFORM_CONFIG];
                           return <span key={p} className="text-2xs text-ink-tertiary">{cfg?.label ?? p}</span>;
                         })}
                       </div>

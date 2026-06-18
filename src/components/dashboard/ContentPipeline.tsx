@@ -86,7 +86,7 @@ function DraggableCard({ item, overlay = false }: { item: ContentItem; overlay?:
 
       <div className="flex items-center gap-1 mt-2 flex-wrap">
         {item.platforms.slice(0, 3).map((p) => {
-          const cfg = PLATFORM_CONFIG[p];
+          const cfg = PLATFORM_CONFIG[p as keyof typeof PLATFORM_CONFIG];
           return (
             <span key={p} className="text-2xs px-1.5 py-0.5 rounded-full bg-canvas-200 text-ink-tertiary">
               {cfg?.label ?? p}

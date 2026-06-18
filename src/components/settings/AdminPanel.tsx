@@ -889,7 +889,7 @@ function ContentSection() {
               <input
                 className="input-base"
                 type="datetime-local"
-                value={editItem.scheduledAt?.slice(0, 16) ?? ""}
+                value={String(editItem.scheduledAt ?? "").slice(0, 16)}
                 onChange={(e) => setEditItem((c) => c ? { ...c, scheduledAt: e.target.value + ":00Z" } : c)}
               />
             </div>
