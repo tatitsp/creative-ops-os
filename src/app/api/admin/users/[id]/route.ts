@@ -4,6 +4,7 @@
 import { requireAdmin, requirePlatformAccess } from "@/lib/authorize";
 import { isAdminEmail } from "@/lib/admin";
 import { prisma } from "@/lib/prisma";
+import { sendPlatformPartnerEmail } from "@/lib/email";
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   // platformRole changes are admin-only; role/status changes allow platform partners
@@ -39,6 +40,22 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     data,
     select: { id: true, email: true, role: true, platformRole: true, status: true },
   });
+
+  // Send Platform Partner grant email
+  if (platformRole === "PLATFORM_PARTNER") {
+    const inviter = await prisma.user.findUnique({
+      where: { id: authResult.ctx.userId },
+      select: { name: true, email: true },
+    });
+    try {
+      await sendPlatformPartnerEmail({
+        to: user.email,
+        inviterName: inviter?.name ?? inviter?.email ?? "The SCOPE team",
+      });
+    } catch (err) {
+      console.error("[users] Failed to send platform partner email:", err);
+    }
+  }
 
   return Response.json({ user });
 }

@@ -83,7 +83,9 @@ export function AdminClientDetailClient({
   // Generate invite link state
   const [showInviteWsId, setShowInviteWsId] = useState<string | null>(null);
   const [inviteRole, setInviteRole] = useState<Record<string, string>>({});
+  const [inviteEmail, setInviteEmail] = useState<Record<string, string>>({});
   const [inviteLinks, setInviteLinks] = useState<Record<string, string>>({});
+  const [inviteEmailSent, setInviteEmailSent] = useState<Record<string, boolean>>({});
   const [generatingInvite, setGeneratingInvite] = useState(false);
 
   function flash(msg: string) {
@@ -202,12 +204,13 @@ export function AdminClientDetailClient({
 
   async function handleGenerateInvite(wsId: string) {
     const role = inviteRole[wsId] ?? "CREATIVE_ASSISTANT";
+    const email = inviteEmail[wsId]?.trim() || undefined;
     setGeneratingInvite(true);
     try {
       const res = await fetch("/api/admin/invites", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ workspaceId: wsId, role }),
+        body: JSON.stringify({ workspaceId: wsId, role, email }),
       });
       if (!res.ok) {
         const d = await res.json();
@@ -215,10 +218,14 @@ export function AdminClientDetailClient({
         return;
       }
       const d = await res.json();
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://creative-ops-os.vercel.app";
       setInviteLinks((prev) => ({
         ...prev,
-        [wsId]: `https://creative-ops-os.vercel.app/invite/${d.invite.token}`,
+        [wsId]: `${appUrl}/invite/${d.invite.token}`,
       }));
+      if (email) {
+        setInviteEmailSent((prev) => ({ ...prev, [wsId]: true }));
+      }
     } catch {
       setError("Network error");
     } finally {
@@ -530,7 +537,20 @@ export function AdminClientDetailClient({
 
                   {showInviteWsId === ws.id && (
                     <div className="mt-3 p-3 rounded-lg space-y-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                      <p className="text-xs font-semibold text-white/60">Generate Invite Link</p>
+                      <p className="text-xs font-semibold text-white/60">Invite Someone</p>
+
+                      {/* Optional email */}
+                      <div>
+                        <label className={labelClass}>Email address <span style={{ color: "rgba(255,255,255,0.2)" }}>(optional — sends invite email)</span></label>
+                        <input
+                          type="email"
+                          placeholder="teammate@email.com"
+                          value={inviteEmail[ws.id] ?? ""}
+                          onChange={(e) => setInviteEmail((prev) => ({ ...prev, [ws.id]: e.target.value }))}
+                          className={inputClass}
+                        />
+                      </div>
+
                       <div className="flex items-end gap-3">
                         <div className="flex-1">
                           <label className={labelClass}>Role</label>
@@ -553,9 +573,15 @@ export function AdminClientDetailClient({
                           className="text-xs px-3 py-2 rounded-lg font-semibold disabled:opacity-50 flex-shrink-0"
                           style={{ background: "#7C3AED", color: "white" }}
                         >
-                          {generatingInvite ? "Generating…" : "Generate Link"}
+                          {generatingInvite ? "Sending…" : inviteEmail[ws.id]?.trim() ? "Send Invite" : "Generate Link"}
                         </button>
                       </div>
+
+                      {inviteEmailSent[ws.id] && (
+                        <p className="text-xs" style={{ color: "#4CAF7D" }}>
+                          ✓ Invite email sent to {inviteEmail[ws.id]}
+                        </p>
+                      )}
 
                       {inviteLinks[ws.id] && (
                         <div className="flex items-center gap-2">
