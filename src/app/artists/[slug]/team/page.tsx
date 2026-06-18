@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TopBar } from "@/components/navigation/TopBar";
 import { WORKSPACES } from "@/lib/workspaces";
-import { CAAM1K_TEAM } from "@/lib/mock-artist2";
-import { Avatar } from "@/components/ui/Avatar";
+import { prisma } from "@/lib/prisma";
+import { TeamPageClient, type ApiMember } from "@/components/team/TeamPageClient";
+import { auth } from "@/lib/auth";
+import { roleHasPermission } from "@/lib/permissions";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -13,46 +15,54 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: ws ? `${ws.artistName} — Team` : "Team" };
 }
 
-export async function generateStaticParams() {
-  return WORKSPACES.filter((w) => w.slug !== "lil-tony").map((w) => ({ slug: w.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export default async function ArtistTeamPage({ params }: Props) {
   const { slug } = await params;
   const ws = WORKSPACES.find((w) => w.slug === slug);
   if (!ws) notFound();
 
+  const workspace = await prisma.workspace.findUnique({
+    where: { slug },
+    select: {
+      id: true,
+      members: {
+        orderBy: { invitedAt: "asc" },
+        select: {
+          id: true,
+          role: true,
+          invitedAt: true,
+          joinedAt: true,
+          user: {
+            select: { id: true, name: true, email: true, image: true, status: true },
+          },
+        },
+      },
+    },
+  });
+
+  const members: ApiMember[] = (workspace?.members ?? []).map((m) => ({
+    ...m,
+    invitedAt: m.invitedAt.toISOString(),
+    joinedAt: m.joinedAt ? m.joinedAt.toISOString() : null,
+  }));
+
+  // Determine if the current session user can manage team
+  const session = await auth();
+  const sessionRole = session?.user?.role ?? "";
+  const sessionIsAdmin = session?.user?.isAdmin ?? false;
+  const canManage =
+    sessionIsAdmin ||
+    roleHasPermission(sessionRole, "manage_team");
+
   return (
     <>
       <TopBar title="Team" subtitle={ws.artistName} />
-
-      <div className="p-6 animate-in max-w-3xl">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-subheading">Team Members</h2>
-          <span className="text-xs text-ink-tertiary">{CAAM1K_TEAM.length} members</span>
-        </div>
-
-        <div className="space-y-2">
-          {CAAM1K_TEAM.map((member) => (
-            <div key={member.id} className="card p-4 flex items-center gap-4">
-              <Avatar
-                user={{
-                  name: member.name,
-                  image: member.image,
-                  status: member.status,
-                }}
-                size="md"
-                showStatus
-              />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-ink">{member.name}</p>
-                <p className="text-xs text-ink-tertiary">{member.role}</p>
-              </div>
-              <p className="text-xs text-ink-tertiary">{member.email}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      <TeamPageClient
+        workspaceSlug={slug}
+        initialMembers={members}
+        canManage={canManage}
+      />
     </>
   );
 }

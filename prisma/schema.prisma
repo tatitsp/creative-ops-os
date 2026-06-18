@@ -43,6 +43,8 @@ model User {
   createdInvites    Invite[]           @relation("InviteCreator")
   usedInvites       Invite[]           @relation("InviteUser")
   assignedContent   ContentItem[]      @relation("ContentAssignee")
+  createdEvents     CalendarEvent[]    @relation("EventCreator")
+  createdBudgetItems BudgetItem[]      @relation("BudgetCreator")
 
   @@map("users")
 }
@@ -134,8 +136,10 @@ model Workspace {
   tags     Tag[]
   settings WorkspaceSettings?
   invites  Invite[]
-  contentItems ContentItem[]
-  releases Release[]
+  contentItems   ContentItem[]
+  releases       Release[]
+  calendarEvents CalendarEvent[]
+  budgetItems    BudgetItem[]
 
   @@map("workspaces")
 }
@@ -534,6 +538,46 @@ model Tag {
 
   @@unique([workspaceId, name])
   @@map("tags")
+}
+
+// ─── CALENDAR EVENTS ─────────────────────────────────────────────────────────
+
+model CalendarEvent {
+  id          String    @id @default(cuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  startAt     DateTime
+  endAt       DateTime?
+  allDay      Boolean   @default(false)
+  type        String    @default("EVENT") // EVENT, DEADLINE, RELEASE, SHOOT
+  createdById String?
+  createdBy   User?     @relation("EventCreator", fields: [createdById], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("calendar_events")
+}
+
+// ─── BUDGET ───────────────────────────────────────────────────────────────────
+
+model BudgetItem {
+  id          String    @id @default(cuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  category    String   // RECORDING, MIXING_MASTERING, PHOTOGRAPHY, VIDEO, MARKETING, DISTRIBUTION, OTHER
+  description String
+  amount      Float
+  type        String    @default("EXPENSE") // EXPENSE, INCOME
+  date        DateTime  @default(now())
+  notes       String?
+  createdById String?
+  createdBy   User?     @relation("BudgetCreator", fields: [createdById], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("budget_items")
 }
 
 // ─── RELEASES ────────────────────────────────────────────────────────────────

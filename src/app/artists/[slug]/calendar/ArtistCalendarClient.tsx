@@ -5,8 +5,9 @@ import { TopBar } from "@/components/navigation/TopBar";
 import { Button } from "@/components/ui/Button";
 import { CONTENT_PHASES, PLATFORM_CONFIG } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, Plus, CalendarDays, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, CalendarDays, X, Trash2 } from "lucide-react";
 import type { CAAM1K_CONTENT } from "@/lib/mock-artist2";
+import type { ApiCalendarEvent } from "@/store/calendar-store";
 
 type ContentItem = typeof CAAM1K_CONTENT[0];
 type ViewMode = "Month" | "Week" | "List";
@@ -30,9 +31,11 @@ function buildCalendar(year: number, month: number) {
 interface Props {
   artistName: string;
   content: ContentItem[];
+  dbEvents?: ApiCalendarEvent[];
+  workspaceSlug?: string;
 }
 
-export function ArtistCalendarClient({ artistName, content }: Props) {
+export function ArtistCalendarClient({ artistName, content, dbEvents = [], workspaceSlug }: Props) {
   const [year, setYear] = useState(2026);
   const [month, setMonth] = useState(6); // June
   const [view, setView] = useState<ViewMode>("Month");
@@ -40,6 +43,8 @@ export function ArtistCalendarClient({ artistName, content }: Props) {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDay, setEventDay] = useState("");
   const [customEvents, setCustomEvents] = useState<{ id: string; title: string; day: number; month: number; year: number }[]>([]);
+  const [liveDbEvents, setLiveDbEvents] = useState<ApiCalendarEvent[]>(dbEvents);
+  const [newEventType, setNewEventType] = useState("EVENT");
 
   function prevMonth() {
     if (month === 1) { setMonth(12); setYear((y) => y - 1); }
@@ -55,9 +60,33 @@ export function ArtistCalendarClient({ artistName, content }: Props) {
     const day = parseInt(eventDay);
     if (!eventTitle.trim() || isNaN(day)) return;
     setCustomEvents((prev) => [...prev, { id: `e-${Date.now()}`, title: eventTitle.trim(), day, month, year }]);
+
+    // Persist to DB if we have a workspace slug
+    if (workspaceSlug) {
+      const startAt = new Date(year, month - 1, day, 9, 0).toISOString();
+      fetch(`/api/workspaces/${workspaceSlug}/events`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: eventTitle.trim(), startAt, allDay: true, type: newEventType }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.event) setLiveDbEvents((prev) => [...prev, data.event as ApiCalendarEvent]);
+        })
+        .catch(console.error);
+    }
+
     setEventTitle("");
     setEventDay("");
+    setNewEventType("EVENT");
     setAddEventOpen(false);
+  }
+
+  function handleRemoveDbEvent(id: string) {
+    setLiveDbEvents((prev) => prev.filter((e) => e.id !== id));
+    if (workspaceSlug) {
+      fetch(`/api/workspaces/${workspaceSlug}/events/${id}`, { method: "DELETE" }).catch(console.error);
+    }
   }
 
   const calendarCells = buildCalendar(year, month);
@@ -102,6 +131,18 @@ export function ArtistCalendarClient({ artistName, content }: Props) {
               <div>
                 <label className="text-label block mb-1.5">Day ({MONTH_NAMES[month - 1]} {year})</label>
                 <input className="input-base" type="number" min={1} max={31} placeholder="e.g. 15" value={eventDay} onChange={(e) => setEventDay(e.target.value)} />
+              </div>
+              <div>
+                <label className="text-label block mb-1.5">Type</label>
+                <select
+                  value={newEventType}
+                  onChange={(e) => setNewEventType(e.target.value)}
+                  className="input-base"
+                >
+                  {["EVENT", "DEADLINE", "RELEASE", "SHOOT"].map((t) => (
+                    <option key={t} value={t}>{t}</option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className="flex gap-3">
@@ -184,7 +225,41 @@ export function ArtistCalendarClient({ artistName, content }: Props) {
 
         {view === "List" && (
           <div className="space-y-2">
-            {content.length === 0 && customEvents.filter((e) => e.year === year && e.month === month).length === 0 && (
+            {liveDbEvents.length > 0 && (
+              <>
+                <p className="text-xs font-bold text-ink-tertiary uppercase tracking-widest px-1 mb-2">Scheduled Events</p>
+                {liveDbEvents.map((evt) => {
+                  const start = new Date(evt.startAt);
+                  return (
+                    <div key={evt.id} className="card p-3 flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-sky-50 flex items-center justify-center flex-shrink-0">
+                        <CalendarDays className="w-4 h-4 text-sky-400" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-ink truncate">{evt.title}</p>
+                        {evt.description && (
+                          <p className="text-xs text-ink-tertiary mt-0.5 truncate">{evt.description}</p>
+                        )}
+                      </div>
+                      <p className="text-xs font-medium text-ink flex-shrink-0">
+                        {start.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                      </p>
+                      <span className="text-2xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0 bg-sky-400/20 text-sky-400">
+                        {evt.type}
+                      </span>
+                      <button
+                        onClick={() => handleRemoveDbEvent(evt.id)}
+                        className="text-ink-tertiary hover:text-rose-400 transition-colors flex-shrink-0"
+                        aria-label="Delete event"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  );
+                })}
+              </>
+            )}
+            {content.length === 0 && customEvents.filter((e) => e.year === year && e.month === month).length === 0 && liveDbEvents.length === 0 && (
               <div className="py-16 text-center text-sm text-ink-tertiary">No events for {MONTH_NAMES[month - 1]} {year}.</div>
             )}
             {content.map((item) => {
