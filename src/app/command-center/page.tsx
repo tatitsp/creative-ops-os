@@ -21,7 +21,7 @@ export default async function CommandCenterPage() {
 
   if (!session?.user?.email) redirect("/sign-in");
 
-  const { email, name, workspaceSlugs, isAdmin } = session.user;
+  const { email, name, workspaceSlugs, isAdmin, isPlatformPartner } = session.user;
 
   if (!isAdmin && workspaceSlugs.length === 0) redirect("/access-pending");
 
@@ -81,7 +81,7 @@ export default async function CommandCenterPage() {
   // ADMIN PATH: full mission control dashboard
   // ─────────────────────────────────────────────────────────────────────────
 
-  if (isAdmin) {
+  if (isAdmin || isPlatformPartner) {
     // Admin stats
     const [activeClients, totalMembers, pendingInvites] = await Promise.all([
       prisma.client.count({ where: { status: "ACTIVE" } }),

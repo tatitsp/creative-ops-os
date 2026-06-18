@@ -45,10 +45,12 @@ export function AdminClientDetailClient({
   client: initial,
   unassignedWorkspaces,
   allUsers,
+  isAdmin = false,
 }: {
   client: Client;
   unassignedWorkspaces: { id: string; name: string; slug: string }[];
   allUsers: { id: string; email: string; name: string | null }[];
+  isAdmin?: boolean;
 }) {
   const router = useRouter();
   const [client, setClient] = useState(initial);
@@ -306,15 +308,17 @@ export function AdminClientDetailClient({
             >
               {saving ? "Saving…" : "Save Changes"}
             </button>
-            <button
-              type="button"
-              onClick={handleDeleteClient}
-              className="text-xs transition-opacity hover:opacity-70 flex items-center gap-1"
-              style={{ color: "rgba(239,68,68,0.6)" }}
-            >
-              <Trash2 className="w-3 h-3" />
-              Delete Client
-            </button>
+            {isAdmin && (
+              <button
+                type="button"
+                onClick={handleDeleteClient}
+                className="text-xs transition-opacity hover:opacity-70 flex items-center gap-1"
+                style={{ color: "rgba(239,68,68,0.6)" }}
+              >
+                <Trash2 className="w-3 h-3" />
+                Delete Client
+              </button>
+            )}
           </div>
         </form>
       </section>

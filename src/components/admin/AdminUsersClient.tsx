@@ -42,14 +42,15 @@ type User = {
   name: string | null;
   image: string | null;
   role: string;
+  platformRole: string;
   status: string;
   createdAt: string | Date;
   workspaceMemberships: { role: string; workspace: Workspace }[];
 };
 
-type Props = { users: User[]; workspaces: Workspace[] };
+type Props = { users: User[]; workspaces: Workspace[]; isAdmin?: boolean };
 
-export function AdminUsersClient({ users: initialUsers, workspaces }: Props) {
+export function AdminUsersClient({ users: initialUsers, workspaces, isAdmin = false }: Props) {
   const router = useRouter();
   const [users, setUsers] = useState(initialUsers);
   const [busy, setBusy] = useState<string | null>(null);
@@ -65,6 +66,22 @@ export function AdminUsersClient({ users: initialUsers, workspaces }: Props) {
     });
     setUsers((prev) =>
       prev.map((u) => (u.id === id ? { ...u, ...patch } : u))
+    );
+    setBusy(null);
+  }
+
+  // ── Toggle Platform Partner ───────────────────────────────────────────────
+
+  async function togglePlatformPartner(id: string, current: string) {
+    const next = current === "PLATFORM_PARTNER" ? "USER" : "PLATFORM_PARTNER";
+    setBusy(id);
+    await fetch(`/api/admin/users/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ platformRole: next }),
+    });
+    setUsers((prev) =>
+      prev.map((u) => (u.id === id ? { ...u, platformRole: next } : u))
     );
     setBusy(null);
   }
@@ -150,16 +167,31 @@ export function AdminUsersClient({ users: initialUsers, workspaces }: Props) {
                 </p>
               </div>
 
-              {/* Status badge */}
-              <span
-                className="text-[10px] font-medium px-2 py-0.5 rounded-full"
-                style={{
-                  color: STATUS_COLORS[user.status] ?? "rgba(255,255,255,0.3)",
-                  border: `1px solid ${STATUS_COLORS[user.status] ?? "rgba(255,255,255,0.1)"}`,
-                }}
-              >
-                {user.status}
-              </span>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                {/* Platform Partner badge */}
+                {user.platformRole === "PLATFORM_PARTNER" && (
+                  <span
+                    className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                    style={{
+                      color: "#C8923A",
+                      border: "1px solid rgba(200,146,58,0.4)",
+                      background: "rgba(200,146,58,0.08)",
+                    }}
+                  >
+                    Platform Partner
+                  </span>
+                )}
+                {/* Status badge */}
+                <span
+                  className="text-[10px] font-medium px-2 py-0.5 rounded-full"
+                  style={{
+                    color: STATUS_COLORS[user.status] ?? "rgba(255,255,255,0.3)",
+                    border: `1px solid ${STATUS_COLORS[user.status] ?? "rgba(255,255,255,0.1)"}`,
+                  }}
+                >
+                  {user.status}
+                </span>
+              </div>
             </div>
 
             {/* Role + status controls */}
@@ -206,6 +238,33 @@ export function AdminUsersClient({ users: initialUsers, workspaces }: Props) {
                 </select>
               </div>
             </div>
+
+            {/* Platform Partner — admin-only toggle */}
+            {isAdmin && (
+              <div
+                className="flex items-center justify-between rounded-lg px-4 py-3 mb-5"
+                style={{ background: "rgba(200,146,58,0.06)", border: "1px solid rgba(200,146,58,0.15)" }}
+              >
+                <div>
+                  <p className="text-xs font-semibold text-white">Platform Partner</p>
+                  <p className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.35)" }}>
+                    Can access all admin views and workspaces. Cannot delete clients or change billing.
+                  </p>
+                </div>
+                <button
+                  onClick={() => togglePlatformPartner(user.id, user.platformRole)}
+                  disabled={busy === user.id}
+                  className="text-[10px] font-semibold px-3 py-1.5 rounded-lg transition-all disabled:opacity-40 flex-shrink-0 ml-4"
+                  style={
+                    user.platformRole === "PLATFORM_PARTNER"
+                      ? { background: "rgba(200,146,58,0.2)", color: "#C8923A", border: "1px solid rgba(200,146,58,0.3)" }
+                      : { background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.1)" }
+                  }
+                >
+                  {user.platformRole === "PLATFORM_PARTNER" ? "Revoke" : "Grant"}
+                </button>
+              </div>
+            )}
 
             {/* Workspace memberships */}
             <div className="mb-5">

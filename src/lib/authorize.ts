@@ -15,7 +15,9 @@ export type AuthContext = {
   userId: string;
   email: string;
   role: string;
+  platformRole: string;
   isAdmin: boolean;
+  isPlatformPartner: boolean;
   workspaceSlugs: string[];
 };
 
@@ -39,7 +41,9 @@ export async function requireAuth(): Promise<AuthResult> {
       userId: session.user.id,
       email: session.user.email,
       role: session.user.role,
+      platformRole: session.user.platformRole,
       isAdmin: session.user.isAdmin,
+      isPlatformPartner: session.user.isPlatformPartner,
       workspaceSlugs: session.user.workspaceSlugs,
     },
   };
@@ -51,6 +55,24 @@ export async function requireAdmin(): Promise<AuthResult> {
   const result = await requireAuth();
   if (!result.ok) return result;
   if (!result.ctx.isAdmin) {
+    return {
+      ok: false,
+      response: Response.json({ error: "Forbidden" }, { status: 403 }),
+    };
+  }
+  return result;
+}
+
+// ─── Require admin OR platform partner ───────────────────────────────────────
+//
+// Use this on read-only admin routes that Platform Partners can access.
+// For destructive operations (delete client, billing edits, platformRole changes)
+// always use requireAdmin() instead.
+
+export async function requirePlatformAccess(): Promise<AuthResult> {
+  const result = await requireAuth();
+  if (!result.ok) return result;
+  if (!result.ctx.isAdmin && !result.ctx.isPlatformPartner) {
     return {
       ok: false,
       response: Response.json({ error: "Forbidden" }, { status: 403 }),

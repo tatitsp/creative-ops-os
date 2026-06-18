@@ -20,7 +20,8 @@ model User {
   displayName   String?
   image         String?
   bio           String?
-  role          UserRole  @default(CREATIVE_ASSISTANT)
+  role          UserRole      @default(CREATIVE_ASSISTANT)
+  platformRole  PlatformRole  @default(USER)
   status        UserStatus @default(ACTIVE)
   timezone      String    @default("America/New_York")
   createdAt     DateTime  @default(now())
@@ -630,6 +631,11 @@ model Release {
 }
 
 // ─── ENUMS ───────────────────────────────────────────────────────────────────
+
+enum PlatformRole {
+  USER
+  PLATFORM_PARTNER
+}
 
 enum UserRole {
   ARTIST_CEO

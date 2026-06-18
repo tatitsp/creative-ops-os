@@ -15,7 +15,9 @@ declare module "next-auth" {
       name?: string | null;
       image?: string | null;
       role: string;
+      platformRole: string;
       isAdmin: boolean;
+      isPlatformPartner: boolean;
       workspaceSlugs: string[];
     };
   }
@@ -25,6 +27,7 @@ declare module "next-auth/jwt" {
   interface JWT {
     userId?: string;
     role?: string;
+    platformRole?: string;
     workspaceSlugs?: string[];
   }
 }
@@ -48,6 +51,7 @@ const config = {
           select: {
             id: true,
             role: true,
+            platformRole: true,
             workspaceMemberships: {
               select: { workspace: { select: { slug: true } } },
             },
@@ -55,6 +59,7 @@ const config = {
         });
         token.userId = userId;
         token.role = dbUser?.role ?? "CREATIVE_ASSISTANT";
+        token.platformRole = dbUser?.platformRole ?? "USER";
         token.workspaceSlugs = dbUser?.workspaceMemberships.map((m) => m.workspace.slug) ?? [];
       }
       return token;
@@ -63,7 +68,9 @@ const config = {
     async session({ session, token }: { session: Session; token: JWT }) {
       session.user.id = token.userId ?? token.sub ?? "";
       session.user.role = token.role ?? "CREATIVE_ASSISTANT";
+      session.user.platformRole = token.platformRole ?? "USER";
       session.user.isAdmin = isAdminEmail(session.user.email);
+      session.user.isPlatformPartner = session.user.platformRole === "PLATFORM_PARTNER";
       session.user.workspaceSlugs = token.workspaceSlugs ?? [];
       return session;
     },

@@ -1,10 +1,10 @@
 // GET /api/admin/workspaces — list all workspaces with member counts
 
-import { requireAdmin } from "@/lib/authorize";
+import { requireAdmin, requirePlatformAccess } from "@/lib/authorize";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
-  const auth = await requireAdmin();
+  const auth = await requirePlatformAccess();
   if (!auth.ok) return auth.response;
 
   const workspaces = await prisma.workspace.findMany({

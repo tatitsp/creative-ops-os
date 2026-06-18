@@ -1,10 +1,10 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/authorize";
+import { requireAdmin, requirePlatformAccess } from "@/lib/authorize";
 
-// GET /api/admin/clients — list all clients
+// GET /api/admin/clients — list all clients (platform partners can read)
 export async function GET() {
-  const auth = await requireAdmin();
+  const auth = await requirePlatformAccess();
   if (!auth.ok) return auth.response;
 
   const clients = await prisma.client.findMany({

@@ -1,11 +1,11 @@
 // GET  /api/admin/users        — list all users with workspace memberships
 // POST /api/admin/users        — assign a user to a workspace with a role
 
-import { requireAdmin } from "@/lib/authorize";
+import { requireAdmin, requirePlatformAccess } from "@/lib/authorize";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
-  const auth = await requireAdmin();
+  const auth = await requirePlatformAccess();
   if (!auth.ok) return auth.response;
 
   const users = await prisma.user.findMany({
@@ -16,6 +16,7 @@ export async function GET() {
       name: true,
       image: true,
       role: true,
+      platformRole: true,
       status: true,
       createdAt: true,
       workspaceMemberships: {

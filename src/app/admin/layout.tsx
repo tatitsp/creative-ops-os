@@ -6,9 +6,10 @@ import Link from "next/link";
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
 
-  // Double-check here — middleware already blocks non-admins, but
-  // server components should never trust middleware alone.
-  if (!session?.user?.email || !isAdminEmail(session.user.email)) {
+  // Allow full admins (email gate) and Platform Partners (DB role).
+  // Server components must never trust middleware alone.
+  const isPlatformPartner = session?.user?.isPlatformPartner === true;
+  if (!session?.user?.email || (!isAdminEmail(session.user.email) && !isPlatformPartner)) {
     redirect("/command-center");
   }
 

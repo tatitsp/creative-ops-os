@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { AdminClientDetailClient } from "@/components/admin/AdminClientDetailClient";
 
@@ -12,6 +13,8 @@ export default async function AdminClientDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const session = await auth();
+  const isAdmin = session?.user?.isAdmin === true;
 
   const [client, allWorkspaces, allUsers] = await Promise.all([
     prisma.client.findUnique({
@@ -61,6 +64,7 @@ export default async function AdminClientDetailPage({
       client={client}
       unassignedWorkspaces={allWorkspaces}
       allUsers={allUsers}
+      isAdmin={isAdmin}
     />
   );
 }
