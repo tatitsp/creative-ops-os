@@ -135,6 +135,7 @@ model Workspace {
   settings WorkspaceSettings?
   invites  Invite[]
   contentItems ContentItem[]
+  releases Release[]
 
   @@map("workspaces")
 }
@@ -535,6 +536,29 @@ model Tag {
   @@map("tags")
 }
 
+// ─── RELEASES ────────────────────────────────────────────────────────────────
+
+model Release {
+  id               String        @id @default(cuid())
+  workspaceId      String
+  title            String
+  artist           String
+  type             ReleaseType   @default(SINGLE)
+  status           ReleaseStatus @default(CONCEPT)
+  releaseDate      DateTime
+  announcementDate DateTime?
+  coverArt         String?
+  trackCount       Int           @default(1)
+  leadSingles      String[]      @default([])
+  description      String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@map("releases")
+}
+
 // ─── ENUMS ───────────────────────────────────────────────────────────────────
 
 enum UserRole {
@@ -669,4 +693,20 @@ enum NotificationType {
   COMMENT
   CAMPAIGN_UPDATE
   SYSTEM
+}
+
+enum ReleaseType {
+  SINGLE
+  EP
+  ALBUM
+  MERCH_DROP
+  TOUR
+}
+
+enum ReleaseStatus {
+  CONCEPT
+  PRE_RELEASE
+  RELEASE_WEEK
+  RELEASED
+  ARCHIVED
 }
