@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { UserPlus, X, ExternalLink } from "lucide-react";
 
 const ALL_ROLES = [
   "CREATIVE_OPS_DIRECTOR",
@@ -28,6 +29,7 @@ const ROLE_DISPLAY: Record<string, string> = {
 };
 
 const STATUS_COLORS: Record<string, string> = {
+  PENDING: "#7C3AED",
   ACTIVE:  "#4CAF7D",
   AWAY:    "#F59E0B",
   BUSY:    "#EF4444",
@@ -122,13 +124,236 @@ export function AdminUsersClient({ users: initialUsers, workspaces, isAdmin = fa
     setBusy(null);
   }
 
+  // ── Invite new user ───────────────────────────────────────────────────────
+
+  const [showInviteForm, setShowInviteForm] = useState(false);
+  const [inviteForm, setInviteForm] = useState({
+    name: "",
+    email: "",
+    role: "CREATIVE_ASSISTANT",
+    workspaceId: workspaces[0]?.id ?? "",
+  });
+  const [inviting, setInviting] = useState(false);
+  const [inviteResult, setInviteResult] = useState<{
+    emailSent: boolean;
+    inviteUrl: string;
+    existingUser: boolean;
+  } | null>(null);
+  const [inviteError, setInviteError] = useState("");
+
+  async function handleInviteSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!inviteForm.email || !inviteForm.workspaceId) return;
+    setInviting(true);
+    setInviteError("");
+    setInviteResult(null);
+    try {
+      const res = await fetch("/api/admin/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(inviteForm),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setInviteError(data.error ?? "Something went wrong");
+        return;
+      }
+      setInviteResult(data);
+      setInviteForm({ name: "", email: "", role: "CREATIVE_ASSISTANT", workspaceId: workspaces[0]?.id ?? "" });
+      router.refresh();
+    } catch {
+      setInviteError("Network error — please try again");
+    } finally {
+      setInviting(false);
+    }
+  }
+
+  const inputCls =
+    "w-full text-xs rounded-lg px-3 py-2.5 focus:outline-none focus:border-white/25 transition-colors";
+  const inputStyle = {
+    background: "rgba(255,255,255,0.05)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    color: "rgba(255,255,255,0.8)",
+  };
+  const labelCls = "block text-[10px] uppercase tracking-wider mb-1.5";
+  const labelStyle = { color: "rgba(255,255,255,0.3)" };
+
   return (
     <div>
-      <h1 className="text-lg font-bold text-white mb-1">Users</h1>
-      <p className="text-xs mb-8" style={{ color: "rgba(255,255,255,0.3)" }}>
+      {/* ── Header ── */}
+      <div className="flex items-center justify-between mb-1">
+        <h1 className="text-lg font-bold text-white">Users</h1>
+        <button
+          onClick={() => { setShowInviteForm((v) => !v); setInviteResult(null); setInviteError(""); }}
+          className="flex items-center gap-2 text-xs px-3 py-2 rounded-xl font-semibold transition-all hover:opacity-90"
+          style={{ background: "#7C3AED", color: "white" }}
+        >
+          <UserPlus className="w-3.5 h-3.5" />
+          Invite New User
+        </button>
+      </div>
+      <p className="text-xs mb-6" style={{ color: "rgba(255,255,255,0.3)" }}>
         {users.length} account{users.length !== 1 ? "s" : ""} in the system.
         Assign workspaces and roles here.
       </p>
+
+      {/* ── Invite form panel ── */}
+      {showInviteForm && (
+        <div
+          className="rounded-2xl border mb-8 overflow-hidden"
+          style={{ borderColor: "rgba(124,58,237,0.3)", background: "rgba(124,58,237,0.04)" }}
+        >
+          <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: "rgba(124,58,237,0.2)" }}>
+            <div>
+              <p className="text-sm font-bold text-white">Invite New User</p>
+              <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.35)" }}>
+                Creates a pending account. Access is granted automatically when they sign in with Google.
+              </p>
+            </div>
+            <button onClick={() => setShowInviteForm(false)} className="p-1.5 rounded-lg hover:bg-white/10 transition-colors">
+              <X className="w-4 h-4" style={{ color: "rgba(255,255,255,0.4)" }} />
+            </button>
+          </div>
+
+          <form onSubmit={handleInviteSubmit} className="p-6 space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className={labelCls} style={labelStyle}>Name</label>
+                <input
+                  type="text"
+                  placeholder="Full name"
+                  value={inviteForm.name}
+                  onChange={(e) => setInviteForm((f) => ({ ...f, name: e.target.value }))}
+                  className={inputCls}
+                  style={inputStyle}
+                />
+              </div>
+              <div>
+                <label className={labelCls} style={labelStyle}>Email <span style={{ color: "rgba(239,68,68,0.7)" }}>*</span></label>
+                <input
+                  type="email"
+                  required
+                  placeholder="teammate@email.com"
+                  value={inviteForm.email}
+                  onChange={(e) => setInviteForm((f) => ({ ...f, email: e.target.value }))}
+                  className={inputCls}
+                  style={inputStyle}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className={labelCls} style={labelStyle}>Role <span style={{ color: "rgba(239,68,68,0.7)" }}>*</span></label>
+                <select
+                  value={inviteForm.role}
+                  onChange={(e) => setInviteForm((f) => ({ ...f, role: e.target.value }))}
+                  className={inputCls}
+                  style={{ ...inputStyle, cursor: "pointer" }}
+                >
+                  {ALL_ROLES.map((r) => (
+                    <option key={r} value={r} style={{ background: "#1a1a1a" }}>
+                      {ROLE_DISPLAY[r]}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className={labelCls} style={labelStyle}>Workspace <span style={{ color: "rgba(239,68,68,0.7)" }}>*</span></label>
+                <select
+                  value={inviteForm.workspaceId}
+                  onChange={(e) => setInviteForm((f) => ({ ...f, workspaceId: e.target.value }))}
+                  className={inputCls}
+                  style={{ ...inputStyle, cursor: "pointer" }}
+                >
+                  {workspaces.map((ws) => (
+                    <option key={ws.id} value={ws.id} style={{ background: "#1a1a1a" }}>
+                      {ws.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {inviteError && (
+              <p className="text-xs" style={{ color: "rgba(239,68,68,0.8)" }}>{inviteError}</p>
+            )}
+
+            {inviteResult && (
+              <div
+                className="rounded-xl p-4 space-y-2"
+                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+              >
+                {inviteResult.existingUser ? (
+                  <p className="text-xs font-semibold" style={{ color: "#4CAF7D" }}>
+                    ✓ User already exists — workspace access granted.
+                  </p>
+                ) : (
+                  <p className="text-xs font-semibold" style={{ color: "#4CAF7D" }}>
+                    ✓ Pending account created. They&apos;ll get full access when they sign in with Google.
+                  </p>
+                )}
+                {inviteResult.emailSent ? (
+                  <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
+                    Invite email sent with sign-in link.
+                  </p>
+                ) : (
+                  <div>
+                    <p className="text-xs mb-2" style={{ color: "rgba(245,158,11,0.8)" }}>
+                      Email invites not configured — share this link manually:
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <input
+                        readOnly
+                        value={inviteResult.inviteUrl}
+                        onClick={(e) => (e.target as HTMLInputElement).select()}
+                        className="flex-1 text-xs rounded-lg px-3 py-2 focus:outline-none"
+                        style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => navigator.clipboard.writeText(inviteResult!.inviteUrl)}
+                        className="text-xs px-3 py-2 rounded-lg flex-shrink-0 transition-opacity hover:opacity-70"
+                        style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
+                      >
+                        Copy
+                      </button>
+                      <a
+                        href={inviteResult.inviteUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-lg transition-opacity hover:opacity-70"
+                        style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.5)" }}
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="flex items-center gap-3 pt-1">
+              <button
+                type="submit"
+                disabled={inviting || !inviteForm.email || !inviteForm.workspaceId}
+                className="text-xs px-4 py-2.5 rounded-xl font-semibold disabled:opacity-40 transition-opacity hover:opacity-90"
+                style={{ background: "#7C3AED", color: "white" }}
+              >
+                {inviting ? "Sending…" : "Send Invite"}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setShowInviteForm(false); setInviteResult(null); }}
+                className="text-xs transition-opacity hover:opacity-70"
+                style={{ color: "rgba(255,255,255,0.3)" }}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       <div className="space-y-4">
         {users.map((user) => (

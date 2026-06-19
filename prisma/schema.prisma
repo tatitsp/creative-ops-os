@@ -650,6 +650,7 @@ enum UserRole {
 }
 
 enum UserStatus {
+  PENDING
   ACTIVE
   AWAY
   BUSY

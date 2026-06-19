@@ -46,6 +46,15 @@ const config = {
       // fallback so sessions created before token.userId existed still work.
       const userId = user?.id ?? token.userId ?? token.sub;
       if (userId && (user?.id || trigger === "update")) {
+        // If this is a first sign-in (user?.id is set), activate any PENDING record
+        // created by the admin invite flow before the user ever logged in.
+        if (user?.id) {
+          await prisma.user.updateMany({
+            where: { id: userId, status: "PENDING" },
+            data: { status: "ACTIVE" },
+          });
+        }
+
         const dbUser = await prisma.user.findUnique({
           where: { id: userId },
           select: {
